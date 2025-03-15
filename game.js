@@ -16,67 +16,93 @@ class Guerreiro {
         this.escudo = escudo;
     }
     atacar (player_2) {
-        player_2.hp -= this.ataque - player_2.defesa - player_2.escudo;
+        let ataque_variado = Math.floor(Math.random() * 20) + this.ataque; // Ataque varia em 20
+        let chance_critico = Math.random();
+        let ataque_critico = chance_critico < 0.2; // 20% de chance de crítico
+        
+        if (ataque_critico) {
+            console.log("Ataque Crítico!");
+            ataque_variado *= 1.5;
+        } else {
+            console.log("Ataque normal");
+        }
+
+        let dano = ataque_variado - player_2.defesa - player_2.escudo;
+        dano = dano > 0 ? dano : 0; // Impede que o ataque seja negativo (se fosse negativo o oponente iria curar a vida)
+        player_2.hp -= dano;
+        console.log(`${this.nome} infringiu ${ataque_variado} de dano!`)
+        console.log(`A vida atual de ${player_2.nome} é de:${player_2.hp}\n`);            
     }
     defender () {
-        this.escudo += 100;        
+        let aumento_defesa = Math.floor(Math.random() * 50) + 50; // aumenta defesa em 50 até 100
+        this.escudo += aumento_defesa;
+        console.log(`${this.nome} aumentou o escudo em ${aumento_defesa}`);
+        console.log(`O escudo atual de ${this.nome} é de:${this.escudo}\n`);            
     }
     pocao () {
-        if (this.hp > 1000) {
-            console.log("Vida máxima atingida!");
+        if (this.hp >= 300) {
+            console.log(`${this.nome} tentou se curar mas já tinha a vida máxima atingida!`);
         }
         else {
-            this.hp += 200;
+            let aumento_hp = Math.floor(Math.random() * 50) + 75; // aumenta hp em 75 até 125
+            this.hp += aumento_hp;
+            if (this.hp > 300) {
+                this.hp = 300;
+                console.log("Vida máxima atingida!\n");
+            }
+            console.log(`${this.nome} curou a vida em ${aumento_hp}`);
+            console.log(`A vida atual de ${this.nome} é de:${this.hp}\n`);            
         }
     }
 }
 
-const pudim = new Guerreiro ("Pudim", 700, 350, 150, 0); // Nome, HP, Ataque, Defesa, Escudo
-const isabeli = new Guerreiro ("Isabeli", 300, 200, 150, 0); // Nome, HP, Ataque, Defesa, Escudo
+const pudim = new Guerreiro ("Pudim", 300, 200, 100, 0); // Nome, HP, Ataque, Defesa, Escudo
+const isabeli = new Guerreiro ("Isabeli", 300, 200, 100, 0); // Nome, HP, Ataque, Defesa, Escudo
 
 let minimo = 1;
 let maximo = 3;
 
-console.log(pudim.hp, pudim.ataque, pudim.defesa);
+console.log(`Sua vida:${pudim.hp}, Seu ataque:${pudim.ataque}, Sua defesa:${pudim.defesa}`);
+console.log(`Vida do inimigo:${isabeli.hp}, Ataque do inimigo:${isabeli.ataque}, Defesa do inimigo:${isabeli.defesa}\n`);
 
-while (pudim.hp > 0 || isabeli.hp > 0) 
+while (pudim.hp > 0 && isabeli.hp > 0) 
 {
-    acao = parseInt(prompt("O que deseja fazer? \n[1] Atacar\n[2] Defender\n[3] Poção regenerativa (+300HP)")); 
-    var opcao_aleatoria = Math.floor(Math.random() * (maximo - minimo + 1)) + minimo;
-    console.log(opcao_aleatoria);
+    let acao = parseInt(prompt("O que deseja fazer? \n[1] Atacar (180-220)\n[2] Defender (50-100)\n[3] Poção regenerativa (75-125)\n")); 
+    var opcao_aleatoria = Math.floor(Math.random() * (maximo - minimo + 1)) + minimo; // opção aleatória entre 1, 2 e 3
 
     switch (acao) {
         case 1:
             pudim.atacar(isabeli);
-            console.log("A vida atual da isabeli é de: "+  isabeli.hp);            
             break;
         case 2:
+            pudim.defesa = 0;
             pudim.defender();
             break;
         case 3:
             pudim.pocao();
-            console.log("A sua vida atual é de: "+  pudim.hp);
             break;
         default:
-            console.log("Ação inválida! Tente novamente. ");
-        }
-    switch (opcao_aleatoria) {
-        case 1:
-            isabeli.atacar(pudim);
-            console.log("A sua vida atual é de: "+  pudim.hp);
-            break;
-        case 2:
-            isabeli.defender();
-            break;
-        case 3:
-            isabeli.pocao();
-            console.log("A vida atual da isabeli é de: "+  isabeli.hp);            
-            break;
+            console.log("Ação inválida! Perdeu o turno!\n");
+            }
+        if (isabeli.hp > 0) {
+        switch (opcao_aleatoria) {
+            case 1:
+                isabeli.atacar(pudim);
+                break;
+            case 2:
+                isabeli.defesa = 0;
+                isabeli.defender();
+                break;
+            case 3:
+                isabeli.pocao();
+                break;
+            }
         }
 }
-if (pudim.hp <= 0) {
+if (pudim.hp > 0) {
     console.log("TEMOS UM VENCEDOR! "+ pudim.nome);
 }
 else {
     console.log("TEMOS UM VENCEDOR! "+ isabeli.nome);
 }
+ 
