@@ -15,37 +15,81 @@ function lerCookie(nome) {
 }
 
 function verificarCookie() {
-    var fonte = lerCookie("fonte");
+    var fonte = lerCookie("fonte");  
+    var ordem = lerCookie("ordem")
+    if (ordem != "") {
+        alert(texto);
+        return ordem;
+    } else {
+        if (ordem != "" && ordem != null) {
+            criarCookie("ordem", ordem, "Tue, 01 Jan 2115 12:00:00 UTC");
+            return ordem;
+        }
+    }
+
     if (fonte != "") {
-        alert("Bem-vindo novamente " + fonte);
+        alert(texto);
         return fonte;
     } else {
         var opcao = 0;
-        while (opcao != 1 || opcao != 2 || opcao != 3) {
-            opcao = parseInt(prompt("Selecione a opção desejada:\n[1] MAIÚSCULA\n[2] minúscula\n[3] AlTeRnAdA"));
+        while (opcao != 1 || opcao != 2) {
+            opcao = parseInt(prompt("Selecione a opção desejada:\n[1] Tamanho da fonte\n[2] Ordem da palavra"));
             switch (opcao) {
                 case 1:
-                    maiscula(nome);
-                    alert(nome);
-                    break;
+                    while (opcao != 4) {
+                        opcao = parseInt(prompt("Selecione a opção desejada:\n[1] MAIÚSCULA\n[2] minúscula\n[3] AlTeRnAdA\n[4] Voltar"));
+                        switch (opcao) {
+                            case 1:
+                                retorno = maiscula(texto);
+                                alert(retorno);
+                                break;
+                            case 2:
+                                retorno = minuscula(texto);
+                                alert(retorno);
+                                break;
+                            case 3:
+                                retorno = alternada(texto);
+                                alert(retorno);
+                                break;
+                            case 4:
+                                break;
+                            default:
+                                alert("Opção inválida! Tente novamente");
+                                break;
+                        }
+                    }
                 case 2:
-                    minuscula(nome);
-                    alert(nome);
-                    break;
+                    while (opcao != 3) {
+                        opcao = parseInt(prompt("Selecione a opção desejada:\n[1] Padrão\n[2] Invertido\n[3] Voltar"));
+                        switch (opcao) {
+                            case 1:
+                                retorno = padrao(texto);
+                                alert(retorno);
+                                break;
+                            case 2:
+                                retorno = inverte(texto);
+                                alert(retorno);
+                                break;
+                            case 3:
+                                break;
+                            default:
+                                alert("Opção inválida! Tente novamente");
+                                break;
+                        }
+                    }
                 case 3:
-                    alternada(nome);
                     break;
                 default:
                     alert("Opção inválida! Tente novamente");
-                    break;
-            }
-        }
+                    break; 
+        }         
         if (fonte != "" && fonte != null) {
             criarCookie("fonte", fonte, "Tue, 01 Jan 2115 12:00:00 UTC");
             return fonte;
+            }
+        return "";
         }
     }
-    return "";
 }
 
 function logout() {
@@ -53,19 +97,45 @@ function logout() {
     alert("Você foi deslogado. Faça login novamente.");
 }
 
-function maiscula(nome) {
-    nome = nome.toUpperCase();
-    return nome;
+function maiscula(texto) {
+    texto = texto.toUpperCase();
+    return texto;
 }
 
-function minuscula(nome) {
-    console.log(nome.toLowerCase());
+function minuscula(texto) {
+    texto = texto.toLowerCase();
+    return texto;
 }
 
-function alternada(nome) {
-    console.log("preciso melhorar meu código");
+function alternada(texto) {
+    let resultado = '';
+    for (let i = 0; i < texto.length; i++) {
+        if (i % 2 == 0) {
+            resultado += texto[i].toUpperCase();
+        }
+        else {
+            resultado += texto[i].toLowerCase();
+        }
+    }
+    return resultado;
 }
 
-nome = prompt("Digite seu nome: ");
+function inverte(texto) {
+    let palavraInvertida = '';
+    for (let i = texto.length-1; i >= 0; i--) {
+        palavraInvertida += texto[i];
+    }
+    return palavraInvertida;
+}
 
-verificarCookie(); 
+function padrao(texto) {
+    if (texto != texto) {
+        inverte(texto);
+    }
+    else {
+        return texto;
+    }
+}
+
+texto = prompt("Digite a palavra: ");
+verificarCookie();  
