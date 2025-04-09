@@ -3,6 +3,7 @@ function criarCookie(nome, valor, expira) {
     document.cookie = nome + "=" + valor + "; " + dtExpira;
 }
 
+
 function lerCookie(nome) {
     var vnome = nome + "=";
     var ca = document.cookie.split(';');
@@ -14,98 +15,93 @@ function lerCookie(nome) {
     return "";
 }
 
-function verificarCookie() {
-    var fonte = lerCookie("fonte");  
-    var ordem = lerCookie("ordem")
-    if (ordem != "") {
-        alert(texto);
-        return ordem;
-    } else {
-        if (ordem != "" && ordem != null) {
-            criarCookie("ordem", ordem, "Tue, 01 Jan 2115 12:00:00 UTC");
-            return ordem;
-        }
+
+function aplicarPreferencias(texto, fonte, ordem) {
+    let resultado = texto;
+    if (fonte === "MAIUSCULA") 
+    {
+        resultado = maiscula(resultado);
+    }
+    else if (fonte === "minuscula") 
+    {
+        resultado = minuscula(resultado);
+    }
+    else if (fonte === "alternada") 
+    {
+        resultado = alternada(resultado);
     }
 
-    if (fonte != "") {
-        alert(texto);
-        return fonte;
-    } else {
-        var opcao = 0;
-        while (opcao != 1 || opcao != 2) {
-            opcao = parseInt(prompt("Selecione a opção desejada:\n[1] Tamanho da fonte\n[2] Ordem da palavra"));
-            switch (opcao) {
-                case 1:
-                    while (opcao != 4) {
-                        opcao = parseInt(prompt("Selecione a opção desejada:\n[1] MAIÚSCULA\n[2] minúscula\n[3] AlTeRnAdA\n[4] Voltar"));
-                        switch (opcao) {
-                            case 1:
-                                retorno = maiscula(texto);
-                                alert(retorno);
-                                break;
-                            case 2:
-                                retorno = minuscula(texto);
-                                alert(retorno);
-                                break;
-                            case 3:
-                                retorno = alternada(texto);
-                                alert(retorno);
-                                break;
-                            case 4:
-                                break;
-                            default:
-                                alert("Opção inválida! Tente novamente");
-                                break;
-                        }
-                    }
-                case 2:
-                    while (opcao != 3) {
-                        opcao = parseInt(prompt("Selecione a opção desejada:\n[1] Padrão\n[2] Invertido\n[3] Voltar"));
-                        switch (opcao) {
-                            case 1:
-                                retorno = padrao(texto);
-                                alert(retorno);
-                                break;
-                            case 2:
-                                retorno = inverte(texto);
-                                alert(retorno);
-                                break;
-                            case 3:
-                                break;
-                            default:
-                                alert("Opção inválida! Tente novamente");
-                                break;
-                        }
-                    }
-                case 3:
-                    break;
-                default:
-                    alert("Opção inválida! Tente novamente");
-                    break; 
-        }         
-        if (fonte != "" && fonte != null) {
-            criarCookie("fonte", fonte, "Tue, 01 Jan 2115 12:00:00 UTC");
-            return fonte;
-            }
-        return "";
-        }
-    }
+    if (ordem === "inverso") resultado = inverte(resultado);
+
+    alert("Resultado: " + resultado);
 }
+
+
+function verificarCookie(texto) {
+    var fonte = lerCookie("fonte");  
+    var ordem = lerCookie("ordem");
+
+    if (fonte && ordem) {
+        alert("Preferências carregadas: Fonte - " + fonte + ", Ordem - " + ordem);
+        aplicarPreferencias(texto, fonte, ordem);
+        return;
+    }
+
+    let opcaoFonte = parseInt(prompt("Escolha o estilo da fonte:\n[1] MAIÚSCULA\n[2] minúscula\n[3] AlTeRnAdA"));
+    let estiloFonte = "";
+    switch (opcaoFonte) {
+        case 1:
+            estiloFonte = "MAIUSCULA";
+            break;
+        case 2:
+            estiloFonte = "minuscula";
+            break;
+        case 3:
+            estiloFonte = "alternada";
+            break;
+        default:
+            alert("Fonte inválida");
+            return;
+    }
+
+    let opcaoOrdem = parseInt(prompt("Escolha a ordem:\n[1] Padrão\n[2] Invertido"));
+    let estiloOrdem = "";
+    switch (opcaoOrdem) {
+        case 1: 
+            estiloOrdem = "padrao";
+            break;
+        case 2: 
+            estiloOrdem = "inverso";
+            break;
+        default: 
+            alert("Ordem inválida");
+            return;
+    }
+
+    criarCookie("fonte", estiloFonte, "Tue, 01 Jan 2115 12:00:00 UTC");
+    criarCookie("ordem", estiloOrdem, "Tue, 01 Jan 2115 12:00:00 UTC");
+
+    aplicarPreferencias(texto, estiloFonte, estiloOrdem);
+}
+
 
 function logout() {
     document.cookie = "nomeUsuario=; expires=Thu, 01 Jan 1970 00:00:00 UTC";
     alert("Você foi deslogado. Faça login novamente.");
 }
 
+
 function maiscula(texto) {
     texto = texto.toUpperCase();
     return texto;
 }
 
+
 function minuscula(texto) {
     texto = texto.toLowerCase();
     return texto;
 }
+
 
 function alternada(texto) {
     let resultado = '';
@@ -120,6 +116,7 @@ function alternada(texto) {
     return resultado;
 }
 
+
 function inverte(texto) {
     let palavraInvertida = '';
     for (let i = texto.length-1; i >= 0; i--) {
@@ -127,6 +124,7 @@ function inverte(texto) {
     }
     return palavraInvertida;
 }
+
 
 function padrao(texto) {
     if (texto != texto) {
