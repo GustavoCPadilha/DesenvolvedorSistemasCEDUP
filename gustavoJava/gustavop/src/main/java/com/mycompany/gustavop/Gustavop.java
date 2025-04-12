@@ -2,85 +2,91 @@ package com.mycompany.gustavop;
 
 import java.util.Scanner;
 
-
 public class Gustavop {
 
     public static void main(String[] args) {
-        Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite um numero para n1: ");
-        int n1 = teclado.nextInt();
-        System.out.print("Digite um numero para n2: ");
-        int n2 = teclado.nextInt();
-        int n1_temporaria = n1;
-        n1 = n2;
-        n2 = n1_temporaria;
-        System.out.printf("O valor de n1 e de %d e n2 e de %d", n1, n2);
-    }
-}
+        exercicio1();
+        exercicio2();
+        exercicio3();
+        exercicio4();
+        exercicio5();
+        exercicio6();
+        exercicio7();
+        exercicio8();
 
-/*
-EXERCÍCIO 1:
+    }
+
+    public static void exercicio1() {
         Scanner teclado = new Scanner(System.in);
         System.out.print("Digite seu nome: ");
         String nome = teclado.nextLine();
-        System.out.println("Ola, " + nome);
+        System.out.println("Olá, " + nome);
+    }
 
-EXERCÍCIO 2:
+    public static void exercicio2() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite dois numeros para somar: ");
+        System.out.print("Digite dois números para somar: ");
         int n1 = teclado.nextInt();
         int n2 = teclado.nextInt();
         int soma = n1 + n2;
-        System.out.printf("A soma de %d + %d e de %d\n", n1, n2, soma);
+        System.out.printf("A soma de %d + %d é %d\n", n1, n2, soma);
+    }
 
-EXERCÍCIO 3:
+    public static void exercicio3() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite dois numeros para dividir: ");
+        System.out.print("Digite dois números para dividir: ");
         int n1 = teclado.nextInt();
         int n2 = teclado.nextInt();
         int div = n1 / n2;
-        System.out.printf("A divisao de %d + %d e de %d\n", n1, n2, div);
+        System.out.printf("A divisão de %d por %d é %d\n", n1, n2, div);
+    }
 
-EXERCÍCIO 4:
+    public static void exercicio4() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite dois numeros para multiplicar: ");
+        System.out.print("Digite dois números para multiplicar: ");
         int n1 = teclado.nextInt();
         int n2 = teclado.nextInt();
         int mult = n1 * n2;
-        System.out.printf("A multiplicacao de %d + %d e de %d\n", n1, n2, mult);
+        System.out.printf("A multiplicação de %d x %d é %d\n", n1, n2, mult);
+    }
 
-EXERCÍCIO 5:
+    public static void exercicio5() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite um numero para ver a tabuada: ");
+        System.out.print("Digite um número para ver a tabuada: ");
         int n = teclado.nextInt();
         for (int i = 1; i <= 10; i++) {
-            System.out.printf("%d X %d = %d\n", n, i, n * i);
+            System.out.printf("%d x %d = %d\n", n, i, n * i);
+        }
+    }
 
-EXERCÍCIO 6:
+    public static void exercicio6() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite o raio do circulo: ");
+        System.out.print("Digite o raio do círculo: ");
         float raio = teclado.nextFloat();
         float perimetro = (float) (2 * 3.14159 * raio);
-        float area = (float) 3.14159 * (raio * raio);
-        System.out.printf("O perimetro e = %f\nA area e = %f", perimetro, area);
+        float area = (float) (3.14159 * raio * raio);
+        System.out.printf("O perímetro é = %.2f\nA área é = %.2f\n", perimetro, area);
+    }
 
-EXERCÍCIO 7:
+    public static void exercicio7() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Escreva tres numeros para a media: ");
+        System.out.print("Escreva três números para a média: ");
         int n1 = teclado.nextInt();
         int n2 = teclado.nextInt();
         int n3 = teclado.nextInt();
-        float media = (n1 + n2 + n3) / 3;
-        System.out.println("A media dos numeros e " + media);
+        float media = (n1 + n2 + n3) / 3f;
+        System.out.println("A média dos números é " + media);
+    }
 
-EXERCÍCIO 8:
+    public static void exercicio8() {
         Scanner teclado = new Scanner(System.in);
-        System.out.print("Digite um numero para n1: ");
+        System.out.print("Digite um número para n1: ");
         int n1 = teclado.nextInt();
-        System.out.print("Digite um numero para n2: ");
+        System.out.print("Digite um número para n2: ");
         int n2 = teclado.nextInt();
-        int n1_temporaria = n1;
+        int temp = n1;
         n1 = n2;
-        n2 = n1_temporaria;
-        System.out.printf("O valor de n1 e de %d e n2 e de %d", n1, n2);
-*/  
+        n2 = temp;
+        System.out.printf("O valor de n1 é %d e n2 é %d\n", n1, n2);
+    }
+}
