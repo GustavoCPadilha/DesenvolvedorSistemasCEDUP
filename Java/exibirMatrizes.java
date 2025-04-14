@@ -19,9 +19,9 @@ public class Gustavo
     
     public static void exibeMatrizChar(char[][] matriz)
     {
-        for (char[] matriz1 : matriz) {
+        for (char[] letra : matriz) {
             for (int x = 0; x <= matriz.length; x++) {
-                System.out.print(" " + matriz1[x]);
+                System.out.print(" " + letra[x]);
             }
             System.out.println();
         }
@@ -29,9 +29,9 @@ public class Gustavo
     
     public static void exibeMatrizInt(int[][] matriz)
     {
-        for (int[] matriz1 : matriz) {
+        for (int[] num : matriz) {
             for (int x = 0; x < matriz.length; x++) {
-                System.out.print(" " + (matriz1[x]));
+                System.out.print(" " + (num[x]));
             }
             System.out.println();
         }
@@ -39,9 +39,9 @@ public class Gustavo
         
     public static void exibeMatrizFloat(double[][] matriz)
     {
-        for (double[] matriz1 : matriz) {
+        for (double[] num : matriz) {
             for (int x = 0; x < matriz.length; x++) {
-                System.out.print(" " + (matriz1[x]));
+                System.out.print(" " + (num[x]));
             }
             System.out.println();
         }
