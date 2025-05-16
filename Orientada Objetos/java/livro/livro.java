@@ -1,4 +1,4 @@
-package com.mycompany.ex03;
+package com.mycompany.livro;
 
 
 public class Livro {
