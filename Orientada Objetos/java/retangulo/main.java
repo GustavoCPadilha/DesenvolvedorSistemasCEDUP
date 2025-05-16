@@ -4,7 +4,7 @@ armazenar a largura e a altura. Implemente métodos para calcular a
 área e o perímetro do retângulo;
 */
 
-package com.mycompany.ex04;
+package com.mycompany.retangulo;
 
 
 public class Ex04 {
