@@ -1,4 +1,4 @@
-package com.mycompany.ex04;
+package com.mycompany.retangulo;
 
 
 public class Retangulo {
