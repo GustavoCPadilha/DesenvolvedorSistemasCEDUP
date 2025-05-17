@@ -4,7 +4,7 @@ armazenar a marca, o modelo, se está ligado ou desligado e a
 velocidade atual do carro. Adicione métodos para acelerar, frear,
 ligar, desligar e exibir a velocidade atual.
 */
-package com.mycompany.ex05;
+package com.mycompany.carro;
 
 import java.util.Scanner;
 
