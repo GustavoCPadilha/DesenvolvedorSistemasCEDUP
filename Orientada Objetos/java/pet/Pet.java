@@ -1,4 +1,4 @@
-package com.mycompany.talkingtom;
+package com.mycompany.pet;
 
 
 public class Pet {
