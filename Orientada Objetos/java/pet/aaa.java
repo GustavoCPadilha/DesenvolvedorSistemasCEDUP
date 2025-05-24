@@ -1,8 +1,8 @@
-package com.mycompany.talkingtom;
+package com.mycompany.pet;
 
 import java.util.Scanner;
 
-public class TalkingTom {
+public class Pet {
 
     public static void main(String[] args) {
         Pet pet = new Pet("Pudim", 70, 70, 70, 70);
