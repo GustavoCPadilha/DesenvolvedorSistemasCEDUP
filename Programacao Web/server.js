@@ -79,18 +79,18 @@ app.post('/usuarios', (req, res) => {
 });
 
 //ROTA POST - Cadastro de novos usuarios
-app.post('/usuario', (req, res) => {
-  const { login, senha } = req.body;
+app.post('/cadastraUsuario', (req, res) => {
+  const { nome_usuario, email, senha, data_nascimento, sexo, altura, peso_usuario } = req.body;
 
-  if (!login || !senha) {
-    return res.status(400).json({ error: 'Login e senha são obrigatórios' });
+  if (!nome_usuario || !email || !senha || !data_nascimento || !sexo || !altura || !peso_usuario) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
   }
 
-  const sql = 'INSERT INTO usuario (nome_usuario, senha) VALUES (?, ?)';
-  db.query(sql, [login, senha], (err, result) => {
-    if (err) {
+  const sql = 'INSERT INTO usuario (nome_usuario, email, senha, data_nascimento, sexo, altura, peso_usuario) VALUES (?, ?, ?, ?, ?, ?, ?)';
+  db.query(sql, [nome_usuario, email, senha, data_nascimento, sexo, altura, peso_usuario ], (err, result) => {
+    if (err) { 
       if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(409).json({ error: 'Login já está cadastrado' });
+        return res.status(409).json({ error: 'Usuário já está cadastrado' });
       }
       return res.status(500).json({ error: err.message });
     }
@@ -98,6 +98,49 @@ app.post('/usuario', (req, res) => {
     res.status(201).json({ message: 'Usuário registrado com sucesso', id: result.insertId });
   });
 });
+
+//ROTA POST - Cadastro de novos alimentos
+app.post('/cadastraAlimento', (req, res) => {
+  const { nome_alimento, calorias_alimento, proteinas_alimento, carboidratos_alimento, gorduras_alimento } = req.body;
+
+  if (!nome_alimento || !calorias_alimento || !proteinas_alimento || !carboidratos_alimento || !gorduras_alimento) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO alimento (nome_alimento, calorias_alimento, proteinas_alimento, carboidratos_alimento, gorduras_alimento) VALUES (?, ?, ?, ?, ?)';
+  db.query(sql, [nome_alimento, calorias_alimento, proteinas_alimento, carboidratos_alimento, gorduras_alimento], (err, result) => {
+    if (err) { 
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ error: 'Alimento já cadastrado' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(201).json({ message: 'Alimento registrado com sucesso', id: result.insertId });
+  });
+});
+
+//ROTA POST - Cadastro de novos exercícios
+app.post('/cadastraExercicio', (req, res) => {
+  const { nome_exercicio, grupo_muscular, descricao_exercicio } = req.body;
+
+  if (!nome_exercicio || !grupo_muscular || !descricao_exercicio) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO exercicio (nome_exercicio, grupo_muscular, descricao_exercicio) VALUES (?, ?, ?)';
+  db.query(sql, [nome_exercicio, grupo_muscular, descricao_exercicio], (err, result) => {
+    if (err) { 
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ error: 'Exercício já cadastrado' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(201).json({ message: 'Exercício registrado com sucesso', id: result.insertId });
+  });
+});
+
 
 // Inicializa o servidor
 app.listen(PORT, () => {
