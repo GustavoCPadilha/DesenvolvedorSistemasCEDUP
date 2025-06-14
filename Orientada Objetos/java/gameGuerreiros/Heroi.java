@@ -2,7 +2,6 @@ package com.mycompany.app;
 
 import java.util.Scanner;
 
-
 public class Heroi {
     private char classe;
     private int hp;
@@ -14,12 +13,13 @@ public class Heroi {
     private int nivel;
     private int moeda;
     private int pocao;
-    //fazer armas e armaduras, magias, classe, mana
+    private int escudo;
+    //fazer armas e armaduras, magias, mana, mais classes
     
 
-    public Heroi(char classe, int hp, int atq, int sp_atq, int def, int sp_def, int exp, int nivel, int moeda, int pocao) {
-        this.classe = classe;
-        if (this.getClasse() == 'g')
+    public Heroi() {
+        this.definirClasse();
+        if (this.getClasse() == 'm')
         {
             this.hp = 80;
             this.atq = 5;
@@ -27,7 +27,7 @@ public class Heroi {
             this.def = 5;
             this.sp_def = 10;
         }
-        else if (this.getClasse() == 'm')
+        else if (this.getClasse() == 'g')
         {
             this.hp = 100;
             this.atq = 20;
@@ -39,9 +39,16 @@ public class Heroi {
         this.nivel = 0;
         this.moeda = 0;
         this.pocao = 0;
+        this.escudo = 0;
     }
     
-    public boolean taVivo() {
+    public void linha() 
+    {
+        System.out.println("-=-=-=-=-=-=-=-=-=");
+    }
+    
+    public boolean taVivo() 
+    {
         if (this.getHp() <= 0) {
             return false;
         }
@@ -49,16 +56,60 @@ public class Heroi {
     }
 
     
-    public void atacar(Inimigo inimigo) {
-        System.out.format("Ataque bem sucedido contra o inimigo! %d de dano!\n", this.getAtq());
-        inimigo.setHp(inimigo.getHp() - this.atq);
+    public void atacar(Inimigo inimigo) 
+    {
+        linha();
+        if (getClasse() == 'm')
+        {
+            int ataque = this.getSp_atq() - inimigo.getEscudo() - inimigo.getSp_def();
+            if (inimigo.getEscudo() - this.getSp_atq() < 0)
+            {
+                inimigo.setEscudo(0);
+            }
+            else
+            {
+                inimigo.setEscudo(inimigo.getEscudo() - this.getSp_atq());
+            }
+            if (ataque < 0)
+            {
+                ataque = 0;
+            }
+            System.out.println("Ataque bem sucedido contra o inimigo!");
+            System.out.format("O inimigo se defendeu com seus %d pontos de defesa e %d pontos de escudo, o ataque infligiu %d de dano!\n",
+                inimigo.getDef(), inimigo.getEscudo(), ataque);
+            inimigo.setHp(inimigo.getHp() - ataque);  
+        }
+        else if (getClasse() == 'g')
+        {
+            int ataque = this.getAtq() - inimigo.getEscudo() - inimigo.getDef();
+            if (inimigo.getEscudo() - this.getAtq() < 0)
+            {
+                inimigo.setEscudo(0);
+            }
+            else
+            {
+                inimigo.setEscudo(inimigo.getEscudo() - this.getAtq());
+            }
+            if (ataque < 0)
+            {
+                ataque = 0;
+            }
+            System.out.println("Ataque bem sucedido contra o inimigo!");
+            System.out.format("O inimigo se defendeu com seus %d pontos de defesa e %d pontos de escudo, o ataque infligiu %d de dano!\n",
+                inimigo.getDef(), inimigo.getEscudo(), ataque);
+            inimigo.setHp(inimigo.getHp() - ataque);  
+        }
     }
     
-    public void defender() {
-
+    public void defender() 
+    {
+        linha();
+        this.setEscudo(this.getEscudo() + 10);
+        System.out.println("O herói se defendeu e ganhou +10 de escudo!");
     }
     
-    public void pocao() {
+    public void pocao() 
+    {
         if (this.getPocao() > 0)
         {
             this.setPocao(this.getPocao() - 1);
@@ -72,13 +123,40 @@ public class Heroi {
     
     public void definirClasse()
     {
+        System.out.println("[1] Guerreiro\n[2] Mago\nQue classe deseja escolher?");
+        Scanner input = new Scanner(System.in);
+        int opcaoClasse = 0;
 
+        do {
+            opcaoClasse = input.nextInt();
+        } while (opcaoClasse != 1 && opcaoClasse != 2);
+        
+        if (opcaoClasse == 1)
+        {
+            this.setClasse('g');
+        }
+        else if (opcaoClasse == 2)
+        {
+            this.setClasse('m');
+        }
     }
     
-    public void status() {
-        System.out.format("Herói:\nVida: %d\nAtaque: %d\nAtaque especial: %d\nDefesa: %d\nDefesa especial: %d\nExperiência: %d\nNível: %d\n",
-                this.getHp(), this.getAtq(), this.getSp_atq(), this.getDef(), this.getSp_def(), this.getExp(), this.getNivel());
-        System.out.println("-=-=-=-=-=-=-=-=-=-=-=");
+    public void status()
+    {
+        linha();
+        System.out.format("Herói:\nVida: %d\nEscudo %d\n", this.getHp(), this.getEscudo());
+        linha();
+    }
+    
+    public void statusInit() 
+    
+    {
+        linha();
+        System.out.format("Herói:\nClasse: %c\nVida: %d\nAtaque: %d\nAtaque especial: %d\nDefesa: %d\nDefesa especial: %d\n"
+            + "Experiência: %d\nNível: %d\nMoedas: %d\nQuantidade de Poções: %d\n",
+            this.getClasse(), this.getHp(), this.getAtq(), this.getSp_atq(), this.getDef(), this.getSp_def(), this.getExp(),
+            this.getNivel(), this.getMoeda(), this.getPocao());
+        linha();
     }
 
     public int getHp() {
@@ -159,6 +237,14 @@ public class Heroi {
 
     public void setClasse(char classe) {
         this.classe = classe;
+    }
+
+    public int getEscudo() {
+        return escudo;
+    }
+
+    public void setEscudo(int escudo) {
+        this.escudo = escudo;
     }
     
 }

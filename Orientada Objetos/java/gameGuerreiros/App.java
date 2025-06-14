@@ -8,28 +8,15 @@ public class App {
     public static void main(String[] args) {
         Scanner input = new Scanner(System.in);
         Random random = new Random();
-        Heroi gustavo = new Heroi('m', 100, 20, 20, 10, 10, 0, 0, 0, 0); // classe, hp, atq, sp_atq, def, sp_def, exp, nivel, moeda, pocao
-        Inimigo henrique = new Inimigo (100, 20, 20, 10, 10); // hp, atq, sp_atq, def, sp_def
+        Heroi gustavo = new Heroi();
+        Inimigo henrique = new Inimigo (100, 20, 20, 10, 10); //hp, atq, sp_atq, def, sp_def
         int opcaoMin = 1;
         int opcaoMax = 3;
         int opcaoAleatoria = random.nextInt((opcaoMax - opcaoMin) + 1) + opcaoMin; // Aleatoriedade entre as ações do inimigo
-        
-        System.out.println("[1] Guerreiro\n[2] Mago\nQue classe deseja escolher?");
-        int opcaoClasse = 0;
-
-        do {
-            opcaoClasse = input.nextInt();
-        } while (opcaoClasse != 1 || opcaoClasse != 2);
-        
-        if (opcaoClasse == 1)
-        {
-            gustavo.setClasse('g');
-        }
-        else if (opcaoClasse == 2)
-        {
-            gustavo.setClasse('m');
-        }
-        
+                
+        gustavo.statusInit();
+        henrique.statusInit();
+            
         while (true)
         {
             System.out.print("[1] Atacar\n[2] Defender\n[3] Usar opção\nO que fazer contra seu inimigo? ");
@@ -64,13 +51,17 @@ public class App {
                     
             }
             
-            if (!gustavo.taVivo()) {
-                System.out.println("Infelizmente nosso herói foi executado!");
+            if (!gustavo.taVivo()) 
+            {
+                System.out.println("GAME OVER! Infelizmente nosso herói foi executado!");
                 break;
             }
-            
-            gustavo.taVivo();
-            henrique.taVivo();
+            if (!henrique.taVivo(gustavo)) // O herói vai como parâmetro pra ganhar moedas assim que vencer
+            {
+                System.out.println("VOCÊ VENCEU! O inimigo foi executado!");
+                System.out.println("Parabéns, você recebeu 10 moedas de ouro!");
+                break;
+            }
             gustavo.status();
             henrique.status();
         }
