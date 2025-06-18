@@ -163,8 +163,8 @@ async function buscarExercicio(exercicioId) {
 
 async function fazerLogin(user, password) {
   try {
-    const resposta = await fetch('http://localhost:3000/usuario', {
-      method: 'POST',
+    const resposta = await fetch('http://localhost:3000/buscaUsuario', {
+      method: 'GET',
       headers: {
         'Content-Type': 'application/json'
       },
@@ -214,56 +214,55 @@ async function menu() {
       case "1":
         const user1 = prompt("Digite o login");
         const pass1 = prompt("Digite a senha");
-        var continua = true;
+        let continua = true;
         await fazerLogin(user1, pass1);
         while (continua)
         {
-          const opcao = prompt("1 - Registrar alimento\n2 - Registrar exercício\n3 - Sair\nEscolha uma opção: ");
+          const opcao = prompt("1 - Registrar alimento\n2 - Registrar exercício\n3 - Voltar\nEscolha uma opção: ");
           switch (opcao)
           {
             case "1":
               var nome_comida = prompt("Digite o nome do alimento que você deseja registrar: ");
-              var calorias = prompt(parseFloat("Digite a quantidade de calorias que esse alimento tem a cada 100g: "));
-              var proteinas = prompt(parseFloat("Digite a quantidade de proteinas que esse alimento tem a cada 100g: "));
-              var carboidratos = prompt(parseFloat("Digite a quantidade de carboidratos que esse alimento tem a cada 100g: "));
-              var gorduras = prompt(parseFloat("Digite a quantidade de gorduras que esse alimento tem a cada 100g: "));
+              var calorias = parseFloat(prompt("Digite a quantidade de calorias que esse alimento tem a cada 100g: "));
+              var proteinas = parseFloat(prompt("Digite a quantidade de proteinas que esse alimento tem a cada 100g: "));
+              var carboidratos = parseFloat(prompt("Digite a quantidade de carboidratos que esse alimento tem a cada 100g: "));
+              var gorduras = parseFloat(prompt("Digite a quantidade de gorduras que esse alimento tem a cada 100g: "));
               await registrarAlimento(nome_comida, calorias, proteinas, carboidratos, gorduras);
               break;
             case "2":
               var nome_exercicio = prompt("Digite o nome do exercício que você deseja cadastrar: ");
-              var opcao_musculo = prompt(parseInt("1 - Abdômen\n2 - Bíceps\n3 - Ombros\n4 - Costas\n5 - Panturilha\n6 - Peitoral\n7 - Posterior\n8 - Quadríceps\n9 - Tríceps\n  10 - Cardio\nDigite qual o músculo foco deste exercício: "));
-              var musculo = "";
+              var opcao_musculo = prompt("1 - Abdômen\n2 - Bíceps\n3 - Ombros\n4 - Costas\n5 - Panturilha\n6 - Peitoral\n7 - Posterior\n8 - Quadríceps\n9 - Tríceps\n10 - Cardio\nDigite qual o músculo foco deste exercício: ");
               switch (opcao_musculo)
               {
-                case 1:
-                  musculo = "Abdômen";
+                case "1":
+                  var musculo = "Abdômen";
                   break;
-                case 2:
-                  musculo = "Bíceps";
+                case "2":
+                  var musculo = "Bíceps";
                   break;
-                case 3:
-                  musculo = "Ombros";
+                case "3":
+                  var musculo = "Ombros";
                   break;
-                case 4:
-                  musculo = "Costas";
+                case "4":
+                  var musculo = "Costas";
                   break;
-                case 5:
-                  musculo = "Panturilha";
+                case "5":
+                  var musculo = "Panturilha";
                   break;
-                case 6:
-                  musculo = "Peitoral";
+                case "6":
+                  var musculo = "Peitoral";
                   break;
-                case 7:
-                  musculo = "Posterior";
+                case "7":
+                  var musculo = "Posterior";
                   break;
-                case 8:
-                  musculo = "Quadríceps";
+                case "8":
+                  var musculo = "Quadríceps";
                   break;
-                case 9:
-                  musculo = "Tríceps";
+                case "9":
+                  var musculo = "Tríceps";
                   break;
-                case 10:
-                  musculo = "Cardio";
+                case "10":
+                  var musculo = "Cardio";
                   break;
                 default:
                   console.log("Agrupamento muscular inválido, digite um agrupamento válido: ");
@@ -273,11 +272,12 @@ async function menu() {
               await registrarExercicio(nome_exercicio, musculo, descricao);
               break;
             case "3":
-              console.log("Saindo...");
+              console.log("Voltando...");
               continua = false;
               break;
           }
         }
+        break;
       case "2":
         var nome_usuario = prompt("Digite seu nome completo: ");
         var email = prompt("Digite seu email: ");
@@ -287,12 +287,18 @@ async function menu() {
           var senha = prompt("Digite sua senha: ");
           var confirma_senha = prompt("Digite a senha novamente, para confirmação da senha: ");
           if (senha == confirma_senha)
-            {
-              ok = true;
-            }
+          {
+            ok = true;
+            break;
+          }
+          alert("As senhas não batem... digite novamente!");
         }
-        var data_nascimento = prompt("Digite ");
-        var sexo = prompt("Selecione seu sexo [M/F]: ");
+        var dia_nasc = prompt("Digite o dia em que você nasceu: ");
+        var mes_nasc = prompt("Digite o mês em que você nasceu: ");
+        var ano_nasc = prompt("Digite o ano em que você nasceu: ");
+        var data_nascimento = ano_nasc + "-" + mes_nasc + "-" + dia_nasc; 
+        var sex = prompt("Selecione seu sexo [M/F]: ");
+        var sexo = sex.toUpperCase();
         var altura = prompt("Digite sua altura: ");
         var peso_usuario = prompt("Digite seu peso atual: ");
         await registrarUsuario(nome_usuario, email, senha, data_nascimento, sexo, altura, peso_usuario);
