@@ -28,7 +28,18 @@ O curso é oferecido pelo **CEDUP Chapecó (Centro de Educação Profissional de
 
 ---
 
-## 📁 Estrutura do repositório
+## 🌱 Objetivo
 
-Organizo os arquivos por pastas, conforme o módulo ou disciplina:
+Este repositório é uma forma de documentar meu progresso, praticar versionamento com Git e, futuramente, servir como portfólio pessoal.
+
+---
+
+## 📫 Contato
+
+- Email: **padilhacgustavo@gmail.com**
+- LinkedIn: [Gustavo Cigerza Padilha](https://www.linkedin.com/in/gustavo-cigerza-padilha-28bbba23a/)
+
+---
+
+⭐ Sinta-se à vontade para explorar os projetos e acompanhar minha jornada!
 
