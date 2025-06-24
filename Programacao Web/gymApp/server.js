@@ -30,8 +30,68 @@ app.get('/buscaUsuario', (req, res) => {
   });
 });
 
+// Rota GET - Planilha de treino
+app.get('/buscaPlanilhaTreino', (req, res) => {
+  db.query('SELECT * FROM planilhaTreino', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
 // Rota GET - Listar Exercícios
 app.get('/buscaExercicio', (req, res) => {
+  db.query('SELECT * FROM exercicio', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Rota GET - Progressão de carga
+app.get('/buscaProgressoCarga', (req, res) => {
+  db.query('SELECT * FROM progressoCarga', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Rota GET - Peso corporal
+app.get('/buscaPesoCorporal', (req, res) => {
+  db.query('SELECT * FROM pesoCorporal', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Rota GET - Medida corporal
+app.get('/buscaMedidaCorporal', (req, res) => {
+  db.query('SELECT * FROM medidaCorporal', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Rota GET - Refeições
+app.get('/buscaRefeicao', (req, res) => {
+  db.query('SELECT * FROM refeicao', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Rota GET - Calorias diárias
+app.get('/buscaCaloriasDiarias', (req, res) => {
   db.query('SELECT * FROM exercicio', (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -49,6 +109,28 @@ app.get('/buscaAlimento', (req, res) => {
     res.json(results);
   });
 });
+
+// Rota GET - Passos
+app.get('/buscaPassos', (req, res) => {
+  db.query('SELECT * FROM passos', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Rota GET - Histórico do treino
+app.get('/buscaHistoricoTreino', (req, res) => {
+  db.query('SELECT * FROM historicoTreino', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// ----------------------------
 
 // Rota POST - Criar novo usuário
 app.post('/usuarios', (req, res) => {
@@ -144,6 +226,26 @@ app.post('/cadastraExercicio', (req, res) => {
   });
 });
 
+// ROTA POST - Cadastro de planilha de treino
+app.post('/cadastraPlanilhaTreino', (req, res) => {
+  const { nome_planilhaTreino, data_inicio, ativa_planilhaTreino } = req.body;
+
+  if (!nome_planilhaTreino || !data_inicio || !ativa_planilhaTreino) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO planilhaTreino (nome_planilhaTreino, data_inicio, ativa_planilhaTreino) VALUES (?, ?, ?)';
+  db.query(sql, [nome_planilhaTreino, data_inicio, ativa_planilhaTreino], (err, result) => {
+    if (err) { 
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ error: 'Planilha de treino já cadastrada' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(201).json({ message: 'Planilha de treino registrada com sucesso', id: result.insertId });
+  });
+});
 
 // Inicializa o servidor
 app.listen(PORT, () => {
