@@ -14,11 +14,10 @@
     2.5 - contador de passo
     2.6 - cadastrar novo exercício
 */
-
-async function getData() {
-    let dia_nasc = prompt("Digite o dia em que você nasceu: ");
-    let mes_nasc = prompt("Digite o mês em que você nasceu: ");
-    let ano_nasc = prompt("Digite o ano em que você nasceu: ");
+function getData() {
+    let dia_nasc = prompt("Digite o dia: ");
+    let mes_nasc = prompt("Digite o mês: ");
+    let ano_nasc = prompt("Digite o ano: ");
     let data_nascimento = ano_nasc + "-" + mes_nasc + "-" + dia_nasc; 
     return data_nascimento;
 }
@@ -44,21 +43,21 @@ async function postUsuario(user, mail, password, datebirth, sex, height, weight_
     const dados = await resposta.json();
 
     if (resposta.ok) {
-      console.log('✅ Usuário registrado com sucesso!');
-      console.log('Detalhes:', dados);
+      alert('✅ Usuário registrado com sucesso!');
+      alert('Detalhes:', dados);
     } else {
       switch (resposta.status) {
         case 400:
-          console.warn('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
+          alert('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
           break;
         case 409:
-          console.warn('❗ Esse nome de usuário já está em uso. Tente outro.');
+          alert('❗ Esse nome de usuário já está em uso. Tente outro.');
           break;
         case 500:
-          console.warn('💥 Erro interno no servidor. Tente novamente mais tarde.');
+          alert('💥 Erro interno no servidor. Tente novamente mais tarde.');
           break;
         default:
-          console.warn(`❗ Erro inesperado: ${resposta.status}`);
+          alert(`❗ Erro inesperado: ${resposta.status}`);
       }
 
       console.debug('Detalhes do erro:', dados.mensagem || dados);
@@ -83,11 +82,12 @@ async function registrarUsuario() {
       }
       alert("As senhas não batem... digite novamente!");
     }
+    alert("Agora insira sua data de nascimento: ");
     let data_nascimento = getData();
-    let sexo = prompt("Selecione seu sexo [M/F]: ").toUpperCase;
+    let sexo = prompt("Selecione seu sexo [M/F]: ").toUpperCase();
     let altura = prompt("Digite sua altura: ");
     let peso_usuario = prompt("Digite seu peso atual: ");
-    await registrarUsuario(nome_usuario, email, senha, data_nascimento, sexo, altura, peso_usuario);
+    await postUsuario(nome_usuario, email, senha, data_nascimento, sexo, altura, peso_usuario);
 }
 
 async function postAlimento(foodname, calories, proteins, carbohydrates, fats) {
@@ -109,21 +109,21 @@ async function postAlimento(foodname, calories, proteins, carbohydrates, fats) {
     const dados = await resposta.json();
 
     if (resposta.ok) {
-      console.log('✅ Alimento registrado com sucesso!');
-      console.log('Detalhes:', dados);
+      alert('✅ Alimento registrado com sucesso!');
+      alert('Detalhes:', dados);
     } else {
       switch (resposta.status) {
         case 400:
-          console.warn('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
+          alert('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
           break;
         case 409:
-          console.warn('❗ Esse alimento já foi cadastrado. Tente outro.');
+          alert('❗ Esse alimento já foi cadastrado. Tente outro.');
           break;
         case 500:
-          console.warn('💥 Erro interno no servidor. Tente novamente mais tarde.');
+          alert('💥 Erro interno no servidor. Tente novamente mais tarde.');
           break;
         default:
-          console.warn(`❗ Erro inesperado: ${resposta.status}`);
+          alert(`❗ Erro inesperado: ${resposta.status}`);
       }
 
       console.debug('Detalhes do erro:', dados.mensagem || dados);
@@ -159,21 +159,21 @@ async function postExercicio(exercicio, musculo, descricao) {
     const dados = await resposta.json();
 
     if (resposta.ok) {
-      console.log('✅ Exercício registrado com sucesso!');
-      console.log('Detalhes:', dados);
+      alert('✅ Exercício registrado com sucesso!');
+      alert('Detalhes:', dados);
     } else {
       switch (resposta.status) {
         case 400:
-          console.warn('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
+          alert('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
           break;
         case 409:
-          console.warn('❗ Esse exercício já foi cadastrado. Tente outro.');
+          alert('❗ Esse exercício já foi cadastrado. Tente outro.');
           break;
         case 500:
-          console.warn('💥 Erro interno no servidor. Tente novamente mais tarde.');
+          alert('💥 Erro interno no servidor. Tente novamente mais tarde.');
           break;
         default:
-          console.warn(`❗ Erro inesperado: ${resposta.status}`);
+          alert(`❗ Erro inesperado: ${resposta.status}`);
       }
 
       console.debug('Detalhes do erro:', dados.mensagem || dados);
@@ -243,21 +243,21 @@ try {
     const dados = await resposta.json();
 
     if (resposta.ok) {
-      console.log('✅ Alimento registrado com sucesso!');
-      console.log('Detalhes:', dados);
+      alert('✅ Alimento registrado com sucesso!');
+      alert('Detalhes:', dados);
     } else {
       switch (resposta.status) {
         case 400:
-          console.warn('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
+          alert('⚠️ Dados inválidos. Verifique se todos os campos foram preenchidos corretamente.');
           break;
         case 409:
-          console.warn('❗ Esse alimento já foi cadastrado. Tente outro.');
+          alert('❗ Esse alimento já foi cadastrado. Tente outro.');
           break;
         case 500:
-          console.warn('💥 Erro interno no servidor. Tente novamente mais tarde.');
+          alert('💥 Erro interno no servidor. Tente novamente mais tarde.');
           break;
         default:
-          console.warn(`❗ Erro inesperado: ${resposta.status}`);
+          alert(`❗ Erro inesperado: ${resposta.status}`);
       }
 
       console.debug('Detalhes do erro:', dados.mensagem || dados);
@@ -269,6 +269,7 @@ try {
 
 async function registrarPlanilhaTreino() {
   let nome_planilhaTreino = prompt("Digite o nome da sua nova planilha de treino: ");
+  alert("Digite a data de início dessa planilha: ");
   let data_inicio = getData();
   let ativa = prompt("Deseja tornar esta planilha como ativa? [S/N] ").toUpperCase();
   if (ativa == 'S')
@@ -317,44 +318,51 @@ async function buscarExercicio(exercicioId) {
 
 async function fazerLogin(user, password) {
   try {
-    const resposta = await fetch('http://localhost:3000/buscaUsuario', {
-      method: 'GET',
+    const resposta = await fetch('http://localhost:3000/login', {
+      method: 'POST', 
       headers: {
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
       },
       body: JSON.stringify({
-        nome_usuario: user,
-        senha: password
-      })
+        email: user,
+        senha: password,
+      }),
     });
 
     const dados = await resposta.json();
+    var ok = false;
+    console.log(dados);
 
     if (resposta.ok) {
-      console.log('✅ Login realizado com sucesso!');
-      console.log('Bem-vindo,', dados.nome || user); // se o backend retornar o nome
+      alert('✅ Login realizado com sucesso!');
+      alert(`Bem-vindo ${dados.user.nome_usuario || user}`);
+      ok = true;
+      return ok;
     } else {
       switch (resposta.status) {
         case 400:
-          console.warn('⚠️ Requisição inválida. Verifique os dados enviados.');
-          break;
+          alert('⚠️ Requisição inválida. Verifique os dados enviados.');
+          return ok;
         case 401:
-          console.warn('🔒 Usuário ou senha incorretos.');
-          break;
+          alert('🔒 Usuário ou senha incorretos.');
+          return ok;
         case 404:
-          console.warn('❌ Usuário não encontrado.');
-          break;
+          alert('❌ Usuário não encontrado.');
+          return ok;
         case 500:
-          console.warn('💥 Erro interno no servidor. Tente novamente mais tarde.');
-          break;
+          alert('💥 Erro interno no servidor. Tente novamente mais tarde.');
+          return ok;
         default:
-          console.warn(`❗ Erro inesperado: ${resposta.status}`);
+          alert(`❗ Erro inesperado: ${resposta.status}`);
       }
 
       console.debug('Detalhes do erro:', dados.mensagem || dados);
+      return ok;
+
     }
   } catch (erro) {
     console.error('🚫 Erro de conexão com o servidor:', erro.message);
+    return ok;
   }
 }
 
@@ -368,12 +376,11 @@ async function menu() {
       case "1":
         const user1 = prompt("Digite o login");
         const pass1 = prompt("Digite a senha");
-        let continua = true;
-        await fazerLogin(user1, pass1);
-        while (continua)
+        let exit1 = await fazerLogin(user1, pass1);
+        while (exit1)
         {
-          const opcao = prompt("1 - Registrar alimento\n2 - Registrar exercício\n3 - Registrar nova planilha de treino\n4 - Voltar\nEscolha uma opção: ");
-          switch (opcao)
+          const option1 = prompt("1 - Registrar alimento\n2 - Registrar exercício\n3 - Registrar nova planilha de treino\n4 - Deslogar\nEscolha uma opção: ");
+          switch (option1)
           {
             case "1":
               registrarAlimento();
@@ -385,11 +392,11 @@ async function menu() {
               registrarPlanilhaTreino();
               break;
             case "4":
-              console.log("Voltando...");
-              continua = false;
+              alert("Deslogando...");
+              exit1 = false;
               break;
             default:
-              console.log("Opção inválida. Tente novamente!");
+              alert("Opção inválida. Tente novamente!");
               break;
           }
         }
@@ -398,11 +405,11 @@ async function menu() {
         registrarUsuario();
         break;
       case "3":
-        console.log("Saindo...");
+        alert("Saindo...");
         exit = true;
         break;
       default:
-        console.log("Opção inválida. Tente novamente!");
+        alert("Opção inválida. Tente novamente!");
         break;
     }
   }

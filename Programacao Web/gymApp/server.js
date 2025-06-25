@@ -132,16 +132,16 @@ app.get('/buscaHistoricoTreino', (req, res) => {
 
 // ----------------------------
 
-// Rota POST - Criar novo usuário
-app.post('/usuarios', (req, res) => {
-  const { login, senha } = req.body;
+// Rota POST - Fazer login
+app.post('/login', (req, res) => {
+  const { email, senha } = req.body;
 
-  if (!login || !senha) {
-    return res.status(400).json({ error: 'login e senha são obrigatórios' });
+  if (!email || !senha) {
+    return res.status(400).json({ error: 'email e senha são obrigatórios' });
   }
 
-  const sql = 'SELECT * FROM clientes WHERE login = ? AND senha = ?';
-  db.query(sql, [login, senha], (err, results) => {
+  const sql = 'SELECT * FROM usuario WHERE email = ? AND senha = ?';
+  db.query(sql, [email, senha], (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -156,8 +156,9 @@ app.post('/usuarios', (req, res) => {
       message: 'Login bem-sucedido',
       user: {
         id: user.id,
-        login: user.login,
-        senha: user.senha
+        email: user.email,
+        senha: user.senha,
+        nome_usuario: user.nome_usuario
       }
     });
   });
@@ -244,6 +245,27 @@ app.post('/cadastraPlanilhaTreino', (req, res) => {
     }
 
     res.status(201).json({ message: 'Planilha de treino registrada com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro Progressão de carga
+app.post('/cadastraProgressoCarga', (req, res) => {
+  const { dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga } = req.body;
+
+  if (!dia_progressoCarga || !repeticoes_progressoCarga || !carga_progressoCarga) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO progressoCarga (dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga) VALUES (?, ?, ?)';
+  db.query(sql, [dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga], (err, result) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ error: 'Progressão já cadastrada.' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(201).json({ message: 'Progressão de carga registrado com sucesso', id: result.insertId });
   });
 });
 
