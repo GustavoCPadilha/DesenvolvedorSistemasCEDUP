@@ -14,12 +14,91 @@
     2.5 - contador de passo
     2.6 - cadastrar novo exercício
 */
+
+function mensagemErro() {
+    alert('Opção inválida. Tente novamente!');
+}
+
 function getData() {
-    let dia_nasc = prompt("Digite o dia: ");
-    let mes_nasc = prompt("Digite o mês: ");
-    let ano_nasc = prompt("Digite o ano: ");
-    let data_nascimento = ano_nasc + "-" + mes_nasc + "-" + dia_nasc; 
+    let dia_nasc = prompt('Digite o dia: ');
+    let mes_nasc = prompt('Digite o mês: ');
+    let ano_nasc = prompt('Digite o ano: ');
+    let data_nascimento = ano_nasc + '-' + mes_nasc + '-' + dia_nasc; 
     return data_nascimento;
+}
+
+async function buscaAlimento() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaAlimento');
+    const alimentos = await resposta.json();
+
+    alimentos.forEach(alimento => {
+      console.log(`${alimento.nome_alimento}:
+          - Calorias: ${alimento.calorias_alimento};
+          - Proteinas: ${alimento.proteinas_alimento};
+          - Carboidratos: ${alimento.carboidratos_alimento};
+          - Gorduras: ${alimento.gorduras_alimento};`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar os alimentos:', erro)
+  }
+}
+
+async function buscaExercicio() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaExercicio');
+    const exercicios = await resposta.json();
+
+    exercicios.forEach(exercicio => {
+      console.log(`${exercicios.nome_exercicio}:
+          - Grupo Muscular: ${exercicios.grupo_muscular};
+          - Descrição: ${exercicios.descricao_exercicio};`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar os exercicios:', erro)
+  }
+}
+
+async function buscaPlanilhaTreino() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaPlanilhaTreino');
+    const planilha = await resposta.json();
+
+    planilha.forEach(planilha => {
+      console.log(`${planilha.nome_planilhaTreino}:
+          - Data de início: ${planilha.data_inicio};
+          - Ativa/Inativa: ${planilha.ativa_planilhaTreino};`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar a planilha de treino:', erro)
+  }
+}
+
+async function buscaCaloriasDiarias() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaCaloriasDiarias');
+    const calorias = await resposta.json();
+
+    calorias.forEach(calorias => {
+      console.log(`- Data ${calorias.data_caloriasDiarias}:
+          - Calorias totais: ${calorias.calorias_totais};
+          Proteínas: ${calorias.proteinas_caloriasDiarias};`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar a planilha de treino:', erro)
+  }
 }
 
 async function postUsuario(user, mail, password, datebirth, sex, height, weight_user) {
@@ -68,25 +147,25 @@ async function postUsuario(user, mail, password, datebirth, sex, height, weight_
 }
 
 async function registrarUsuario() {
-    let nome_usuario = prompt("Digite seu nome completo: ");
-    let email = prompt("Digite seu email: ");
+    let nome_usuario = prompt('Digite seu nome completo: ');
+    let email = prompt('Digite seu email: ');
     let ok = false;
     while (!ok)
     {
-      var senha = prompt("Digite sua senha: ");
-      let confirma_senha = prompt("Digite a senha novamente, para confirmação da senha: ");
+      var senha = prompt('Digite sua senha: ');
+      let confirma_senha = prompt('Digite a senha novamente, para confirmação da senha: ');
       if (senha == confirma_senha)
       {
         ok = true;
         break;
       }
-      alert("As senhas não batem... digite novamente!");
+      alert('As senhas não batem... digite novamente!');
     }
-    alert("Agora insira sua data de nascimento: ");
+    alert('Agora insira sua data de nascimento: ');
     let data_nascimento = getData();
-    let sexo = prompt("Selecione seu sexo [M/F]: ").toUpperCase();
-    let altura = prompt("Digite sua altura: ");
-    let peso_usuario = prompt("Digite seu peso atual: ");
+    let sexo = prompt('Selecione seu sexo [M/F]: ').toUpperCase();
+    let altura = prompt('Digite sua altura: ');
+    let peso_usuario = prompt('Digite seu peso atual: ');
     await postUsuario(nome_usuario, email, senha, data_nascimento, sexo, altura, peso_usuario);
 }
 
@@ -134,11 +213,11 @@ async function postAlimento(foodname, calories, proteins, carbohydrates, fats) {
 }
 
 async function registrarAlimento() {
-    let nome_comida = prompt("Digite o nome do alimento que você deseja registrar: ");
-    let calorias = parseFloat(prompt("Digite a quantidade de calorias que esse alimento tem a cada 100g: "));
-    let proteinas = parseFloat(prompt("Digite a quantidade de proteinas que esse alimento tem a cada 100g: "));
-    let carboidratos = parseFloat(prompt("Digite a quantidade de carboidratos que esse alimento tem a cada 100g: "));
-    let gorduras = parseFloat(prompt("Digite a quantidade de gorduras que esse alimento tem a cada 100g: "));
+    let nome_comida = prompt('Digite o nome do alimento que você deseja registrar: ');
+    let calorias = parseFloat(prompt('Digite a quantidade de calorias que esse alimento tem a cada 100g: '));
+    let proteinas = parseFloat(prompt('Digite a quantidade de proteinas que esse alimento tem a cada 100g: '));
+    let carboidratos = parseFloat(prompt('Digite a quantidade de carboidratos que esse alimento tem a cada 100g: '));
+    let gorduras = parseFloat(prompt('Digite a quantidade de gorduras que esse alimento tem a cada 100g: '));
     await postAlimento(nome_comida, calorias, proteinas, carboidratos, gorduras);
 }
 
@@ -184,45 +263,45 @@ async function postExercicio(exercicio, musculo, descricao) {
 }
 
 async function registrarExercicio() {
-  let nome_exercicio = prompt("Digite o nome do exercício que você deseja cadastrar: ");
-  let opcao_musculo = prompt("1 - Abdômen\n2 - Bíceps\n3 - Ombros\n4 - Costas\n5 - Panturilha\n6 - Peitoral\n7 - Posterior\n8 - Quadríceps\n9 - Tríceps\n10 - Cardio\nDigite qual o músculo foco deste exercício: ");
+  let nome_exercicio = prompt('Digite o nome do exercício que você deseja cadastrar: ');
+  let opcao_musculo = prompt('1 - Abdômen\n2 - Bíceps\n3 - Ombros\n4 - Costas\n5 - Panturilha\n6 - Peitoral\n7 - Posterior\n8 - Quadríceps\n9 - Tríceps\n10 - Cardio\nDigite qual o músculo foco deste exercício: ');
   switch (opcao_musculo)
   {
-    case "1":
-      var musculo = "Abdômen";
+    case '1':
+      var musculo = 'Abdômen';
       break;
-    case "2":
-      var musculo = "Bíceps";
+    case '2':
+      var musculo = 'Bíceps';
       break;
-    case "3":
-      var musculo = "Ombros";
+    case '3':
+      var musculo = 'Ombros';
       break;
-    case "4":
-      var musculo = "Costas";
+    case '4':
+      var musculo = 'Costas';
       break;
-    case "5":
-      var musculo = "Panturilha";
+    case '5':
+      var musculo = 'Panturilha';
       break;
-    case "6":
-      var musculo = "Peitoral";
+    case '6':
+      var musculo = 'Peitoral';
       break;
-    case "7":
-      var musculo = "Posterior";
+    case '7':
+      var musculo = 'Posterior';
       break;
-    case "8":
-      var musculo = "Quadríceps";
+    case '8':
+      var musculo = 'Quadríceps';
       break;
-    case "9":
-      var musculo = "Tríceps";
+    case '9':
+      var musculo = 'Tríceps';
       break;
-    case "10":
-      var musculo = "Cardio";
+    case '10':
+      var musculo = 'Cardio';
       break;
     default:
-      console.log("Agrupamento muscular inválido, digite um agrupamento válido: ");
+      console.log('Agrupamento muscular inválido, digite um agrupamento válido: ');
       break;
   }
-  let descricao = prompt("Digite a descrição do exercício, se houver: ");
+  let descricao = prompt('Digite a descrição do exercício, se houver: ');
   await postExercicio(nome_exercicio, musculo, descricao);  
 }
 
@@ -268,10 +347,10 @@ try {
 }
 
 async function registrarPlanilhaTreino() {
-  let nome_planilhaTreino = prompt("Digite o nome da sua nova planilha de treino: ");
-  alert("Digite a data de início dessa planilha: ");
+  let nome_planilhaTreino = prompt('Digite o nome da sua nova planilha de treino: ');
+  alert('Digite a data de início dessa planilha: ');
   let data_inicio = getData();
-  let ativa = prompt("Deseja tornar esta planilha como ativa? [S/N] ").toUpperCase();
+  let ativa = prompt('Deseja tornar esta planilha como ativa? [S/N] ').toUpperCase();
   if (ativa == 'S')
   {
     ativa = true;
@@ -370,49 +449,108 @@ async function menu() {
   let exit = false;
 
   while (!exit) {
-    const option = prompt("1 - Fazer login\n2 - Cadastrar novo usuário\n3 - Sair\nEscolha uma opção: ");
+    const option = prompt('1 - Fazer login\n2 - Cadastrar novo usuário\n3 - Sair\nEscolha uma opção: ');
 
     switch (option) {
-      case "1":
-        const user1 = prompt("Digite o login");
-        const pass1 = prompt("Digite a senha");
+      case '1':
+        const user1 = prompt('Digite o login');
+        const pass1 = prompt('Digite a senha');
         let exit1 = await fazerLogin(user1, pass1);
         while (exit1)
         {
-          const option1 = prompt("1 - Registrar alimento\n2 - Registrar exercício\n3 - Registrar nova planilha de treino\n4 - Deslogar\nEscolha uma opção: ");
+          const option1 = prompt('1 - Registrar\n2 - Buscar\n3 - Deslogar\nEscolha uma opção: ');
           switch (option1)
           {
-            case "1":
-              registrarAlimento();
+            case '1':
+              var option2 = prompt('1 - Registrar alimento\n2 - Registrar exercício\n3 - Registrar nova planilha de treino\n4 - Voltar\nEscolha uma opção: ');
+              var voltar = false;
+              while (!voltar)
+              {
+                switch(option2)
+                {
+                  case '1': 
+                    registrarAlimento(); 
+                    break;
+                    
+                  case '2':
+                    registrarExercicio();
+                    break;
+
+                  case '3':
+                    registrarPlanilhaTreino();
+                    break;
+
+                  case '4':
+                    alert('Voltando...');
+                    voltar = true;
+                    break;
+
+                  default:
+                    mensagemErro();
+                    break;
+                }
+              }
               break;
-            case "2":
-              registrarExercicio();
+
+            case '2':
+              var option2 = prompt('1 - Buscar alimento\n2 - Buscar exercício\n3 - Buscar planilha de treino\n4 - Voltar\nEscolha uma opção: ');
+              var voltar = false;
+              while (!voltar)
+              {
+                switch(option2)
+                {
+                  case '1':
+                    buscaAlimento();
+                    break;
+                  
+                  case '2':
+                    buscaExercicio();
+                    break;
+
+                  case '3':
+                    buscaPlanilhaTreino();
+                    break;
+
+                  case '4':
+                    alert('Voltando...');
+                    voltar = true;
+                    break;
+                    
+                  default:
+                    mensagemErro();
+                    break;
+                }
+              }
               break;
-            case "3":
-              registrarPlanilhaTreino();
-              break;
-            case "4":
-              alert("Deslogando...");
+
+            case '3':
+              alert('Deslogando...');
               exit1 = false;
               break;
+
             default:
-              alert("Opção inválida. Tente novamente!");
+              mensagemErro();
               break;
           }
         }
         break;
-      case "2":
+
+      case '2':
         registrarUsuario();
         break;
-      case "3":
-        alert("Saindo...");
+
+      case '3':
+        alert('Saindo...');
         exit = true;
         break;
+
       default:
-        alert("Opção inválida. Tente novamente!");
+        mensagemErro();
         break;
+
     }
   }
 }
 
+buscaAlimento();
 menu();
