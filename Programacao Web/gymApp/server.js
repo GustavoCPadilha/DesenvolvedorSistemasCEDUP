@@ -130,6 +130,16 @@ app.get('/buscaHistoricoTreino', (req, res) => {
   });
 });
 
+// Rota GET - Treino
+app.get('/buscaTreino', (req, res) => {
+  db.query('SELECT * FROM treino', (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
 // ----------------------------
 
 // Rota POST - Fazer login
@@ -248,7 +258,7 @@ app.post('/cadastraPlanilhaTreino', (req, res) => {
   });
 });
 
-// ROTA POST - Cadastro Progressão de carga
+// ROTA POST - Cadastro progressão de carga
 app.post('/cadastraProgressoCarga', (req, res) => {
   const { dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga } = req.body;
 
@@ -266,6 +276,48 @@ app.post('/cadastraProgressoCarga', (req, res) => {
     }
 
     res.status(201).json({ message: 'Progressão de carga registrado com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro medida corporal
+app.post('/cadastraMedidaCorporal', (req, res) => {
+  const { dia_medidaCorporal, regiao_medidaCorporal, medida_cm } = req.body;
+
+  if (!dia_medidaCorporal || !regiao_medidaCorporal || !medida_cm) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO medidaCorporal (dia_medidaCorporal, regiao_medidaCorporal, medida_cm) VALUES (?, ?, ?)';
+  db.query(sql, [dia_medidaCorporal, regiao_medidaCorporal, medida_cm], (err, result) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ error: 'Medida corporal já cadastrada.' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(201).json({ message: 'Medida corporal registrado com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro peso corporal
+app.post('/cadastraPesoCorporal', (req, res) => {
+  const { dia_pesoCorporal, peso_pesoCorporal, meta_peso } = req.body;
+
+  if (!dia_pesoCorporal || !peso_pesoCorporal || !meta_peso) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO pesoCorporal (dia_pesoCorporal, peso_pesoCorporal, meta_peso) VALUES (?, ?, ?)';
+  db.query(sql, [dia_pesoCorporal, peso_pesoCorporal, meta_peso], (err, result) => {
+    if (err) {
+      if (err.code === 'ER_DUP_ENTRY') {
+        return res.status(409).json({ error: 'Medida corporal já cadastrada.' });
+      }
+      return res.status(500).json({ error: err.message });
+    }
+
+    res.status(201).json({ message: 'Medida corporal registrado com sucesso', id: result.insertId });
   });
 });
 

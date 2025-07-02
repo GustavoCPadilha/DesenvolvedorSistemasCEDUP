@@ -27,6 +27,12 @@ function getData() {
     return data_nascimento;
 }
 
+async function iniciarTreino() {
+  await buscaPlanilhaTreino();
+  var opcao = prompt("Qual das planilhas deseja iniciar? ");
+  
+}
+
 async function buscaAlimento() {
   try 
   {
@@ -35,10 +41,10 @@ async function buscaAlimento() {
 
     alimentos.forEach(alimento => {
       console.log(`${alimento.nome_alimento}:
-          - Calorias: ${alimento.calorias_alimento};
-          - Proteinas: ${alimento.proteinas_alimento};
-          - Carboidratos: ${alimento.carboidratos_alimento};
-          - Gorduras: ${alimento.gorduras_alimento};`);
+          - Calorias: ${alimento.calorias_alimento}kcal;
+          - Proteinas: ${alimento.proteinas_alimento}g;
+          - Carboidratos: ${alimento.carboidratos_alimento}g;
+          - Gorduras: ${alimento.gorduras_alimento}g;`);
     });
   }
   catch (erro)
@@ -54,14 +60,14 @@ async function buscaExercicio() {
     const exercicios = await resposta.json();
 
     exercicios.forEach(exercicio => {
-      console.log(`${exercicios.nome_exercicio}:
-          - Grupo Muscular: ${exercicios.grupo_muscular};
-          - Descrição: ${exercicios.descricao_exercicio};`);
+      console.log(`${exercicio.nome_exercicio}:
+          - Grupo Muscular: ${exercicio.grupo_muscular};
+          - Descrição: ${exercicio.descricao_exercicio};`);
     });
   }
   catch (erro)
   {
-    console.error('Erro ao carregar os exercicios:', erro)
+    console.error('Erro ao carregar os Exercícios:', erro)
   }
 }
 
@@ -69,17 +75,26 @@ async function buscaPlanilhaTreino() {
   try 
   {
     const resposta = await fetch('http://localhost:3000/buscaPlanilhaTreino');
-    const planilha = await resposta.json();
+    const planilhas = await resposta.json();
+    var ativa = '';
 
-    planilha.forEach(planilha => {
+    planilhas.forEach(planilha => {
+      if (planilha.ativa_planilhaTreino == 1)
+      {
+        ativa = 'Ativa';
+      }
+      else if (planilha.ativa_planilhaTreino == 0)
+      {
+        ativa = 'Inativa';
+      }
       console.log(`${planilha.nome_planilhaTreino}:
           - Data de início: ${planilha.data_inicio};
-          - Ativa/Inativa: ${planilha.ativa_planilhaTreino};`);
+          - Ativa/Inativa: ${ativa};`);
     });
   }
   catch (erro)
   {
-    console.error('Erro ao carregar a planilha de treino:', erro)
+    console.error('Erro ao carregar a Planilha de treino:', erro)
   }
 }
 
@@ -89,17 +104,111 @@ async function buscaCaloriasDiarias() {
     const resposta = await fetch('http://localhost:3000/buscaCaloriasDiarias');
     const calorias = await resposta.json();
 
-    calorias.forEach(calorias => {
-      console.log(`- Data ${calorias.data_caloriasDiarias}:
-          - Calorias totais: ${calorias.calorias_totais};
-          Proteínas: ${calorias.proteinas_caloriasDiarias};`);
+    calorias.forEach(caloria => {
+      console.log(`- Data ${caloria.data_caloriasDiarias}:
+          - Calorias totais: ${caloria.calorias_totais}kcal;
+          - Proteínas: ${caloria.proteinas_caloriasDiarias}g;
+          - Carboidratos: ${caloria.carboidratos_caloriasDiarias}g;
+          - Gorduras: ${caloria.gorduras_caloriasDiarias}g;`);
     });
   }
   catch (erro)
   {
-    console.error('Erro ao carregar a planilha de treino:', erro)
+    console.error('Erro ao carregar as Calorias diárias:', erro)
   }
 }
+
+async function buscaHistoricoTreino() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaHistoricoTreino');
+    const historicos = await resposta.json();
+
+    historicos.forEach(historico => {
+      console.log(`- Data ${historico.dia_historicoTreino}:
+          - Séries feitas: ${historico.series_feitas};
+          - Repetições feitas: ${historico.repeticoes_feitas};
+          - Carga utilizada: ${historico.carga_utilizada}kg;`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar o Histórico de treino:', erro)
+  }
+}
+
+async function buscaMedidaCorporal() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaMedidaCorporal');
+    const medidas = await resposta.json();
+
+    medidas.forEach(medida => {
+      console.log(`- Data: ${medida.dia_medidaCorporal}:
+          - Região: ${medida.regiao_medidaCorporal};
+          - Medidas: ${medida.medida_cm};`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar as Medidas Corporais:', erro)
+  }
+}
+
+async function buscaPesoCorporal() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaPesoCorporal');
+    const pesos = await resposta.json();
+
+    pesos.forEach(peso => {
+      console.log(`- Data ${peso.dia_pesoCorporal}:
+          - Peso: ${peso.peso_pesoCorporal }kg;
+          - Sua meta: ${peso.meta_peso}kg;`);
+    });
+    }
+  catch (erro)
+  {
+    console.error('Erro ao carregar o peso corporal:', erro)
+  }
+}
+
+async function buscaPassos() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaPassos');
+    const passos = await resposta.json();
+
+    passos.forEach(passos => {
+      console.log(`- Data: ${passos.dia_passos}:
+          - Distância em metros: ${passos.qtde_metros};`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar os passos:', erro)
+  }
+}
+
+async function buscaTreino() {
+  try 
+  {
+    const resposta = await fetch('http://localhost:3000/buscaTreino');
+    const treinos = await resposta.json();
+
+    treinos.forEach(treino => {
+      console.log(`- Séries: ${treino.series}:
+          - Repetições: ${treino.repeticoes_treino};
+          - Carga:  ${treino.carga_treino};`);
+    });
+  }
+  catch (erro)
+  {
+    console.error('Erro ao carregar o Treino:', erro)
+  }
+}
+
+//-------------------------------------
 
 async function postUsuario(user, mail, password, datebirth, sex, height, weight_user) {
   try {
@@ -453,69 +562,42 @@ async function menu() {
 
     switch (option) {
       case '1':
-        const user1 = prompt('Digite o login');
+        const user1 = prompt('Digite o login(email)');
         const pass1 = prompt('Digite a senha');
         let exit1 = await fazerLogin(user1, pass1);
         while (exit1)
         {
-          const option1 = prompt('1 - Registrar\n2 - Buscar\n3 - Deslogar\nEscolha uma opção: ');
+          const option1 = prompt('1 - Iniciar um treino\n2 - Registrar\n3 - Buscar\n4 - Deslogar\nEscolha uma opção: ');
           switch (option1)
           {
             case '1':
-              var option2 = prompt('1 - Registrar alimento\n2 - Registrar exercício\n3 - Registrar nova planilha de treino\n4 - Voltar\nEscolha uma opção: ');
-              var voltar = false;
-              while (!voltar)
-              {
-                switch(option2)
-                {
-                  case '1': 
-                    registrarAlimento(); 
-                    break;
-                    
-                  case '2':
-                    registrarExercicio();
-                    break;
-
-                  case '3':
-                    registrarPlanilhaTreino();
-                    break;
-
-                  case '4':
-                    alert('Voltando...');
-                    voltar = true;
-                    break;
-
-                  default:
-                    mensagemErro();
-                    break;
-                }
-              }
+              await iniciarTreino();
               break;
 
             case '2':
-              var option2 = prompt('1 - Buscar alimento\n2 - Buscar exercício\n3 - Buscar planilha de treino\n4 - Voltar\nEscolha uma opção: ');
               var voltar = false;
               while (!voltar)
               {
+                var option2 = prompt('1 - Registrar alimento\n2 - Registrar exercício\n3 - Registrar nova planilha de treino\n4 - Voltar\nEscolha uma opção: ');
                 switch(option2)
-                {
-                  case '1':
-                    buscaAlimento();
+                {   
+                  case '1': 
+                    await registrarAlimento(); 
                     break;
-                  
+                    
                   case '2':
-                    buscaExercicio();
+                    await registrarExercicio();
                     break;
 
                   case '3':
-                    buscaPlanilhaTreino();
+                    await registrarPlanilhaTreino();
                     break;
 
                   case '4':
                     alert('Voltando...');
                     voltar = true;
                     break;
-                    
+
                   default:
                     mensagemErro();
                     break;
@@ -524,6 +606,61 @@ async function menu() {
               break;
 
             case '3':
+              var voltar = false;
+              while (!voltar)
+              {
+                var option2 = prompt('1 - Buscar treino\n2 - Buscar alimento\n3 - Buscar exercício\n4 - Buscar planilha de treino\n5 - Buscar calorias diárias\n6 - Buscar historico de treino\n7 - Buscar medida corporal\n8 - Buscar passos\n9 - Busca peso corporal\n10 - Voltar\nEscolha uma opção: ');
+                switch(option2)
+                {
+                  case '1':
+                    await buscaTreino();
+                    break;
+
+                  case '2':
+                    await buscaAlimento();
+                    break;
+                  
+                  case '3':
+                    await buscaExercicio();
+                    break;
+
+                  case '4':
+                    await buscaPlanilhaTreino();
+                    break;
+
+                  case '5':
+                    await buscaCaloriasDiarias();
+                    break;
+
+                  case '6':
+                    await buscaHistoricoTreino();
+                    break;
+
+                  case '7':
+                    await buscaMedidaCorporal();
+                    break;
+
+                  case '8':
+                    await buscaPassos();
+                    break;
+
+                  case '9':
+                    await buscaPesoCorporal();
+                    break;
+                    
+                  case '10':
+                    alert('Voltando...');
+                    voltar = true;
+                    break;
+                    
+                  default:
+                    mensagemErro();
+                    break;
+                }
+              }
+              break;
+
+            case '4':
               alert('Deslogando...');
               exit1 = false;
               break;
@@ -536,7 +673,7 @@ async function menu() {
         break;
 
       case '2':
-        registrarUsuario();
+        await registrarUsuario();
         break;
 
       case '3':
@@ -552,5 +689,4 @@ async function menu() {
   }
 }
 
-buscaAlimento();
 menu();
