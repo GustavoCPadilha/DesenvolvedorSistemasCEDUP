@@ -32,7 +32,14 @@ app.get('/buscaUsuario', (req, res) => {
 
 // Rota GET - Planilha de treino
 app.get('/buscaPlanilhaTreino', (req, res) => {
-  db.query('SELECT * FROM planilhaTreino', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM planilhaTreino';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -52,7 +59,14 @@ app.get('/buscaExercicio', (req, res) => {
 
 // Rota GET - Progressão de carga
 app.get('/buscaProgressoCarga', (req, res) => {
-  db.query('SELECT * FROM progressoCarga', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM progressoCarga';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -62,7 +76,14 @@ app.get('/buscaProgressoCarga', (req, res) => {
 
 // Rota GET - Peso corporal
 app.get('/buscaPesoCorporal', (req, res) => {
-  db.query('SELECT * FROM pesoCorporal', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM pesoCorporal';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -72,7 +93,14 @@ app.get('/buscaPesoCorporal', (req, res) => {
 
 // Rota GET - Medida corporal
 app.get('/buscaMedidaCorporal', (req, res) => {
-  db.query('SELECT * FROM medidaCorporal', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM medidaCorporal';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -82,7 +110,14 @@ app.get('/buscaMedidaCorporal', (req, res) => {
 
 // Rota GET - Refeições
 app.get('/buscaRefeicao', (req, res) => {
-  db.query('SELECT * FROM refeicao', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM refeicao';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -92,7 +127,14 @@ app.get('/buscaRefeicao', (req, res) => {
 
 // Rota GET - Calorias diárias
 app.get('/buscaCaloriasDiarias', (req, res) => {
-  db.query('SELECT * FROM exercicio', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM caloriasDiarias';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -112,7 +154,14 @@ app.get('/buscaAlimento', (req, res) => {
 
 // Rota GET - Passos
 app.get('/buscaPassos', (req, res) => {
-  db.query('SELECT * FROM passos', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM passos';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -122,7 +171,14 @@ app.get('/buscaPassos', (req, res) => {
 
 // Rota GET - Histórico do treino
 app.get('/buscaHistoricoTreino', (req, res) => {
-  db.query('SELECT * FROM historicoTreino', (err, results) => {
+  const { id_usuario } = req.query;
+  let sql = 'SELECT * FROM historicoTreino';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_usuario = ?';
+    params.push(id_usuario);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
@@ -132,15 +188,23 @@ app.get('/buscaHistoricoTreino', (req, res) => {
 
 // Rota GET - Treino
 app.get('/buscaTreino', (req, res) => {
-  db.query('SELECT * FROM treino', (err, results) => {
+  const { id_usuario, id_planilhaTreino } = req.query;
+  let sql = 'SELECT * FROM treino';
+  let params = [];
+  if (id_usuario) {
+    sql += ' WHERE id_planilhaTreino IN (SELECT id_planilhaTreino FROM planilhaTreino WHERE id_usuario = ?)';
+    params.push(id_usuario);
+  } else if (id_planilhaTreino) {
+    sql += ' WHERE id_planilhaTreino = ?';
+    params.push(id_planilhaTreino);
+  }
+  db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
     }
     res.json(results);
   });
 });
-
-// ----------------------------
 
 // Rota POST - Fazer login
 app.post('/login', (req, res) => {
@@ -165,7 +229,7 @@ app.post('/login', (req, res) => {
     res.json({
       message: 'Login bem-sucedido',
       user: {
-        id: user.id,
+        id: user.id_usuario,
         email: user.email,
         senha: user.senha,
         nome_usuario: user.nome_usuario
@@ -260,18 +324,15 @@ app.post('/cadastraPlanilhaTreino', (req, res) => {
 
 // ROTA POST - Cadastro progressão de carga
 app.post('/cadastraProgressoCarga', (req, res) => {
-  const { dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga } = req.body;
+  const { id_usuario, id_exercicio, dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga } = req.body;
 
-  if (!dia_progressoCarga || !repeticoes_progressoCarga || !carga_progressoCarga) {
+  if (!id_usuario || !id_exercicio || !dia_progressoCarga || !repeticoes_progressoCarga || !carga_progressoCarga) {
     return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
   }
 
-  const sql = 'INSERT INTO progressoCarga (dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga) VALUES (?, ?, ?)';
-  db.query(sql, [dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga], (err, result) => {
+  const sql = 'INSERT INTO progressoCarga (id_usuario, id_exercicio, dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga) VALUES (?, ?, ?, ?, ?)';
+  db.query(sql, [id_usuario, id_exercicio, dia_progressoCarga, repeticoes_progressoCarga, carga_progressoCarga], (err, result) => {
     if (err) {
-      if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(409).json({ error: 'Progressão já cadastrada.' });
-      }
       return res.status(500).json({ error: err.message });
     }
 
@@ -281,18 +342,15 @@ app.post('/cadastraProgressoCarga', (req, res) => {
 
 // ROTA POST - Cadastro medida corporal
 app.post('/cadastraMedidaCorporal', (req, res) => {
-  const { dia_medidaCorporal, regiao_medidaCorporal, medida_cm } = req.body;
+  const { id_usuario, dia_medidaCorporal, regiao_medidaCorporal, medida_cm } = req.body;
 
-  if (!dia_medidaCorporal || !regiao_medidaCorporal || !medida_cm) {
+  if (!id_usuario || !dia_medidaCorporal || !regiao_medidaCorporal || !medida_cm) {
     return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
   }
 
-  const sql = 'INSERT INTO medidaCorporal (dia_medidaCorporal, regiao_medidaCorporal, medida_cm) VALUES (?, ?, ?)';
-  db.query(sql, [dia_medidaCorporal, regiao_medidaCorporal, medida_cm], (err, result) => {
+  const sql = 'INSERT INTO medidaCorporal (id_usuario, dia_medidaCorporal, regiao_medidaCorporal, medida_cm) VALUES (?, ?, ?, ?)';
+  db.query(sql, [id_usuario, dia_medidaCorporal, regiao_medidaCorporal, medida_cm], (err, result) => {
     if (err) {
-      if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(409).json({ error: 'Medida corporal já cadastrada.' });
-      }
       return res.status(500).json({ error: err.message });
     }
 
@@ -302,22 +360,104 @@ app.post('/cadastraMedidaCorporal', (req, res) => {
 
 // ROTA POST - Cadastro peso corporal
 app.post('/cadastraPesoCorporal', (req, res) => {
-  const { dia_pesoCorporal, peso_pesoCorporal, meta_peso } = req.body;
+  const { id_usuario, dia_pesoCorporal, peso_pesoCorporal, meta_peso } = req.body;
 
-  if (!dia_pesoCorporal || !peso_pesoCorporal || !meta_peso) {
+  if (!id_usuario || !dia_pesoCorporal || !peso_pesoCorporal || !meta_peso) {
     return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
   }
 
-  const sql = 'INSERT INTO pesoCorporal (dia_pesoCorporal, peso_pesoCorporal, meta_peso) VALUES (?, ?, ?)';
-  db.query(sql, [dia_pesoCorporal, peso_pesoCorporal, meta_peso], (err, result) => {
+  const sql = 'INSERT INTO pesoCorporal (id_usuario, dia_pesoCorporal, peso_pesoCorporal, meta_peso) VALUES (?, ?, ?, ?)';
+  db.query(sql, [id_usuario, dia_pesoCorporal, peso_pesoCorporal, meta_peso], (err, result) => {
     if (err) {
-      if (err.code === 'ER_DUP_ENTRY') {
-        return res.status(409).json({ error: 'Medida corporal já cadastrada.' });
-      }
       return res.status(500).json({ error: err.message });
     }
 
     res.status(201).json({ message: 'Medida corporal registrado com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro de calorias diárias
+app.post('/cadastraCaloriasDiarias', (req, res) => {
+  const { id_usuario, data_caloriasDiarias, calorias_totais, proteinas_caloriasDiarias, carboidratos_caloriasDiarias, gorduras_caloriasDiarias } = req.body;
+
+  if (!id_usuario || !data_caloriasDiarias || !calorias_totais || !proteinas_caloriasDiarias || !carboidratos_caloriasDiarias || !gorduras_caloriasDiarias) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO caloriasDiarias (id_usuario, data_caloriasDiarias, calorias_totais, proteinas_caloriasDiarias, carboidratos_caloriasDiarias, gorduras_caloriasDiarias) VALUES (?, ?, ?, ?, ?, ?)';
+  db.query(sql, [id_usuario, data_caloriasDiarias, calorias_totais, proteinas_caloriasDiarias, carboidratos_caloriasDiarias, gorduras_caloriasDiarias], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Calorias diárias registradas com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro de refeição
+app.post('/cadastraRefeicao', (req, res) => {
+  const { id_usuario, dia_refeicao, descricao_refeicao } = req.body;
+
+  if (!id_usuario || !dia_refeicao || !descricao_refeicao) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO refeicao (id_usuario, dia_refeicao, descricao_refeicao) VALUES (?, ?, ?)';
+  db.query(sql, [id_usuario, dia_refeicao, descricao_refeicao], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Refeição registrada com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro de alimento em refeição
+app.post('/cadastraRefeicaoAlimento', (req, res) => {
+  const { id_refeicao, id_alimento, qtde_gramas } = req.body;
+
+  if (!id_refeicao || !id_alimento || !qtde_gramas) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO refeicaoAlimento (id_refeicao, id_alimento, qtde_gramas) VALUES (?, ?, ?)';
+  db.query(sql, [id_refeicao, id_alimento, qtde_gramas], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Alimento adicionado à refeição com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro de passos
+app.post('/cadastraPassos', (req, res) => {
+  const { id_usuario, dia_passos, qtde_metros } = req.body;
+
+  if (!id_usuario || !dia_passos || !qtde_metros) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO passos (id_usuario, dia_passos, qtde_metros) VALUES (?, ?, ?)';
+  db.query(sql, [id_usuario, dia_passos, qtde_metros], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Passos registrados com sucesso', id: result.insertId });
+  });
+});
+
+// ROTA POST - Cadastro de histórico de treino
+app.post('/cadastraHistoricoTreino', (req, res) => {
+  const { id_usuario, id_exercicio, dia_historicoTreino, series_feitas, repeticoes_feitas, carga_utilizada } = req.body;
+
+  if (!id_usuario || !id_exercicio || !dia_historicoTreino || !series_feitas || !repeticoes_feitas || !carga_utilizada) {
+    return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
+  }
+
+  const sql = 'INSERT INTO historicoTreino (id_usuario, id_exercicio, dia_historicoTreino, series_feitas, repeticoes_feitas, carga_utilizada) VALUES (?, ?, ?, ?, ?, ?)';
+  db.query(sql, [id_usuario, id_exercicio, dia_historicoTreino, series_feitas, repeticoes_feitas, carga_utilizada], (err, result) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.status(201).json({ message: 'Histórico de treino registrado com sucesso', id: result.insertId });
   });
 });
 

@@ -84,26 +84,6 @@ async function iniciarTreinoComUsuario(id_usuario) {
   }
 }
 
-async function buscaAlimento() {
-  try 
-  {
-    const resposta = await fetch('http://localhost:3000/buscaAlimento');
-    const alimentos = await resposta.json();
-
-    alimentos.forEach(alimento => {
-      console.log(`${alimento.nome_alimento}:
-          - Calorias: ${alimento.calorias_alimento}kcal;
-          - Proteinas: ${alimento.proteinas_alimento}g;
-          - Carboidratos: ${alimento.carboidratos_alimento}g;
-          - Gorduras: ${alimento.gorduras_alimento}g;`);
-    });
-  }
-  catch (erro)
-  {
-    console.error('Erro ao carregar os alimentos:', erro)
-  }
-}
-
 async function buscaExercicio() {
   try {
     const resposta = await fetch('http://localhost:3000/buscaExercicio');
@@ -597,6 +577,7 @@ async function registrarPesoCorporal() {
   await postPesoCorporal(usuarioAtivo.id_usuario, dia, peso, meta);
 }
 
+
 async function registrarPassos() {
   if (!usuarioAtivo) {
     alert('Usuário não está logado!');
@@ -642,6 +623,201 @@ async function registrarHistoricoTreino() {
   let repeticoes = prompt('Digite o número de repetições feitas:');
   let carga = prompt('Digite a carga utilizada (kg):');
   await postHistoricoTreino(usuarioAtivo.id_usuario, id_exercicio, dia, series, repeticoes, carga);
+}
+
+// Funções POST auxiliares que estavam faltando
+async function postProgressoCarga(id_usuario, id_exercicio, dia, repeticoes, carga) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraProgressoCarga', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_usuario: id_usuario,
+        id_exercicio: id_exercicio,
+        dia_progressoCarga: dia,
+        repeticoes_progressoCarga: repeticoes,
+        carga_progressoCarga: carga
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Progresso de carga registrado com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao registrar progresso de carga: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar registrar progresso de carga:', erro.message);
+  }
+}
+
+async function postMedidaCorporal(id_usuario, dia, regiao, medida) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraMedidaCorporal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_usuario: id_usuario,
+        dia_medidaCorporal: dia,
+        regiao_medidaCorporal: regiao,
+        medida_cm: medida
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Medida corporal registrada com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao registrar medida corporal: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar registrar medida corporal:', erro.message);
+  }
+}
+
+async function postPesoCorporal(id_usuario, dia, peso, meta) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraPesoCorporal', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_usuario: id_usuario,
+        dia_pesoCorporal: dia,
+        peso_pesoCorporal: peso,
+        meta_peso: meta
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Peso corporal registrado com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao registrar peso corporal: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar registrar peso corporal:', erro.message);
+  }
+}
+
+async function postPassos(id_usuario, dia, metros) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraPassos', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_usuario: id_usuario,
+        dia_passos: dia,
+        qtde_metros: metros
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Passos registrados com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao registrar passos: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar registrar passos:', erro.message);
+  }
+}
+
+async function postCaloriasDiarias(id_usuario, data, calorias, proteinas, carboidratos, gorduras) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraCaloriasDiarias', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_usuario: id_usuario,
+        data_caloriasDiarias: data,
+        calorias_totais: calorias,
+        proteinas_caloriasDiarias: proteinas,
+        carboidratos_caloriasDiarias: carboidratos,
+        gorduras_caloriasDiarias: gorduras
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Calorias diárias registradas com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao registrar calorias diárias: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar registrar calorias diárias:', erro.message);
+  }
+}
+
+async function postRefeicao(id_usuario, dia, descricao) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraRefeicao', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_usuario: id_usuario,
+        dia_refeicao: dia,
+        descricao_refeicao: descricao
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Refeição registrada com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao registrar refeição: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar registrar refeição:', erro.message);
+  }
+}
+
+async function postRefeicaoAlimento(id_refeicao, id_alimento, qtde_gramas) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraRefeicaoAlimento', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_refeicao: id_refeicao,
+        id_alimento: id_alimento,
+        qtde_gramas: qtde_gramas
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Alimento adicionado à refeição com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao adicionar alimento à refeição: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar adicionar alimento à refeição:', erro.message);
+  }
+}
+
+async function postHistoricoTreino(id_usuario, id_exercicio, dia, series, repeticoes, carga) {
+  try {
+    const resposta = await fetch('http://localhost:3000/cadastraHistoricoTreino', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        id_usuario: id_usuario,
+        id_exercicio: id_exercicio,
+        dia_historicoTreino: dia,
+        series_feitas: series,
+        repeticoes_feitas: repeticoes,
+        carga_utilizada: carga
+      })
+    });
+    const dados = await resposta.json();
+    if (resposta.ok) {
+      alert('✅ Histórico de treino registrado com sucesso!');
+      alert('Detalhes:', JSON.stringify(dados));
+    } else {
+      alert('Erro ao registrar histórico de treino: ' + (dados.error || JSON.stringify(dados)));
+    }
+  } catch (erro) {
+    console.error('Erro ao tentar registrar histórico de treino:', erro.message);
+  }
 }
 
 // Função de login que armazena o usuário logado
@@ -700,104 +876,136 @@ async function menu() {
     const option = prompt('1 - Fazer login\n2 - Cadastrar novo usuário\n3 - Sair\nEscolha uma opção: ');
 
     switch (option) {
-      case '1':
+      case '1': {
         const user1 = prompt('Digite o login(email)');
         const pass1 = prompt('Digite a senha');
         let exit1 = await fazerLogin(user1, pass1);
-        while (exit1)
-        {
+        while (exit1) {
           const option1 = prompt('1 - Iniciar um treino\n2 - Registrar\n3 - Buscar\n4 - Deslogar\nEscolha uma opção: ');
-          switch (option1)
-          {
+          switch (option1) {
             case '1':
               await iniciarTreino();
               break;
 
-            case '2':
-              var voltar = false;
-              while (!voltar)
-              {
-                var option2 = prompt('1 - Registrar alimento\n2 - Registrar exercício\n3 - Registrar nova planilha de treino\n4 - Voltar\nEscolha uma opção: ');
-                switch(option2)
-                {   
-                  case '1': 
-                    await registrarAlimento(); 
+            case '2': {
+              let voltar = false;
+              while (!voltar) {
+                const option2 = prompt(
+                  '1 - Registrar alimento\n' +
+                  '2 - Registrar exercício\n' +
+                  '3 - Registrar nova planilha de treino\n' +
+                  '4 - Registrar refeição\n' +
+                  '5 - Registrar progresso de carga\n' +
+                  '6 - Registrar medida corporal\n' +
+                  '7 - Registrar peso corporal\n' +
+                  '8 - Registrar passos\n' +
+                  '9 - Registrar calorias diárias\n' +
+                  '10 - Registrar alimento em refeição\n' +
+                  '11 - Registrar histórico de treino\n' +
+                  '12 - Voltar\n' +
+                  'Escolha uma opção: '
+                );
+                switch (option2) {
+                  case '1':
+                    await registrarAlimento();
                     break;
-                    
                   case '2':
                     await registrarExercicio();
                     break;
-
                   case '3':
                     await registrarPlanilhaTreino();
                     break;
-
                   case '4':
+                    await registrarRefeicao();
+                    break;
+                  case '5':
+                    await registrarProgressoCarga();
+                    break;
+                  case '6':
+                    await registrarMedidaCorporal();
+                    break;
+                  case '7':
+                    await registrarPesoCorporal();
+                    break;
+                  case '8':
+                    await registrarPassos();
+                    break;
+                  case '9':
+                    await registrarCaloriasDiarias();
+                    break;
+                  case '10':
+                    await registrarRefeicaoAlimento();
+                    break;
+                  case '11':
+                    await registrarHistoricoTreino();
+                    break;
+                  case '12':
                     alert('Voltando...');
                     voltar = true;
                     break;
-
                   default:
                     mensagemErro();
                     break;
                 }
               }
               break;
+            }
 
-            case '3':
-              var voltar = false;
-              while (!voltar)
-              {
-                var option2 = prompt('1 - Buscar treino\n2 - Buscar alimento\n3 - Buscar exercício\n4 - Buscar planilha de treino\n5 - Buscar calorias diárias\n6 - Buscar historico de treino\n7 - Buscar medida corporal\n8 - Buscar passos\n9 - Busca peso corporal\n10 - Voltar\nEscolha uma opção: ');
-                switch(option2)
-                {
+            case '3': {
+              let voltar = false;
+              while (!voltar) {
+                const option2 = prompt(
+                  '1 - Buscar treino\n' +
+                  '2 - Buscar alimento\n' +
+                  '3 - Buscar exercício\n' +
+                  '4 - Buscar planilha de treino\n' +
+                  '5 - Buscar calorias diárias\n' +
+                  '6 - Buscar histórico de treino\n' +
+                  '7 - Buscar medida corporal\n' +
+                  '8 - Buscar passos\n' +
+                  '9 - Buscar peso corporal\n' +
+                  '10 - Voltar\n' +
+                  'Escolha uma opção: '
+                );
+                switch (option2) {
                   case '1':
                     await buscaTreino();
                     break;
-
                   case '2':
                     await buscaAlimento();
                     break;
-                  
                   case '3':
                     await buscaExercicio();
                     break;
-
                   case '4':
                     await buscaPlanilhaTreino();
                     break;
-
                   case '5':
                     await buscaCaloriasDiarias();
                     break;
-
                   case '6':
                     await buscaHistoricoTreino();
                     break;
-
                   case '7':
                     await buscaMedidaCorporal();
                     break;
-
                   case '8':
                     await buscaPassos();
                     break;
-
                   case '9':
                     await buscaPesoCorporal();
                     break;
-                    
                   case '10':
                     alert('Voltando...');
                     voltar = true;
                     break;
-                    
                   default:
                     mensagemErro();
                     break;
                 }
               }
               break;
+            }
 
             case '4':
               alert('Deslogando...');
@@ -810,6 +1018,7 @@ async function menu() {
           }
         }
         break;
+      }
 
       case '2':
         await registrarUsuario();
@@ -823,7 +1032,6 @@ async function menu() {
       default:
         mensagemErro();
         break;
-
     }
   }
 }
