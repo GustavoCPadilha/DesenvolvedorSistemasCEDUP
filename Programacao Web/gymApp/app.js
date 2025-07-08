@@ -90,8 +90,8 @@ async function buscaExercicio() {
     const exercicios = await resposta.json();
     exercicios.forEach(exercicio => {
       console.log(`${exercicio.nome_exercicio}:
-          - Grupo Muscular: ${exercicio.grupo_muscular};
-          - Descrição: ${exercicio.descricao_exercicio};`);
+          - Grupo Muscular: ${exercicio.grupo_muscular}
+          - Descrição: ${exercicio.descricao_exercicio}`);
     });
   }
   catch (erro) {
@@ -111,8 +111,8 @@ async function buscaPlanilhaTreino() {
     planilhas.forEach(planilha => {
       ativa = planilha.ativa_planilhaTreino == 1 ? 'Ativa' : 'Inativa';
       console.log(`${planilha.nome_planilhaTreino}:
-          - Data de início: ${planilha.data_inicio};
-          - Ativa/Inativa: ${ativa};`);
+          - Data de início: ${planilha.data_inicio}
+          - Ativa/Inativa: ${ativa}`);
     });
   }
   catch (erro) {
@@ -130,10 +130,10 @@ async function buscaCaloriasDiarias() {
     const calorias = await resposta.json();
     calorias.forEach(caloria => {
       console.log(`- Data ${caloria.data_caloriasDiarias}:
-          - Calorias totais: ${caloria.calorias_totais}kcal;
-          - Proteínas: ${caloria.proteinas_caloriasDiarias}g;
-          - Carboidratos: ${caloria.carboidratos_caloriasDiarias}g;
-          - Gorduras: ${caloria.gorduras_caloriasDiarias}g;`);
+          - Calorias totais: ${caloria.calorias_totais}kcal
+          - Proteínas: ${caloria.proteinas_caloriasDiarias}g
+          - Carboidratos: ${caloria.carboidratos_caloriasDiarias}g
+          - Gorduras: ${caloria.gorduras_caloriasDiarias}g`);
     });
   }
   catch (erro) {
@@ -151,9 +151,9 @@ async function buscaHistoricoTreino() {
     const historicos = await resposta.json();
     historicos.forEach(historico => {
       console.log(`- Data ${historico.dia_historicoTreino}:
-          - Séries feitas: ${historico.series_feitas};
-          - Repetições feitas: ${historico.repeticoes_feitas};
-          - Carga utilizada: ${historico.carga_utilizada}kg;`);
+          - Séries feitas: ${historico.series_feitas}
+          - Repetições feitas: ${historico.repeticoes_feitas}
+          - Carga utilizada: ${historico.carga_utilizada}kg`);
     });
   }
   catch (erro) {
@@ -170,9 +170,9 @@ async function buscaMedidaCorporal() {
     const resposta = await fetch(`http://localhost:3000/buscaMedidaCorporal?id_usuario=${usuarioAtivo.id_usuario}`);
     const medidas = await resposta.json();
     medidas.forEach(medida => {
-      console.log(`- Data: ${medida.dia_medidaCorporal}:
-          - Região: ${medida.regiao_medidaCorporal};
-          - Medidas: ${medida.medida_cm};`);
+      console.log(`- Data ${medida.dia_medidaCorporal}:
+          - Região: ${medida.regiao_medidaCorporal}
+          - Medidas: ${medida.medida_cm}`);
     });
   }
   catch (erro) {
@@ -190,8 +190,8 @@ async function buscaPesoCorporal() {
     const pesos = await resposta.json();
     pesos.forEach(peso => {
       console.log(`- Data ${peso.dia_pesoCorporal}:
-          - Peso: ${peso.peso_pesoCorporal }kg;
-          - Sua meta: ${peso.meta_peso}kg;`);
+          - Peso: ${peso.peso_pesoCorporal }kg
+          - Sua meta: ${peso.meta_peso}kg`);
     });
   }
   catch (erro) {
@@ -208,8 +208,8 @@ async function buscaPassos() {
     const resposta = await fetch(`http://localhost:3000/buscaPassos?id_usuario=${usuarioAtivo.id_usuario}`);
     const passos = await resposta.json();
     passos.forEach(passos => {
-      console.log(`- Data: ${passos.dia_passos}:
-          - Distância em metros: ${passos.qtde_metros};`);
+      console.log(`- Data ${passos.dia_passos}:
+          - Distância em metros: ${passos.qtde_metros}`);
     });
   }
   catch (erro) {
@@ -226,9 +226,9 @@ async function buscaTreino() {
     const resposta = await fetch(`http://localhost:3000/buscaTreino?id_usuario=${usuarioAtivo.id_usuario}`);
     const treinos = await resposta.json();
     treinos.forEach(treino => {
-      console.log(`- Séries: ${treino.series}:
-          - Repetições: ${treino.repeticoes_treino};
-          - Carga:  ${treino.carga_treino};`);
+      console.log(`- Séries ${treino.series}:
+          - Repetições: ${treino.repeticoes_treino}
+          - Carga:  ${treino.carga_treino}`);
     });
   }
   catch (erro) {
@@ -242,10 +242,10 @@ async function buscaAlimento() {
     const alimentos = await resposta.json();
     alimentos.forEach(alimento => {
       console.log(`${alimento.nome_alimento}:
-          - Calorias: ${alimento.calorias_alimento}kcal;
-          - Proteinas: ${alimento.proteinas_alimento}g;
-          - Carboidratos: ${alimento.carboidratos_alimento}g;
-          - Gorduras: ${alimento.gorduras_alimento}g;`);
+          - Calorias: ${alimento.calorias_alimento}kcal
+          - Proteinas: ${alimento.proteinas_alimento}g
+          - Carboidratos: ${alimento.carboidratos_alimento}g
+          - Gorduras: ${alimento.gorduras_alimento}g`);
     });
   }
   catch (erro) {
