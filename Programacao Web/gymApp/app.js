@@ -1,3 +1,5 @@
+// FALTA RELACIONAR TREINO COM PLANILHA TREINO E REFEIÇÃO COM ALIMENTO
+
 // Variável global para armazenar o usuário logado
 let usuarioAtivo = null;
 
@@ -11,8 +13,8 @@ function getData() {
     let dia_nasc = prompt('Digite o dia: ');
     let mes_nasc = prompt('Digite o mês: ');
     let ano_nasc = prompt('Digite o ano: ');
-    let data_nascimento = ano_nasc + '-' + mes_nasc + '-' + dia_nasc; 
-    return data_nascimento;
+    let data = ano_nasc + '-' + mes_nasc + '-' + dia_nasc; 
+    return data;
 }
 
 // Inicia o treino para o usuário logado
@@ -21,7 +23,7 @@ async function iniciarTreino() {
     alert('Usuário não está logado!');
     return;
   }
-  await iniciarTreinoComUsuario(usuarioAtivo.id_usuario);
+  await iniciarTreinoComUsuario(usuarioAtivo);
 }
 
 // Inicia treino para um usuário específico e registra execução dos exercícios
@@ -68,7 +70,7 @@ async function iniciarTreinoComUsuario(id_usuario) {
       let dia = getData();
 
       await postHistoricoTreino(
-        usuarioAtivo.id_usuario,
+        usuarioAtivo,
         t.id_exercicio,
         dia,
         series_feitas,
@@ -109,7 +111,7 @@ async function buscaPlanilhaTreino() {
     return;
   }
   try {
-    const resposta = await fetch(`http://localhost:3000/buscaPlanilhaTreino?id_usuario=${usuarioAtivo.id_usuario}`);
+    const resposta = await fetch(`http://localhost:3000/buscaPlanilhaTreino?id_usuario=${usuarioAtivo}`);
     const planilhas = await resposta.json();
     var ativa = '';
     planilhas.forEach(planilha => {
@@ -133,7 +135,7 @@ async function buscaCaloriasDiarias() {
   let data = getData(); // Pergunta ao usuário o dia desejado
 
   try {
-    const respRefeicoes = await fetch(`http://localhost:3000/buscaRefeicao?id_usuario=${usuarioAtivo.id_usuario}&dia_refeicao=${data}`);
+    const respRefeicoes = await fetch(`http://localhost:3000/buscaRefeicao?id_usuario=${usuarioAtivo}&dia_refeicao=${data}`);
     const refeicoes = await respRefeicoes.json();
 
     if (!refeicoes.length) {
@@ -172,6 +174,7 @@ async function buscaCaloriasDiarias() {
     alert('Erro ao calcular calorias diárias: ' + erro.message);
   }
 }
+
 // Busca o histórico de treino do usuário logado
 async function buscaHistoricoTreino() {
   if (!usuarioAtivo) {
@@ -179,7 +182,7 @@ async function buscaHistoricoTreino() {
     return;
   }
   try {
-    const resposta = await fetch(`http://localhost:3000/buscaHistoricoTreino?id_usuario=${usuarioAtivo.id_usuario}`);
+    const resposta = await fetch(`http://localhost:3000/buscaHistoricoTreino?id_usuario=${usuarioAtivo}`);
     const historicos = await resposta.json();
     historicos.forEach(historico => {
       console.log(`- Data ${historico.dia_historicoTreino}:
@@ -220,7 +223,7 @@ async function buscaPesoCorporal() {
     return;
   }
   try {
-    const resposta = await fetch(`http://localhost:3000/buscaPesoCorporal?id_usuario=${usuarioAtivo.id_usuario}`);
+    const resposta = await fetch(`http://localhost:3000/buscaPesoCorporal?id_usuario=${usuarioAtivo}`);
     const pesos = await resposta.json();
     pesos.forEach(peso => {
       console.log(`- Data ${peso.dia_pesoCorporal}:
@@ -240,7 +243,7 @@ async function buscaPassos() {
     return;
   }
   try {
-    const resposta = await fetch(`http://localhost:3000/buscaPassos?id_usuario=${usuarioAtivo.id_usuario}`);
+    const resposta = await fetch(`http://localhost:3000/buscaPassos?id_usuario=${usuarioAtivo}`);
     const passos = await resposta.json();
     passos.forEach(passos => {
       console.log(`- Data ${passos.dia_passos}:
@@ -259,7 +262,7 @@ async function buscaTreino() {
     return;
   }
   try {
-    const resposta = await fetch(`http://localhost:3000/buscaTreino?id_usuario=${usuarioAtivo.id_usuario}`);
+    const resposta = await fetch(`http://localhost:3000/buscaTreino?id_usuario=${usuarioAtivo}`);
     const treinos = await resposta.json();
     treinos.forEach(treino => {
       console.log(`- Séries ${treino.series}:
@@ -463,7 +466,7 @@ async function registrarRefeicao() {
   }
   let dia = getData();
   let descricao = prompt('Descreva a refeição:');
-  await postRefeicao(usuarioAtivo.id_usuario, dia, descricao);
+  await postRefeicao(usuarioAtivo, dia, descricao);
 }
 
 // Recebe os dados da refeição e envia para o servidor
@@ -569,8 +572,13 @@ async function registrarPlanilhaTreino() {
   alert('Digite a data de início dessa planilha: ');
   let data_inicio = getData();
   let ativa = prompt('Deseja tornar esta planilha como ativa? [S/N] ').toUpperCase();
-  ativa = (ativa === 'S');
-  await postPlanilhaTreino(nome_planilhaTreino, data_inicio, ativa, usuarioAtivo.id_usuario);
+  if (ativa == 'S') {
+    ativa = 1;
+  }
+  else if (ativa == 'N') {
+    ativa = 0;
+  }
+  await postPlanilhaTreino(nome_planilhaTreino, data_inicio, ativa, usuarioAtivo);
 }
 
 // Recebe os dados da planilha de treino e envia para o servidor
@@ -622,7 +630,7 @@ async function registrarProgressoCarga() {
   }
 
   // Busca os exercícios da planilha ativa do usuário
-  const exercicios = await buscarExerciciosPorUsuario(usuarioAtivo.id_usuario);
+  const exercicios = await buscarExerciciosPorUsuario(usuarioAtivo);
   if (!exercicios || exercicios.length === 0) {
     alert('Nenhum exercício encontrado para sua planilha ativa!');
     return;
@@ -642,9 +650,8 @@ async function registrarProgressoCarga() {
   const repeticoes = prompt('Digite o número de repetições:');
   const carga = prompt('Digite a carga utilizada (kg):');
 
-  await postProgressoCarga(usuarioAtivo.id_usuario, exercicioSelecionado.id_exercicio, dia, repeticoes, carga);
+  await postProgressoCarga(usuarioAtivo, exercicioSelecionado.id_exercicio, dia, repeticoes, carga);
 }
-
 
 // Recebe os dados de uma progressão de carga e envia para o servidor
 async function postProgressoCarga(id_usuario, id_exercicio, dia, repeticoes, carga) {
@@ -681,7 +688,7 @@ async function registrarMedidaCorporal() {
   let dia = getData();
   let regiao = prompt('Digite a região medida (ex: Braço, Cintura, Coxa, etc):');
   let medida = prompt('Digite a medida em cm:');
-  await postMedidaCorporal(usuarioAtivo.id_usuario, dia, regiao, medida);
+  await postMedidaCorporal(usuarioAtivo, dia, regiao, medida);
 }
 
 // Recebe os dados de uma medida corporal e envia para o servidor
@@ -719,7 +726,7 @@ async function registrarPesoCorporal() {
   let peso = prompt('Digite o peso (kg):');
   let meta = prompt('Digite a meta de peso (kg), se houver (ou deixe em branco):');
   meta = meta ? parseFloat(meta) : null;
-  await postPesoCorporal(usuarioAtivo.id_usuario, dia, peso, meta);
+  await postPesoCorporal(usuarioAtivo, dia, peso, meta);
 }
 
 // Recebe os dados do peso corporal e envia para o servidor
@@ -755,7 +762,7 @@ async function registrarPassos() {
   }
   let dia = getData();
   let metros = prompt('Digite a quantidade de metros caminhados/corridos:');
-  await postPassos(usuarioAtivo.id_usuario, dia, metros);
+  await postPassos(usuarioAtivo, dia, metros);
 }
 
 // Recebe os dados dos passos e envia para o servidor
@@ -793,7 +800,7 @@ async function registrarCaloriasDiarias() {
   let proteinas = prompt('Digite o total de proteínas consumidas (g):');
   let carboidratos = prompt('Digite o total de carboidratos consumidos (g):');
   let gorduras = prompt('Digite o total de gorduras consumidas (g):');
-  await postCaloriasDiarias(usuarioAtivo.id_usuario, data, calorias, proteinas, carboidratos, gorduras);
+  await postCaloriasDiarias(usuarioAtivo, data, calorias, proteinas, carboidratos, gorduras);
 }
 
 // Recebe os dados das calorias diárias e envia para o servidor
@@ -830,7 +837,7 @@ async function registrarRefeicaoAlimento() {
   }
 
   // Buscar refeições do usuário
-  const refeicoes = await buscarRefeicoesDoUsuario(usuarioAtivo.id_usuario);
+  const refeicoes = await buscarRefeicoesDoUsuario(usuarioAtivo);
   if (refeicoes.length === 0) {
     alert('Você não possui refeições cadastradas!');
     return;
@@ -891,7 +898,7 @@ async function registrarHistoricoTreino() {
   }
 
   // Busca os exercícios do usuário ativo
-  const exercicios = await buscaExerciciosPorUsuario(usuarioAtivo.id_usuario);
+  const exercicios = await buscaExerciciosPorUsuario(usuarioAtivo);
   if (!exercicios || exercicios.length === 0) {
     alert('Nenhum exercício cadastrado para este usuário.');
     return;
@@ -963,7 +970,7 @@ async function fazerLogin(user, password) {
     if (resposta.ok) {
       alert('✅ Login realizado com sucesso!');
       alert(`Bem-vindo ${dados.user.nome_usuario || user}`);
-      usuarioAtivo = dados.user;
+      usuarioAtivo = dados.user.id;
       ok = true;
       return ok;
     } else {
@@ -1009,6 +1016,7 @@ async function menu() {
           const option1 = prompt('1 - Iniciar um treino\n2 - Registrar\n3 - Buscar\n4 - Deslogar\nEscolha uma opção: ');
           switch (option1) {
             case '1':
+              alert(usuarioAtivo);
               await iniciarTreino();
               break;
 
@@ -1024,9 +1032,8 @@ async function menu() {
                   '6 - Registrar medida corporal\n' +
                   '7 - Registrar peso corporal\n' +
                   '8 - Registrar passos\n' +
-                  '9 - Registrar histórico de treino\n' +
-                  '10 - Registrar alimento em refeição\n' +
-                  '11 - Voltar\n' +
+                  '9 - Registrar alimento em refeição\n' +
+                  '10 - Voltar\n' +
                   'Escolha uma opção: '
                 );
                 switch (option2) {
@@ -1055,12 +1062,9 @@ async function menu() {
                     await registrarPassos();
                     break;
                   case '9':
-                    await registrarHistoricoTreino();
-                    break;
-                  case '10':
                     await registrarRefeicaoAlimento();
                     break;
-                  case '11':
+                  case '10':
                     alert('Voltando...');
                     voltar = true;
                     break;

@@ -191,15 +191,30 @@ app.get('/buscaHistoricoTreino', (req, res) => {
 // Rota GET - Treino
 app.get('/buscaTreino', (req, res) => {
   const { id_usuario, id_planilhaTreino } = req.query;
-  let sql = 'SELECT * FROM treino';
+
+  let sql = `
+    SELECT 
+      t.id_treino,
+      t.id_planilhaTreino,
+      t.id_exercicio,
+      e.nome_exercicio,
+      t.series,
+      t.repeticoes_treino,
+      t.carga_treino
+    FROM treino t
+    JOIN exercicio e ON t.id_exercicio = e.id_exercicio
+  `;
+
   let params = [];
+
   if (id_usuario) {
-    sql += ' WHERE id_planilhaTreino IN (SELECT id_planilhaTreino FROM planilhaTreino WHERE id_usuario = ?)';
+    sql += ' WHERE t.id_planilhaTreino IN (SELECT id_planilhaTreino FROM planilhaTreino WHERE id_usuario = ?)';
     params.push(id_usuario);
   } else if (id_planilhaTreino) {
-    sql += ' WHERE id_planilhaTreino = ?';
+    sql += ' WHERE t.id_planilhaTreino = ?';
     params.push(id_planilhaTreino);
   }
+
   db.query(sql, params, (err, results) => {
     if (err) {
       return res.status(500).json({ error: err.message });
@@ -382,14 +397,14 @@ app.post('/cadastraExercicio', (req, res) => {
 
 // ROTA POST - Cadastro de planilha de treino
 app.post('/cadastraPlanilhaTreino', (req, res) => {
-  const { nome_planilhaTreino, data_inicio, ativa_planilhaTreino, id_usuario } = req.body;
+  const { id_usuario, nome_planilhaTreino, data_inicio, ativa_planilhaTreino } = req.body;
 
-  if (!nome_planilhaTreino || !data_inicio || ativa_planilhaTreino === undefined || !id_usuario) {
+  if (!id_usuario || !nome_planilhaTreino || !data_inicio || !ativa_planilhaTreino) {
     return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
   }
 
-  const sql = 'INSERT INTO planilhaTreino (nome_planilhaTreino, data_inicio, ativa_planilhaTreino, id_usuario) VALUES (?, ?, ?, ?)';
-  db.query(sql, [nome_planilhaTreino, data_inicio, ativa_planilhaTreino, id_usuario], (err, result) => {
+  const sql = 'INSERT INTO planilhaTreino (id_usuario, nome_planilhaTreino, data_inicio, ativa_planilhaTreino) VALUES (?, ?, ?, ?)';
+  db.query(sql, [id_usuario, nome_planilhaTreino, data_inicio, ativa_planilhaTreino], (err, result) => {
     if (err) { 
       if (err.code === 'ER_DUP_ENTRY') {
         return res.status(409).json({ error: 'Planilha de treino já cadastrada' });
