@@ -12,8 +12,6 @@ const app = express();
 const db = require('./db');
 require('dotenv').config();
 
-require('dotenv').config();
-
 
 app.use(express.json());
 app.use(cors())
@@ -110,12 +108,16 @@ app.get('/buscaMedidaCorporal', (req, res) => {
 
 // Rota GET - Refeições
 app.get('/buscaRefeicao', (req, res) => {
-  const { id_usuario } = req.query;
-  let sql = 'SELECT * FROM refeicao';
+  const { id_usuario, dia_refeicao } = req.query;
+  let sql = 'SELECT * FROM refeicao WHERE 1=1';
   let params = [];
   if (id_usuario) {
-    sql += ' WHERE id_usuario = ?';
+    sql += ' AND id_usuario = ?';
     params.push(id_usuario);
+  }
+  if (dia_refeicao) {
+    sql += ' AND dia_refeicao = ?';
+    params.push(dia_refeicao);
   }
   db.query(sql, params, (err, results) => {
     if (err) {
@@ -204,6 +206,83 @@ app.get('/buscaTreino', (req, res) => {
     }
     res.json(results);
   });
+});
+
+// ROTA GET - Buscar alimentos de uma refeição (com dados nutricionais)
+app.get('/buscaRefeicaoAlimento', (req, res) => {
+  const { id_refeicao } = req.query;
+
+  if (!id_refeicao) {
+    return res.status(400).json({ error: 'Informe o id_refeicao!' });
+  }
+
+  // Junta refeicaoAlimento com alimento para trazer os dados nutricionais
+  const sql = `
+    SELECT 
+      ra.qtde_gramas,
+      a.nome_alimento,
+      a.calorias_alimento,
+      a.proteinas_alimento,
+      a.carboidratos_alimento,
+      a.gorduras_alimento
+    FROM refeicaoAlimento ra
+    JOIN alimento a ON ra.id_alimento = a.id_alimento
+    WHERE ra.id_refeicao = ?
+  `;
+
+  db.query(sql, [id_refeicao], (err, results) => {
+    if (err) {
+      return res.status(500).json({ error: err.message });
+    }
+    res.json(results);
+  });
+});
+
+// Rota que busca os alimentos do usuário logado para adicionar em uma refeição
+app.get('/refeicoesDoUsuario/:id_usuario', async (req, res) => {
+  try {
+    const { id_usuario } = req.params;
+    const refeicoes = await db.all(`
+      SELECT id_refeicao, nome_refeicao
+      FROM refeicao
+      WHERE id_usuario = ?
+    `, [id_usuario]);
+    res.json(refeicoes);
+  } catch (e) {
+    res.status(500).json({ erro: e.message });
+  }
+});
+
+app.get('/alimentos', async (req, res) => {
+  try {
+    const alimentos = await db.all(`SELECT id_alimento, nome_alimento FROM alimento`);
+    res.json(alimentos);
+  } catch (e) {
+    res.status(500).json({ erro: e.message });
+  }
+});
+
+// Rota que busca os exercícios do usuário logado
+app.get("/exerciciosDoUsuario/:id_usuario", async (req, res) => {
+  const { id_usuario } = req.params;
+
+  try {
+    const planilhaAtiva = await db.get(`
+      SELECT id_planilhaTreino FROM planilhaTreino
+      WHERE id_usuario = ? AND ativa_planilhaTreino = 1
+    `, [id_usuario]);
+
+    if (!planilhaAtiva) return res.status(404).json({ erro: "Planilha ativa não encontrada." });
+
+    const exercicios = await db.all(`
+      SELECT id_exercicio, nome_exercicio FROM exercicio
+      WHERE id_planilhaTreino = ?
+    `, [planilhaAtiva.id_planilhaTreino]);
+
+    res.json(exercicios);
+  } catch (e) {
+    res.status(500).json({ erro: e.message });
+  }
 });
 
 // Rota POST - Fazer login
@@ -303,21 +382,20 @@ app.post('/cadastraExercicio', (req, res) => {
 
 // ROTA POST - Cadastro de planilha de treino
 app.post('/cadastraPlanilhaTreino', (req, res) => {
-  const { nome_planilhaTreino, data_inicio, ativa_planilhaTreino } = req.body;
+  const { nome_planilhaTreino, data_inicio, ativa_planilhaTreino, id_usuario } = req.body;
 
-  if (!nome_planilhaTreino || !data_inicio || !ativa_planilhaTreino) {
+  if (!nome_planilhaTreino || !data_inicio || ativa_planilhaTreino === undefined || !id_usuario) {
     return res.status(400).json({ error: 'Preencha todos os dados solicitados!' });
   }
 
-  const sql = 'INSERT INTO planilhaTreino (nome_planilhaTreino, data_inicio, ativa_planilhaTreino) VALUES (?, ?, ?)';
-  db.query(sql, [nome_planilhaTreino, data_inicio, ativa_planilhaTreino], (err, result) => {
+  const sql = 'INSERT INTO planilhaTreino (nome_planilhaTreino, data_inicio, ativa_planilhaTreino, id_usuario) VALUES (?, ?, ?, ?)';
+  db.query(sql, [nome_planilhaTreino, data_inicio, ativa_planilhaTreino, id_usuario], (err, result) => {
     if (err) { 
       if (err.code === 'ER_DUP_ENTRY') {
         return res.status(409).json({ error: 'Planilha de treino já cadastrada' });
       }
       return res.status(500).json({ error: err.message });
     }
-
     res.status(201).json({ message: 'Planilha de treino registrada com sucesso', id: result.insertId });
   });
 });
