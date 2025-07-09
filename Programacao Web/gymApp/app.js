@@ -1,4 +1,4 @@
-// FALTA RELACIONAR TREINO COM PLANILHA TREINO E REFEIÇÃO COM ALIMENTO
+// FALTA RELACIONAR TREINO COM PLANILHA TREINO E REFEIÇÃO COM ALIMENTO e algumas buscar estão com erro
 
 // Variável global para armazenar o usuário logado
 let usuarioAtivo = null;
