@@ -37,8 +37,8 @@ img {
 
 
 .banner {
-  height: 710px;
-  background-image: url('imgs/alunos.jpeg');
+  height: 700px;
+  background-image: url('imgs/alunos.jpg');
   background-size: cover;
   background-repeat: no-repeat;
   background-position: center;
