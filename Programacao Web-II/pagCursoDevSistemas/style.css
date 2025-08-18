@@ -5,6 +5,10 @@
 #BF6F41 marrom
 #231919 marrom escuro
 */
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
 
 @font-face {
     font-family: 'OpenRing';
@@ -16,23 +20,20 @@ body {
 }
 
 h1 {
-    padding: 0px;
+    margin: 0px;
     text-align: center;
     font-family: 'OpenRing';
     font-size: 60px;
 }
 
 h2 {
-    font-size: 30px;
-    padding-top: 20px;
+    font-size: 40px;
+    margin: 20px;
+    font-family: 'OpenRing';
 }
 
 p {
-    font-size: 20px;
-}
-
-img {
-    padding: 0px;
+    text-align: justify;
 }
 
 
@@ -54,4 +55,30 @@ img {
   flex: 1;
   text-align: center;
   margin: 20px;
+}
+
+.footer {
+  background-color: rgb(19, 19, 19);
+  color: white;
+  padding: 40px 20px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer p, .footer a {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
 }
