@@ -1,4 +1,5 @@
-// FALTA RELACIONAR TREINO COM PLANILHA TREINO E REFEIÇÃO COM ALIMENTO e algumas buscar estão com erro
+// FALTA RELACIONAR TREINO COM PLANILHA TREINO E REFEIÇÃO COM ALIMENTO
+// falta criar automaticamente exercicios, alimentos, planilhas para novos usuarios
 
 // Variável global para armazenar o usuário logado
 let usuarioAtivo = null;
