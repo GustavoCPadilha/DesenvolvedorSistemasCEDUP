@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Capitais América do Sul</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<!--
+GUSTAVO CIGERZA PADILHA
+Receba o nome de um país da América do Sul e imprima sua capital
+-->
+
+<body>
+    <main>
+        <h1>Digite um país da América do Sul</h1>
+        <form id="formulario">
+            <label for="pais">Digite o país: </label>
+            <input type="text" id="pais" required>
+            <br>
+            <button type="submit">Descobrir Capital</button>
+        </form>
+        <h2>Resultado:</h2>
+        <p id="resultado"></p>
+
+        <script>
+            const form = document.getElementById("formulario");
+
+            form.addEventListener("submit", function(event){
+                event.preventDefault();
+                const resultado = document.getElementById("resultado");
+
+                let pais = document.getElementById("pais").value;
+                pais = pais.toLowerCase();
+                pais = pais.normalize("NFD").replace(/[\u0300-\u036f]/g,"");
+                let capital = "";
+
+                const paises = [
+                "argentina",
+                "bolivia",
+                "brasil",
+                "chile",
+                "colombia",
+                "equador",
+                "guiana",
+                "paraguai",
+                "peru",
+                "suriname",
+                "uruguai",
+                "venezuela"
+                ];
+
+                const capitais = [
+                "buenos aires",
+                "sucre",
+                "brasilia",
+                "santiago",
+                "bogota",
+                "quito",
+                "georgetown",
+                "assuncao",
+                "lima",
+                "paramaribo",
+                "montevideu",
+                "caracas"
+                ];
+
+                for (let i = 0; i < paises.length; i++)
+                {
+                if (pais == paises[i])
+                    {
+                        capital = capitais[i];
+                    }
+                }
+
+                if (capital != "")
+                {
+                    resultado.innerHTML = `A capital do ${pais} é ${capital}`
+                }
+                else 
+                {
+                    resultado.innerHTML = "Não foi possível encontrar esse país. Tente novamente!"
+                }
+            });
+        </script>
+    </main>
+</body>
+</html>

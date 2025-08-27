@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ao Contrário</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<!--
+GUSTAVO CIGERZA PADILHA
+Receba uma palavra e mostre ela ao contrário
+-->
+
+<body>
+    <main>
+        <h1>Digite uma palavra para vê-la ao contrário</h1>
+        <form id="formulario">
+            <label for="palavra">Palavra = </label>
+            <input type="text" id="palavra" required>
+            <br>
+            <button type="submit">Ver ao contrário</button>
+        </form>
+        <h2>Resultado:</h2>
+        <p id="resultado"></p>
+    </main>
+
+    <script>
+        const form = document.getElementById("formulario");
+
+        form.addEventListener('submit', function(event){
+            event.preventDefault();
+            const resultado = document.getElementById("resultado")
+
+            let palavraOriginal = document.getElementById("palavra").value;
+            let charArray = palavraOriginal.split("");
+            charArray.reverse();
+            let palavraAoContrario = charArray.join("")
+            resultado.innerHTML = (palavraAoContrario);
+        });    
+    </script>
+    
+</body>
+</html>
