@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ChatGPT para pobres</title>
+    <link rel="shortcut icon" href="imgs/logo.png" type="image/x-icon">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<!--
+GUSTAVO CIGERZA PADILHA
+ChatGPT dos pobres: Faça uma página HTML que tenha um campo de pesquisa.
+Nesse campo o usuário pode pesquisar por:
+- Computação na nuvem;
+- Infraestrutura de TI;
+- SaaS;
+- PaaS;
+- IaaS;
+- Virtualização.
+Cada tópico pesquisado deve ter informações completas, empresas relacionadas,
+exemplos práticos, imagens do funcionamento, entre outros. A atividade será
+realizada em dupla e a avaliação é individual. Cada tópico pesquisado deve ter um
+resumo escrito pelo estudante, utilizando suas palavras.
+-->
+
+<body>
+    <header>
+        <img width="20px" src="imgs/logo.png" alt="Logo do ChatGPT">
+        <div id="botao">
+            <button id="entrar">Entrar</button>
+            <button id="cadastro">Cadastre-se gratuitamente</button>
+            <button style="margin-right: 20px; padding: 5px; border-radius: 100%;">?</button>
+        </div>
+    </header>
+    <main>
+        <h1>ChatGPT</h1>
+        <h2>(para pobres)</h2>
+        <form id="formulario">
+            <input id="pergunta" type="text" placeholder="Pergunte alguma coisa">
+        </form>
+            <p id="resultado" style="line-height: 30px;"></p>
+    </main>
+    <footer id="rodape">
+        <p>Ao enviar mensagens para o ChatGPT para pobres, você aceita nossos <a href="termos.html" target="_blank">Termos</a> e declara ter lido nossa <a href="privacidade.html" target="_blank">Política de Privacidade</a>.</p>
+    </footer>
+    <script>
+        const form = document.getElementById("formulario");
+        const input = document.getElementById("pergunta");
+        const resultado = document.getElementById("resultado");
+
+        form.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                event.preventDefault();
+                
+                var pergunta = input.value.toLowerCase();
+                pergunta = pergunta.normalize('NFD').replace(/[\u0300-\u036f]/g,"")
+                let resposta = "Claro, aqui está!<br>";
+
+                switch (pergunta) {
+                    case "computacao na nuvem":
+                        resposta += "<strong>Computação na nuvem</strong> refere-se ao fornecimento de serviços de computação (como servidores, armazenamento, bancos de dados, redes, software, etc.) pela internet. A principal vantagem é a escalabilidade, a flexibilidade e o pagamento conforme o uso. Com a nuvem, empresas podem escalar rapidamente seus recursos de acordo com a demanda, sem precisar investir em infraestrutura física cara.<br><strong>Exemplos de provedores de computação na nuvem:</strong> <a href=\"https://aws.amazon.com/pt/\" target=\"_blank\">AWS (Amazon Web Services)</a>, <a href=\"https://cloud.google.com/?hl=pt-BR\" target=\"_blank\">Google Cloud</a>, <a href=\"https://azure.microsoft.com/pt-br/\" target=\"_blank\">Microsoft Azure</a>, <a href=\"https://cloud.ibm.com/login\" target=\"_blank\">IBM Cloud</a>. Exemplos práticos: armazenamento de dados no Google Drive, hospedagem de sites na AWS, serviços de IA no Microsoft Azure.<div><img style=\"width: 400px;\"src=\"imgs/nuvem.png\" alt=\"Imagem relacionada a computação em nuvem\"></div>";
+                        break;
+
+                    case "infraestrutura de ti":
+                        resposta += "A <strong>infraestrutura de TI</strong> envolve todos os recursos físicos e virtuais necessários para suportar os processos de TI em uma organização, incluindo servidores, redes, armazenamento, etc. Ela é essencial para garantir que os sistemas e serviços de TI funcionem de maneira eficiente. A infraestrutura pode ser interna (on-premise) ou fornecida via nuvem (cloud). Empresas como <a href=\"https://www.cisco.com/site/br/pt/index.html\" target=\"_blank\">Cisco</a>, <a href=\"\" target=\"_blank\">Dell</a>, HP, e Lenovo oferecem soluções para infraestrutura de TI física, enquanto AWS, Microsoft Azure e Google Cloud fornecem soluções baseadas em nuvem. Exemplos práticos: data centers próprios (on-premise), serviços de nuvem como Amazon EC2, Google Cloud Storage.";
+                        break;
+
+                    case "saas":
+                        resposta += "SaaS (Software as a Service) é um modelo de entrega de software em que as aplicações são hospedadas na nuvem e disponibilizadas para os usuários pela internet. Em vez de comprar e instalar o software, o usuário paga uma assinatura para usá-lo, e o provedor gerencia a infraestrutura, a segurança e as atualizações. Exemplos populares incluem Google Workspace, Microsoft 365, Salesforce, Dropbox. Exemplos práticos: uso do Microsoft Teams para colaboração online, gerenciamento de vendas com Salesforce, armazenamento de arquivos no Dropbox.";
+                        break;
+
+                    case "paas":
+                        resposta += "PaaS (Platform as a Service) oferece uma plataforma para o desenvolvimento, execução e gerenciamento de aplicativos sem precisar gerenciar a infraestrutura subjacente. Ele fornece ferramentas e recursos para desenvolvedores focarem na criação de aplicativos, sem a preocupação com o gerenciamento de servidores ou sistemas operacionais. Exemplos incluem Google App Engine, Heroku, AWS Elastic Beanstalk, Microsoft Azure App Services. Exemplos práticos: hospedagem de aplicativos no Heroku, uso do Google App Engine para desenvolvimento de aplicativos móveis e web.";
+                        break;
+
+                    case "iaas":
+                        resposta += "IaaS (Infrastructure as a Service) é um modelo de computação em nuvem onde recursos de TI como servidores, armazenamento e redes são fornecidos de forma virtualizada. O usuário paga apenas pelo que usa, e tem controle total sobre os recursos, sem a necessidade de manutenção física. Isso oferece flexibilidade e escalabilidade para empresas de todos os tamanhos. Exemplos: Amazon EC2, Google Compute Engine, Microsoft Azure Virtual Machines, DigitalOcean. Exemplos práticos: criação de máquinas virtuais no Microsoft Azure, implantação de servidores na AWS para rodar aplicativos e sites.";
+                        break;
+
+                    case "virtualizacao":
+                        resposta += "Virtualização refere-se à criação de versões virtuais de recursos físicos, como servidores, sistemas operacionais ou armazenamento. Ela permite que múltiplos sistemas operacionais rodem em uma única máquina física, maximizando o uso de recursos e garantindo maior eficiência. A virtualização é fundamental em ambientes de nuvem e otimiza a utilização de hardware. Exemplos de ferramentas de virtualização: VMware, Microsoft Hyper-V, Oracle VirtualBox, KVM. Exemplos práticos: execução de múltiplos sistemas operacionais no VMware, criação de ambientes de teste no VirtualBox, uso de servidores virtuais com Hyper-V.";
+                        break;
+
+                    default:
+                        resposta = "Desculpe, não entendi sua pergunta. Tente novamente.";
+                        break;
+                }
+
+                resultado.innerHTML = resposta;
+            }
+        });
+    </script>
+</body>
+</html>

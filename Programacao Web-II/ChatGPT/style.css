@@ -1,0 +1,96 @@
+@charset "UTF-8";
+
+* {
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100vh;
+    margin: 0;
+}
+
+main {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+img {
+    display: inline-block;
+    padding: 20px;
+}
+
+h1, h2 {
+    font-weight: 550;
+    text-align: center;
+}
+
+h2 {
+    font-size: 14px;
+}
+
+p {
+    margin: 100px;
+}
+
+footer p {
+    margin: 0px;
+}
+
+footer a {
+    color: black;
+}
+
+button {
+    background-color: white;
+    border-radius: 30px;
+    padding: 10px;
+    font-weight: bold;
+    border: 1px solid black;
+    margin-right: 5px;
+}
+
+div {
+    text-align: center;
+    padding-top: 50px;
+}
+
+#botao {
+    vertical-align: top;
+    padding-top: 15px;
+    text-align: right;
+    float: right;
+}
+
+#rodape {
+    color: rgb(107, 107, 107);
+    text-align: center;
+    font-size: 15px;
+    padding: 20px 0;
+}
+
+#pergunta {
+    border: 1px solid rgb(172, 172, 172);
+    padding: 30px 400px 30px 30px;
+    border-radius: 30px;
+    font-size: 16px;
+    margin-bottom: 20px;
+}
+
+#entrar {
+    color: white;
+    background-color: black;
+    text-align: right;
+}
+
+#cadastro {
+    color: black;
+    background-color: white;
+    border: 1px solid rgb(172, 172, 172);
+    margin-right: 10px;
+}
