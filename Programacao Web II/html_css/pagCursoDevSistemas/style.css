@@ -1,0 +1,83 @@
+/*
+#F2EEB6 amarelinho
+#F2D43D amarelo
+#F2A922 laranja
+#BF6F41 marrom
+#231919 marrom escuro
+*/
+* {
+    font-family: Arial, Helvetica, sans-serif;
+    font-size: 20px;
+}
+
+@font-face {
+    font-family: 'OpenRing';
+    src: url(fonts/OpenRing.ttf);
+}
+
+body {
+    margin: 0px;
+}
+
+h1 {
+    margin: 0px;
+    text-align: center;
+    font-family: 'OpenRing';
+    font-size: 60px;
+}
+
+h2 {
+    font-size: 40px;
+    margin: 20px;
+    font-family: 'OpenRing';
+}
+
+p {
+    text-align: justify;
+}
+
+.banner {
+  height: 700px;
+  background-image: url('imgs/alunos.jpg');
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center;
+}
+
+.container {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.coluna {
+  flex: 1;
+  text-align: center;
+  margin: 20px;
+}
+
+.footer {
+  background-color: rgb(19, 19, 19);
+  color: white;
+  padding: 40px 20px;
+}
+
+.footer-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  gap: 30px;
+  max-width: 1200px;
+  margin: auto;
+}
+
+.footer p, .footer a {
+  color: #cccccc;
+  text-decoration: none;
+  font-size: 14px;
+}
+
+.footer-links ul {
+  list-style: none;
+  padding: 0;
+}

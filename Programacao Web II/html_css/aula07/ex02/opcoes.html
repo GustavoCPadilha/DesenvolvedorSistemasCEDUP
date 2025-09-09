@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .selection{
+            display: none;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<!--
+GUSTAVO CIGERZA PADILHA
+Utilizando JavaScript, HTML e CSS, faça uma página web em que o usuário possa escolher uma das três opções (quadrado, triângulo e círculo). Para cada opção deve ser aberto um formulário específico da figura, onde o usuário colocará os dados (lado, altura, base, raio) e terá o valor da área da figura apresentada na página
+-->
+
+<body>
+    <h1>Calculadora</h1>
+
+    <label for="selecionar">Escolha que forma deseja calcular</label>
+    <select id="selecionar" onchange="escolha()">
+        <option value="">-- Selecione --</option>
+        <option value="quadrado">Quadrado</option>
+        <option value="triangulo">Triângulo</option>
+        <option value="circulo">Círculo</option>
+    </select>
+
+    <!--Formulários para entrada de dados-->
+    <div id="quadrado" class="selection">
+        <h2>Quadrado</h2>
+        <label>Digite o valor do lado: <input type="number" id="valorQuadrado" required></label>
+        <button onclick="calcularQuadrado()">OK</button>
+    </div>
+
+    <div id="triangulo" class="selection">
+        <h2>Triângulo</h2>
+        <label>Digite o valor da base: <input type="number" id="valorBaseTriangulo" required></label>
+        <label>Digite o valor da altura: <input type="number" id="valorAlturaTriangulo" required></label>
+        <button onclick="calcularTriangulo()">OK</button>
+    </div>
+
+    <div id="circulo" class="selection">
+        <h2>Círculo</h2>
+        <label>Digite o valor do raio: <input type="number" id="valorCirculo" required></label>
+        <button onclick="calcularCirculo()">OK</button>
+    </div>
+
+    <h3 id="mostrar"></h3>
+
+    <script>
+        // Mostra somente o formulário que selecionei
+        function escolha(){
+            const forma = document.getElementById('selecionar').value;
+
+            // Oculta todos os formulários
+            document.querySelectorAll('.selection').forEach(section =>{
+                section.style.display='none';
+            })
+
+            // Mostra apenas o formulário selecionado
+            if(forma){
+                document.getElementById(forma).style.display='block';
+                document.getElementById(resultado).textContent='';
+            }
+        }
+
+        function calcularQuadrado(){
+            const lado = document.getElementById('valorQuadrado').value;
+
+            document.getElementById('mostrar').textContent = "Área do quadrado igual a " + lado * lado + "m²";
+        }
+
+        function calcularTriangulo(){
+            const base = parseInt(document.getElementById('valorBaseTriangulo').value);
+            const altura = parseInt(document.getElementById('valorAlturaTriangulo').value);
+
+            document.getElementById('mostrar').textContent = "Área do triângulo igual a " + (base * altura) / 2 + "m²";
+        }
+
+        function calcularCirculo(){
+            const raio = parseInt(document.getElementById('valorCirculo').value);
+
+            document.getElementById('mostrar').textContent = "Área do círculo igual a " + 3.14 * (raio * raio) + "m²";
+        }
+    </script>
+</body>
+</html>
