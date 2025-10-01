@@ -4,19 +4,67 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Gustagram</title>
+    <link rel="shortcut icon" href="icones/marca.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header>
+    <header class="stories-container">    
+        <div class="story-item seu-story">
+            <div class="story-border">
+                <img class="story-avatar" src="imgs/avatarGustavo.jpg" alt="Seu Story">
+            </div>
+            <span class="story-username">Seu Story</span>
+        </div>
 
+        <div class="story-item">
+            <div class="story-border story-visto">
+                <img class="story-avatar" src="imgs/meuAmor.enc" alt="Amigo 1">
+            </div>
+            <span class="story-username">kauanee_vidor</span>
+        </div>
+
+        <div class="story-item">
+            <div class="story-border story-visto">
+                <img class="story-avatar" src="imgs/luys.enc" alt="Amigo 2">
+            </div>
+            <span class="story-username">luystxyz</span>
+        </div>
+
+        <div class="story-item">
+            <div class="story-border">
+                <img class="story-avatar" src="imgs/matheusPadilha.enc" alt="Amigo 2">
+            </div>
+            <span class="story-username">_matheus.049</span>
+        </div>
+
+        <div class="story-item">
+            <div class="story-border">
+                <img class="story-avatar" src="imgs/matheusCampos.jpeg" alt="Amigo 2">
+            </div>
+            <span class="story-username">m4theus__015_</span>
+        </div>
+
+        <div class="story-item">
+            <div class="story-border">
+                <img class="story-avatar" src="imgs/henrique.enc" alt="Amigo 2">
+            </div>
+            <span class="story-username">henriquefsantss</span>
+        </div>
+
+        <div class="story-item">
+            <div class="story-border">
+                <img class="story-avatar" src="imgs/eliezer.enc" alt="Amigo 2">
+            </div>
+            <span class="story-username">eliezer_flp</span>
+        </div>
     </header>
     <aside>
         <nav>
             <ul>
                 <li><abbr title="Gustagram"><a href="index.html"><img style="margin-bottom: 30px;" class="icone" src="icones/marca.ico" alt="Gustagram"></a></abbr></li>
-                <li><abbr title="Página Inicial"><a href="#"><img class="icone" src="icones/home.ico" alt="Home"></a></abbr></li>
+                <li><abbr title="Página Inicial"><a href="index.html"><img class="icone" src="icones/home.ico" alt="Home"></a></abbr></li>
                 <li><abbr title="Pesquisa"><a href="#"><img class="icone" src="icones/lupa.ico" alt="Pesquisa"></a></abbr></li>
-                <li><abbr title="Explorar"><a href="#"><img class="icone" src="icones/bussula.ico" alt="Explorar"></a></abbr></li>
+                <li><abbr title="Explorar"><a href="explorar.html"><img class="icone" src="icones/bussula.ico" alt="Explorar"></a></abbr></li>
                 <li><abbr title="Vídeos Curtos"><a href="#"><img class="icone" src="icones/reels.ico" alt="Vídeos Curtos"></a></abbr></li>
                 <li><abbr title="Mensagens"><a href="#"><img class="icone" src="icones/direct.ico" alt="Mensagens"></a></abbr></li>
                 <li><abbr title="Notificações"><a href="#"><img class="icone" src="icones/coracao.ico" alt="Notificações"></a></abbr></li>
@@ -24,25 +72,26 @@
         </nav>
     </aside>
     <main>
-        <section class="postagem">
+        <section class="post">
             <div class="post-header">
                 <img class="avatar" src="imgs/avatarGustavo.jpg" alt="Avatar do Usuário">
                 <span class="username">gu._.padilha</span>
+                <button class="options-button">...</button>
             </div>
-            <img class="post-image" src="imgs/postPaisagem.jpg" alt="Imagem da Postagem">
+            <img class="post-image" src="imgs/PostGustavo.jpg" alt="Imagem da Postagem">
             <div class="post-actions">
                 <abbr title="Curtir"><button class="like-button"></button></abbr>
                 <abbr title="Comentar"><button class="comment-button"></button></abbr>
                 <abbr title="Compartilhar"><button class="share-button"></button></abbr>
-                <abbr title="Salvar"><button class="save-button"></button></abbr>
+                <abbr style="margin-left: auto;" title="Salvar"><button class="save-button"></button></abbr>
             </div>
-            <div class="post-likes">100 curtidas</div>
+            <div class="post-likes">169 curtidas</div>
             <div class="post-caption"><strong>gu._.padilha</strong> Que lugar mais maravilhoso que visitei este final de semana!.</div>
             <div class="post-comments">
-                <div><strong>amigo_do_gustavo</strong> Nossa que paisagem legal!</div>
-                <div><strong>namorada_do_gustavo</strong> Te amo Gustavo!</div>
+                <div><strong>luystxyz</strong> Essa viagem deve ter sido o máximo!</div>
+                <div><strong>kauanee_vidor</strong> Te amo meu amor!</div>
             </div>
-            <input type="text" class="comment-input" placeholder="Adicione um comentário...">
+            <input type="text" class="comment-input" placeholder="Adicionar comentário...">
         </section>
     </main>
 </body>
