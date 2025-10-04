@@ -1,0 +1,9 @@
+CREATE DATABASE gustagram;
+USE gustagram;
+
+CREATE TABLE posts (
+  id INT AUTO_INCREMENT PRIMARY KEY,
+  texto TEXT NOT NULL,
+  imagem_url VARCHAR(255) NOT NULL,
+  created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);
