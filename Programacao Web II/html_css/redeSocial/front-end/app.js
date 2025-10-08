@@ -38,12 +38,21 @@ async function carregarPosts() {
         </div>
         <img class="post-image" src="http://localhost:3000${post.imagem_url}" alt="Imagem da Postagem">
         <div class="post-actions">
-            <abbr title="Curtir"><button id="like-button"></button></abbr>
-            <abbr title="Comentar"><button id="comment-button"></button></abbr>
-            <abbr title="Compartilhar"><button id="share-button"></button></abbr>
-            <abbr style="margin-left: auto;" title="Salvar"><button id="save-button"></button></abbr>
+            <abbr title="Curtir"><button class="like-button">
+                <img src="icones/coracao.jpg">
+            </button></abbr>
+            <abbr title="Comentar"><button class="comment-button">
+                <img src="icones/comentario.jpg">
+            </button></abbr>
+            <abbr title="Compartilhar"><button class="share-button">
+                <img src="icones/compartilhar.ico">
+            </button></abbr>
+            <abbr style="margin-left: auto;" title="Salvar">
+            <button class="save-button">
+                <img src="icones/salvar.jpg">
+            </button></abbr>
         </div>
-        <div id="post-likes">169 curtidas</div>
+        <div id="post-likes">0 curtidas</div>
         <div style="text-align:left; margin-top:5px;"><small>${new Date(post.created_at).toLocaleString()}</small></div>
         <div class="post-caption"><strong>gu._.padilha</strong> ${post.texto}</div>
         <div class="post-comments">
@@ -59,32 +68,62 @@ window.onload = carregarPosts;
 
 // Indicativo que escolheu uma imagem para postar
 const inputImagem = document.getElementById('imagem');
-const labelImagem = inputImagem.closest('label');
+const labelTexto = document.querySelector('.file-label-text');
 
 inputImagem.addEventListener('change', () => {
     if (inputImagem.files.length > 0) {
         const nomeArquivo = inputImagem.files[0].name;
-        labelImagem.textContent = `Imagem selecionada: ${nomeArquivo}`;
-        labelImagem.style.backgroundColor = '#4CAF50'; // verde para indicar sucesso
+        labelTexto.textContent = `Imagem selecionada: ${nomeArquivo}`;
+        inputImagem.closest('label').style.backgroundColor = '#4CAF50'; // verde para indicar sucesso
     } else {
-        labelImagem.textContent = 'Escolher imagem';
-        labelImagem.style.backgroundColor = '#bc1888'; // cor original do botão
+        labelTexto.textContent = 'Escolher imagem';
+        inputImagem.closest('label').style.backgroundColor = '#bc1888'; // cor original
     }
 });
 
-const saveButton = document.getElementById('save-button');
+const container = document.getElementById('posts-container');
 
-saveButton.addEventListener('click', () => {
-    saveButton.style.backgroundColor = '#e9ec38ff';
+container.addEventListener('click', (e) => {
+  // Função Curtir
+  const likeBtn = e.target.closest('.like-button');
+  if (likeBtn) {
+    const img = likeBtn.querySelector('img');
+    if (!img) return;
+
+    if (img.src.endsWith('coracao.jpg')) {
+      img.src = 'icones/coracao_vermelho.jpg';
+    } else {
+      img.src = 'icones/coracao.jpg';
+    }
+    return;
+  }
+
+  // Função Comentar
+  const commentBtn = e.target.closest('.comment-button');
+  if (commentBtn) {
+    const img = commentBtn.querySelector('img');
+    if (!img) return;
+
+    if (img.src.endsWith('comentario.jpg')) {
+      img.src = 'icones/comentario_azul.jpg';
+
+    } else {
+      img.src = 'icones/comentario.jpg';
+    }
+    return;
+  }
+
+  // Função Salvar
+  const saveBtn = e.target.closest('.save-button');
+  if (saveBtn) {
+    const img = saveBtn.querySelector('img');
+    if (!img) return;
+
+    if (img.src.endsWith('salvar.jpg')) {
+      img.src = 'icones/salvar_amarelo.jpg';
+    } else {
+      img.src = 'icones/salvar.jpg';
+    }
+    return;
+  }
 });
-
-// Função para likes
-const likeButton = document.getElementById('like-button');
-const postLikes = document.getElementById('post-likes');
-var likes = 0;
-
-likeButton.addEventListener('click', () => {
-    likes++;
-    document.getElementById('post-likes').textContent = likes;
-});
-
