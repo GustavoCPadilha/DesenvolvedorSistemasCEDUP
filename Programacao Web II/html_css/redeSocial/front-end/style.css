@@ -14,8 +14,6 @@
     border-radius: 12px;
     display: flex;
     align-items: center;
-    overflow-x: scroll;
-    overflow-y: hidden;
     white-space: nowrap; 
 }
 
@@ -38,7 +36,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3px; 
+    padding: 3px;
 }
 
 .story-avatar {
@@ -250,7 +248,7 @@ button img:hover {
     margin-left: auto;
 }
 
-#post-likes {
+.post-likes {
     text-align: left;
     font-weight: bold;
     margin-top: 10px;

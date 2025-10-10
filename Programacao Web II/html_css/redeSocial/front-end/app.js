@@ -52,7 +52,7 @@ async function carregarPosts() {
                 <img src="icones/salvar.jpg">
             </button></abbr>
         </div>
-        <div id="post-likes">0 curtidas</div>
+        <div class="post-likes">0 curtidas</div>
         <div style="text-align:left; margin-top:5px;"><small>${new Date(post.created_at).toLocaleString()}</small></div>
         <div class="post-caption"><strong>gu._.padilha</strong> ${post.texto}</div>
         <div class="post-comments">
@@ -81,20 +81,38 @@ inputImagem.addEventListener('change', () => {
     }
 });
 
+// Função que vai curtindo conforme o tempo passa
+setInterval(() => {
+    document.querySelectorAll('.post-likes').forEach(likeDiv => {
+    let numero = parseInt(likeDiv.textContent);
+    numero++;
+    likeDiv.textContent = `${numero} curtidas`;
+  });
+}, 2000);
+
+// Funções relacionadas ao post
 const container = document.getElementById('posts-container');
 
 container.addEventListener('click', (e) => {
   // Função Curtir
   const likeBtn = e.target.closest('.like-button');
+
   if (likeBtn) {
     const img = likeBtn.querySelector('img');
     if (!img) return;
 
+    const postLikes = likeBtn.closest('.post').querySelector('.post-likes');
+    let curtidasAtual = parseInt(postLikes.textContent);
+
     if (img.src.endsWith('coracao.jpg')) {
       img.src = 'icones/coracao_vermelho.jpg';
+      curtidasAtual++;
     } else {
       img.src = 'icones/coracao.jpg';
+      curtidasAtual--;
     }
+    postLikes.textContent = `${curtidasAtual} curtidas`;
+
     return;
   }
 
