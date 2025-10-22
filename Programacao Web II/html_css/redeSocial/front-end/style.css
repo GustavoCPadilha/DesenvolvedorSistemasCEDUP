@@ -5,72 +5,73 @@
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
+/* Container principal dos stories - rolagem horizontal */
+/* Este container usa flexbox para alinhar os stories horizontalmente */
+/* overflow-x: auto permite rolar horizontalmente quando há muitos stories */
+/* A largura fixa de 600px mantém consistência com o resto do layout */
 .stories-container {
     width: 600px; 
     margin: 20px auto 30px auto; 
-    padding: 16px 0px;
     background-color: white;
     border: 1px solid #ccc;
     border-radius: 12px;
     display: flex;
     align-items: center;
-    white-space: nowrap; 
+    overflow-x: auto;
+    padding: 16px;
 }
 
-.stories-container::-webkit-scrollbar {
-    display: none;
-}
-
+/* Cada story individual - estrutura básica */
 .story-item {
-    display: inline-block;
+    flex: 0 0 auto;
     text-align: center;
-    margin-right: 10px;
-    margin-left: 10px;
+    cursor: pointer;
+    margin: 0 13px;
 }
 
+/* Borda colorida dos stories - estilo Instagram */
+/* Usa gradiente para criar o efeito de borda colorida característico */
+/* flex para centralizar a imagem dentro da borda */
 .story-border {
     width: 66px;
     height: 66px;
     border-radius: 50%;
-    background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+    /* Gradiente nas cores do Instagram */
+    background: linear-gradient(45deg, #f09433, #e6683c, #dc2743, #cc2366, #bc1888);
     display: flex;
     justify-content: center;
     align-items: center;
-    padding: 3px;
+    padding: 3px;  /* Espaço entre a borda e a imagem */
 }
 
+/* Imagem circular dentro da borda colorida */
+/* border: 2px solid white cria um anel branco entre a imagem e o gradiente */
 .story-avatar {
     width: 60px;
     height: 60px;
     border-radius: 50%;
-    border: 2px solid white; 
-    cursor: pointer;
+    border: 2px solid white;
 }
 
+/* Estado visual quando o story já foi visto */
 .story-visto {
-    background: #ccc;
+    background: #ccc;  /* Substitui o gradiente colorido por cinza */
 }
 
+/* Nome do usuário abaixo da foto do story */
+/* Configuração para nomes longos serem truncados com '...' */
 .story-username {
     display: block;
     font-size: 0.8em;
     color: #333;
     margin-top: 5px;
-    max-width: 66px;
-    overflow: hidden;
-    text-overflow: ellipsis;
+    max-width: 66px;             /* Largura máxima igual à do avatar */
+    text-overflow: ellipsis;     /* Adiciona '...' quando o texto é cortado */
+    overflow: hidden;            /* Esconde o texto que ultrapassar */
+    white-space: nowrap;         /* Impede quebra de linha */
 }
 
-.seu-story .story-border {
-    background: none;
-    border: 2px solid #ccc;
-    padding: 0px; 
-}
-
-.seu-story .story-avatar {
-    border: none;
-}
-
+/* Menu lateral fixo à esquerda */
 aside {
   position: fixed;
   top: 0;
@@ -87,13 +88,13 @@ aside ul {
     list-style-type: none;
 }
 
+/* Ícones do menu */
 .icone {
     width: 30px;
     height: 30px;
     margin: 25px 10px 10px 7px;
     transition: .25s;
 }
-
 .icone:hover {
     transform: scale(1.1);
 }
@@ -102,6 +103,7 @@ section {
     text-align: center;
 }
 
+/* Formulário de criação de post */
 #form-post {
     padding: 20px 30px;
     border: 1px solid #ccc;
@@ -115,6 +117,7 @@ section {
     gap: 15px;
 }
 
+/* Caixa de texto do post */
 #form-post textarea {
     width: 100%;
     min-height: 80px;
@@ -124,13 +127,13 @@ section {
     font-size: 1rem;
     transition: border-color 0.3s ease;
 }
-
 #form-post textarea:focus {
     border-color: #bc1888;
     outline: none;
     box-shadow: 0 0 6px rgba(188, 24, 136, 0.3);
 }
 
+/* Botão de upload de imagem */
 .file-label {
     width: 100%;
     text-align: center;
@@ -143,15 +146,14 @@ section {
     font-weight: 600;
     transition: background 0.3s ease;
 }
-
 .file-label:hover {
     background: #a31570;
 }
-
 #form-post input[type="file"] {
     display: none;
 }
 
+/* Botão de postar */
 .post-button {
     width: 100%;
     max-width: 300px;
@@ -166,12 +168,12 @@ section {
     box-shadow: 0 4px 15px rgba(188, 24, 136, 0.5);
     transition: background 0.3s ease, transform 0.2s ease;
 }
-
 .post-button:hover {
     background: linear-gradient(45deg, #cc2366, #bc1888);
     transform: scale(1.05);
 }
 
+/* Container de cada postagem */
 .post {
     border: 1px solid #ccc;
     border-radius: 5px;
@@ -182,14 +184,16 @@ section {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
+/* Cabeçalho da postagem (foto e nome) */
 .post-header {
     display: flex;
     align-items: center;
     margin-bottom: 10px;
-    position: relative; /* referência para posicionamento absoluto do botão */
-    padding-right: 56px; /* espaço à direita para não sobrepor o conteúdo */
+    position: relative;
+    padding-right: 56px;
 }
 
+/* Avatar da postagem */
 .avatar {
     width: 40px;
     height: 40px;
@@ -197,25 +201,27 @@ section {
     margin-right: 10px;
     transition: .25s;
 }
-
 .avatar:hover {
     transform: scale(1.1);
 }
 
+/* Nome de usuário */
 .username {
     font-weight: bold;    
 }
 
+/* Botão de opções (...) */
 .options-wrapper {
   position: absolute;
-  right: 12px;           /* distância da borda direita do header */
-  top: 50%;              /* centraliza verticalmente */
+  right: 12px;
+  top: 50%;
   transform: translateY(-50%);
   display: inline-flex;
   align-items: center;
   z-index: 10;
 }
 
+/* Estilo visual do botão de opções */
 .options-button {
   width: 36px;
   height: 36px;
@@ -233,8 +239,12 @@ section {
   padding: 0;
   transition: transform .12s ease, box-shadow .12s ease;
 }
-.options-button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(188,24,136,0.12); }
+.options-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 14px rgba(188,24,136,0.12);
+}
 
+/* Menu suspenso do post */
 .post-menu {
   position: absolute;
   top: 44px;
@@ -248,9 +258,9 @@ section {
   z-index: 20;
   min-width: 120px;
 }
-
 .post-menu.visible { display: block; }
 
+/* Botão de deletar post */
 .post-menu .delete-post-button {
   width: 100%;
   background: linear-gradient(45deg,#ff4d4f,#ff7875);
@@ -261,14 +271,19 @@ section {
   cursor: pointer;
   font-weight: 700;
 }
-.post-menu .delete-post-button:hover { opacity: 0.95; transform: translateY(-1px); }
+.post-menu .delete-post-button:hover {
+  opacity: 0.95;
+  transform: translateY(-1px);
+}
 
+/* Imagem do post */
 .post-image {
     width: 100%;
     border-radius: 5px;
     margin-top: 10px;
 }
 
+/* Ícones de curtida, comentário e salvar */
 .post-actions {
     display: flex;
     align-items: center;
@@ -276,6 +291,7 @@ section {
     width: 100%;
 }
 
+/* Remove fundo e borda dos botões */
 button {
     background: none;
     border: none;
@@ -283,32 +299,36 @@ button {
     padding: 0;
 }
 
+/* Ícones dentro dos botões */
 button img {
     width: 30px;
     height: 30px;
     margin-right: 10px;
     transition: .25s;
 }
-
 button img:hover {
     transform: scale(1.1);
 }
 
+/* Botão de salvar alinhado à direita */
 #save-button {
     margin-left: auto;
 }
 
+/* Texto de curtidas */
 .post-likes {
     text-align: left;
     font-weight: bold;
     margin-top: 10px;
 }
 
+/* Legenda */
 .post-caption {
     text-align: left;
     margin-top: 10px;
 }
 
+/* Comentários */
 .post-comments {
     text-align: left;
     margin-top: 10px;
@@ -316,8 +336,9 @@ button img:hover {
     color: #555;
 }
 
+/* Campo para novo comentário (oculto por padrão) */
 .comment-input {
-    display: none; /* escondido por padrão */
+    display: none;
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -325,137 +346,60 @@ button img:hover {
     margin-top: 10px;
 }
 
-/* classe que revela o input quando necessário */
+/* Exibe o input quando necessário */
 .comment-input.visible {
     display: block;
 }
 
+/* Efeitos de foco */
 .comment-input:focus {
     border-color: #bc1888;
     outline: none;
     box-shadow: 0 0 6px rgba(188, 24, 136, 0.3);
 }
 
+/* Animação de foco ativo */
 .comment-input.active-comment,
 .comment-input:focus {
     border-color: #4aa3ff;
     box-shadow: 0 0 6px rgba(74, 163, 255, 0.25);
 }
 
-/* Story viewer (overlay estilo Instagram) */
+/* Visualizador de stories - tela cheia */
+/* position: fixed + inset: 0 faz o overlay cobrir toda a tela */
+/* z-index alto garante que fique sobre todos os outros elementos */
 .story-viewer-overlay {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  background: rgba(0,0,0,0.65);
-  z-index: 2000;
-  padding: 20px;
-}
-
-.story-viewer-box {
-    width: min(720px, 95%);
-    max-height: 90vh;
-    background: #111;
-    border-radius: 12px;
-    color: #fff;
-    overflow: hidden;
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-}
-
-.story-close {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: transparent;
-  border: none;
-  color: #fff;
-  font-size: 20px;
-  cursor: pointer;
-  opacity: 0.9;
-}
-
-.story-header {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.story-header-avatar {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid rgba(255,255,255,0.12);
-}
-
-.story-header-username {
-  font-weight: 700;
-  font-size: 1rem;
-}
-
-/* mídia central */
-.story-media-wrap {
-    flex: 1 1 auto;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+    position: fixed;
+    inset: 0;              /* Atalho para top:0, right:0, bottom:0, left:0 */
     background: #000;
-    border-radius: 8px;
-    overflow: hidden;
-    /* Define altura fixa para o container */
-    height: 80vh;
-    max-height: 700px;
+    display: none;         /* Começa oculto, JavaScript muda para 'flex' */
+    justify-content: center;
+    align-items: center;
+    z-index: 2000;
 }
 
-.story-viewer-img {
-    /* Garante que a imagem mantenha proporções e cubra o espaço */
-    width: 100%;
-    height: 100%;
-    object-fit: contain; /* mantém proporção original */
-    object-position: center;
-    display: block;
+/* Botão X para fechar o story */
+/* z-index maior que o overlay para garantir que fique clicável */
+.story-close {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    color: white;
+    font-size: 28px;
+    cursor: pointer;
+    z-index: 2001;
 }
 
-/* controles */
-.story-controls {
-  display: flex;
-  align-items: center;
-  gap: 10px;
+/* Imagem do story em tela cheia */
+/* object-fit: contain mantém a proporção da imagem sem cortar */
+/* max-height: 100vh garante que a imagem não ultrapasse a altura da tela */
+.story-img {
+    max-height: 100vh;
+    width: auto;
+    object-fit: contain;
 }
 
-.story-prev,
-.story-next {
-  background: rgba(255,255,255,0.06);
-  border: 1px solid rgba(255,255,255,0.08);
-  color: #fff;
-  width: 36px;
-  height: 36px;
-  border-radius: 8px;
-  cursor: pointer;
-}
-
-.story-progress {
-  flex: 1;
-  height: 6px;
-  background: rgba(255,255,255,0.08);
-  border-radius: 6px;
-  overflow: hidden;
-}
-
-.story-progress-bar {
-  height: 100%;
-  width: 0%;
-  background: linear-gradient(90deg, #fff, #a8e6ff);
-}
-
-/* marca como visto: deixa borda acinzentada */
-.story-item .story-border.story-visto {
-  background: #ccc !important;
+/* Indicador visual de story já visto */
+.story-visto {
+    background: #ccc;
 }

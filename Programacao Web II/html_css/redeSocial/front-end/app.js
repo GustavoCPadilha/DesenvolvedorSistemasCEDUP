@@ -1,40 +1,42 @@
+window.onload = carregarPosts;
+
+// Captura do formulário e envio de post
 const form = document.getElementById('form-post');
 
 form.addEventListener('submit', async (e) => {
-  e.preventDefault();
-
-  const formData = new FormData(form);
-
-  const res = await fetch('http://localhost:3000/post', {
-    method: 'POST',
-    body: formData
-  });
-
+  e.preventDefault(); // evita reload da página
+  const formData = new FormData(form); // pega dados do formulário, incluindo arquivo
+  const res = await fetch('http://localhost:3000/post', { method: 'POST', body: formData });
   const data = await res.json();
 
   if (data.sucesso) {
-    carregarPosts();
-    form.reset();
+    carregarPosts(); // atualiza feed
+    form.reset(); // limpa formulário
   } else {
     alert('Erro ao enviar post.');
   }
 });
 
+// Função principal para carregar posts e seus comentários
+// Usa async/await para requisições assíncronas ao servidor
 async function carregarPosts() {
+    // Busca todos os posts do servidor
     const res = await fetch('http://localhost:3000/posts');
     const posts = await res.json();
 
+    // Limpa o container para evitar duplicação de posts
     const container = document.getElementById('posts-container');
     container.innerHTML = '';
 
-    // usar for..of para poder aguardar fetch de comentários por post
+    // Usa for..of em vez de forEach para poder usar await dentro do loop
+    // reverse() mostra posts mais recentes primeiro
     for (const post of posts.reverse()) {
         const postEl = document.createElement('section');
         postEl.classList.add('post');
         postEl.dataset.id = post.id;
         postEl.innerHTML = `
             <div class="post-header">
-            <img class="avatar" src="imgs/Gustavo.jpeg" alt="Avatar do Usuário">
+            <img class="avatar" src="imgs/gustavo.jpg" alt="Avatar do Usuário">
             <span class="username">gu._.padilha</span>
 
             <div class="options-wrapper">
@@ -69,7 +71,7 @@ async function carregarPosts() {
         `;
         container.appendChild(postEl);
 
-        // carregar comentários desse post e inserir no DOM
+        // carregar comentários desse post
         try {
             const comRes = await fetch(`http://localhost:3000/post/${post.id}/comments`);
             if (comRes.ok) {
@@ -90,8 +92,6 @@ async function carregarPosts() {
         }
     }
 }
-
-window.onload = carregarPosts;
 
 // Indicativo que escolheu uma imagem para postar
 const inputImagem = document.getElementById('imagem');
@@ -117,32 +117,25 @@ setInterval(() => {
   });
 }, 2000);
 
-// Funções relacionadas ao post
+// Gerenciador central de interações com os posts
+// Usa delegação de eventos para lidar com todos os cliques no container
 const container = document.getElementById('posts-container');
 
 container.addEventListener('click', (e) => {
 
-  // abrir/fechar o menu de opções
+  // Manipulação do menu de opções (três pontinhos)
+  // closest() encontra o elemento mais próximo que corresponde ao seletor
   const optionsBtn = e.target.closest('.options-button');
   if (optionsBtn) {
     const postEl = optionsBtn.closest('.post');
     if (!postEl) return;
     const menu = postEl.querySelector('.post-menu');
-
-    // fechar outros menus abertos
-    document.querySelectorAll('.post-menu.visible').forEach(m => {
-      if (m !== menu) {
-        m.classList.remove('visible');
-        m.setAttribute('aria-hidden', 'true');
-      }
-    });
-
     const show = menu.classList.toggle('visible');
     menu.setAttribute('aria-hidden', !show);
     return;
   }
 
-  // clicar no botão "Excluir" dentro do menu (sem pop-up)
+  // clicar no botão "Excluir" dentro do menu
   const deleteBtn = e.target.closest('.delete-post-button');
   if (deleteBtn) {
     const postEl = deleteBtn.closest('.post');
@@ -166,21 +159,16 @@ container.addEventListener('click', (e) => {
     return;
   }
 
-  // se clicar fora do wrapper de opções, fecha menus abertos
-  if (!e.target.closest('.options-wrapper')) {
-    document.querySelectorAll('.post-menu.visible').forEach(m => {
-      m.classList.remove('visible');
-      m.setAttribute('aria-hidden', 'true');
-    });
-  }
-
-  // Função Curtir
+  // Sistema de curtidas
+  // Encontra o botão de curtir mais próximo do elemento clicado
   const likeBtn = e.target.closest('.like-button');
 
   if (likeBtn) {
     const img = likeBtn.querySelector('img');
     if (!img) return;
 
+    // Encontra o contador de curtidas do post atual
+    // e converte o texto para número
     const postLikes = likeBtn.closest('.post').querySelector('.post-likes');
     let curtidasAtual = parseInt(postLikes.textContent);
 
@@ -237,21 +225,14 @@ container.addEventListener('click', (e) => {
   }
 });
 
-// helper para escapar texto
-function escapeHtml(str) {
-  return String(str)
-    .replace(/&/g, '&amp;')
-    .replace(/</g, '&lt;')
-    .replace(/>/g, '&gt;')
-    .replace(/"/g, '&quot;')
-    .replace(/'/g, '&#39;');
-}
-
-// evento delegad0 para enviar comentário ao pressionar Enter
+// Sistema de comentários - Detecta Enter no campo de comentário
+// Usa evento keydown para capturar a tecla Enter
 container.addEventListener('keydown', async (e) => {
+  // Verifica se o elemento que recebeu o evento é um campo de comentário
   if (!e.target.classList.contains('comment-input')) return;
+  // Só processa se a tecla pressionada for Enter
   if (e.key !== 'Enter') return;
-  e.preventDefault();
+  e.preventDefault(); // Previne quebra de linha no input
 
   const input = e.target;
   const texto = input.value.trim();
@@ -265,7 +246,7 @@ container.addEventListener('keydown', async (e) => {
     const res = await fetch(`http://localhost:3000/post/${postId}/comment`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ texto, autor: 'gu._.padilha' }) // ajustar autor conforme necessário
+      body: JSON.stringify({ texto, autor: 'gu._.padilha' })
     });
     const data = await res.json();
     if (data.sucesso && data.comentario) {
@@ -286,188 +267,59 @@ container.addEventListener('keydown', async (e) => {
   }
 });
 
-// Inicializa stories (comportamento estilo Instagram)
+// Sistema de Stories - Inicialização e configuração do visualizador
 function initStories() {
-  const storyItems = Array.from(document.querySelectorAll('.story-item'));
-  if (!storyItems.length) return;
+  // Busca todos os stories disponíveis
+  const storyItems = document.querySelectorAll('.story-item');
+  if (!storyItems.length) return; // Se não houver stories, não faz nada
 
-  // monta array com dados de cada story
-  const stories = storyItems.map((el, idx) => {
-    el.dataset.storyIndex = idx;
-    const img = el.querySelector('.story-avatar');
-    const username = el.querySelector('.story-username')?.textContent || '';
-    return { el, imgSrc: img ? img.src : '', username };
-  });
+  // Cria o overlay do visualizador de stories
+  // Este elemento será usado para mostrar os stories em tela cheia
+  const viewer = document.createElement('div');
+  viewer.className = 'story-viewer-overlay';
+  viewer.style.display = 'none';
+  viewer.style.position = 'fixed';
+  viewer.style.top = '0';
+  viewer.style.left = '0';
+  viewer.style.width = '100%';
+  viewer.style.height = '100%';
+  viewer.style.backgroundColor = 'rgba(0, 0, 0, 0.9)';
+  viewer.style.display = 'none';
+  viewer.style.justifyContent = 'center';
+  viewer.style.alignItems = 'center';
+  viewer.style.zIndex = '1000';
 
-  // cria overlay apenas uma vez
-  let overlay = null;
-  let current = 0;
-  let timer = null;
-  const DURATION = 3000; // tempo de exibição (ms)
-  let progressInterval = null;
+  viewer.innerHTML = `
+    <div class="story-viewer-box" style="position: relative; width: 100%; height: 100%;">
+      <button class="story-close" style="position: absolute; top: 20px; right: 20px; background: transparent; border: none; color: white; font-size: 24px; cursor: pointer; z-index: 1001;">✕</button>
+      <img class="story-img" src="" alt="" style="width: 100%; height: 100%; object-fit: contain;">
+    </div>
+  `;
+  document.body.appendChild(viewer);
 
-  function createOverlay() {
-    overlay = document.createElement('div');
-    overlay.className = 'story-viewer-overlay';
-    overlay.innerHTML = `
-      <div class="story-viewer-box" role="dialog" aria-modal="true">
-        <button class="story-close" aria-label="Fechar">✕</button>
-        <div class="story-header">
-          <img class="story-header-avatar" src="" alt="">
-          <div class="story-header-info">
-            <div class="story-header-username"></div>
-          </div>
-        </div>
-        <div class="story-media-wrap">
-          <img class="story-viewer-img" src="" alt="">
-        </div>
-        <div class="story-controls">
-          <button class="story-prev" aria-label="Anterior">◀</button>
-          <div class="story-progress"><div class="story-progress-bar"></div></div>
-          <button class="story-next" aria-label="Próximo">▶</button>
-        </div>
-      </div>
-    `;
-    document.body.appendChild(overlay);
+  // Função para mostrar story
+  function showStory(storyItem) {
+    const img = storyItem.querySelector('.story-avatar');
+    if (!img) return;
 
-    // eventos
-    overlay.querySelector('.story-close').addEventListener('click', closeViewer);
-    overlay.querySelector('.story-next').addEventListener('click', () => { nextStory(); resetTimer(); });
-    overlay.querySelector('.story-prev').addEventListener('click', () => { prevStory(); resetTimer(); });
-
-    // fechar ao clicar fora do box
-    overlay.addEventListener('click', (ev) => {
-      if (ev.target === overlay) closeViewer();
-    });
-
-    // pausa autoplay ao passar o mouse
-    const box = overlay.querySelector('.story-viewer-box');
-    box.addEventListener('mouseenter', pauseTimer);
-    box.addEventListener('mouseleave', resumeTimer);
-
-    // teclado
-    document.addEventListener('keydown', onKeyDown);
+    viewer.querySelector('.story-img').src = img.src;
+    viewer.style.display = 'flex';
+    
+    // Marca como visto
+    storyItem.querySelector('.story-border')?.classList.add('story-visto');
   }
 
-  function onKeyDown(e) {
-    if (!overlay || overlay.style.display !== 'flex') return;
-    if (e.key === 'Escape') closeViewer();
-    if (e.key === 'ArrowRight') { nextStory(); resetTimer(); }
-    if (e.key === 'ArrowLeft') { prevStory(); resetTimer(); }
-  }
-
-  function openViewer(index) {
-    current = index;
-    if (!overlay) createOverlay();
-    overlay.style.display = 'flex';
-    showStory(current);
-    startTimer();
-  }
-
+  // Fecha o viewer
   function closeViewer() {
-    if (!overlay) return;
-    overlay.style.display = 'none';
-    stopTimer();
+    viewer.style.display = 'none';
   }
 
-  function showStory(idx) {
-    const s = stories[idx];
-    if (!s) return;
-    const avatar = overlay.querySelector('.story-header-avatar');
-    const username = overlay.querySelector('.story-header-username');
-    const img = overlay.querySelector('.story-viewer-img');
-    avatar.src = s.imgSrc;
-    avatar.alt = s.username;
-    username.textContent = s.username;
-    img.src = s.imgSrc;
-    img.alt = `Story de ${s.username}`;
+  // Event listener apenas para o botão de fechar
+  viewer.querySelector('.story-close').onclick = closeViewer;
 
-    // marca como visto (altera borda)
-    const border = s.el.querySelector('.story-border');
-    if (border) border.classList.add('story-visto');
-
-    // reset progress bar
-    const bar = overlay.querySelector('.story-progress-bar');
-    bar.style.transition = 'none';
-    bar.style.width = '0%';
-    // pequena espera para garantir que transition volte a funcionar
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        bar.style.transition = `width ${DURATION}ms linear`;
-        bar.style.width = '100%';
-      });
-    });
-  }
-
-  function nextStory() {
-    current = (current + 1) % stories.length;
-    showStory(current);
-  }
-
-  function prevStory() {
-    current = (current - 1 + stories.length) % stories.length;
-    showStory(current);
-  }
-
-  function startTimer() {
-    stopTimer();
-    timer = setTimeout(() => {
-      nextStory();
-      startTimer();
-    }, DURATION);
-  }
-
-  function stopTimer() {
-    if (timer) { clearTimeout(timer); timer = null; }
-    if (progressInterval) { clearInterval(progressInterval); progressInterval = null; }
-    const bar = overlay?.querySelector('.story-progress-bar');
-    if (bar) { bar.style.transition = ''; } // reset
-  }
-
-  function pauseTimer() {
-    if (!timer) return;
-    clearTimeout(timer);
-    timer = null;
-    // pause progress animation by computing current width and freezing it
-    const bar = overlay.querySelector('.story-progress-bar');
-    const computed = window.getComputedStyle(bar).width;
-    const parentWidth = overlay.querySelector('.story-progress').clientWidth;
-    const percent = (parseFloat(computed) / parentWidth) * 100;
-    bar.style.transition = 'none';
-    bar.style.width = `${percent}%`;
-  }
-
-  function resumeTimer() {
-    // resume remaining time by restarting full duration (simple approach)
-    const bar = overlay.querySelector('.story-progress-bar');
-    requestAnimationFrame(() => {
-      bar.style.transition = `width ${DURATION}ms linear`;
-      bar.style.width = '100%';
-    });
-    startTimer();
-  }
-
-  function resetTimer() {
-    stopTimer();
-    // restart progress bar
-    const bar = overlay.querySelector('.story-progress-bar');
-    bar.style.transition = 'none';
-    bar.style.width = '0%';
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        bar.style.transition = `width ${DURATION}ms linear`;
-        bar.style.width = '100%';
-      });
-    });
-    startTimer();
-  }
-
-  // associa clique a cada story
-  storyItems.forEach(si => {
-    si.addEventListener('click', (ev) => {
-      const idx = parseInt(si.dataset.storyIndex || '0', 10);
-      openViewer(idx);
-    });
+  // Abre story ao clicar
+  storyItems.forEach(story => {
+    story.onclick = () => showStory(story);
   });
 }
 

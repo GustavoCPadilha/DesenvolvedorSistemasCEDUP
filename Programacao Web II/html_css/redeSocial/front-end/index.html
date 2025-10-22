@@ -1,89 +1,82 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-BR">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>Gustagram</title>
     <link rel="shortcut icon" href="icones/marca.ico" type="image/x-icon">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <header class="stories-container">
+    <!-- STORIES -->
+    <header class="stories-container" id="stories">
+
         <div class="story-item seu-story">
-            <div class="story-border">
-                <img class="story-avatar" src="imgs/Gustavo.jpeg" alt="Seu Story">
-            </div>
-            <span class="story-username">Seu Story</span>
+        <div class="story-border">
+            <img class="story-avatar" src="imgs/gustavo.jpg" alt="Seu Story">
+        </div>
+        <span class="story-username">Seu Story</span>
         </div>
 
         <div class="story-item">
-            <div class="story-border">
-                <img class="story-avatar" src="imgs/meuAmor.enc" alt="Foto de Perfil de Usuário">
-            </div>
-            <span class="story-username">kauanee_vidor</span>
+        <div class="story-border"><img class="story-avatar" src="imgs/meuAmor.enc" alt=""></div>
+        <span class="story-username">kauanee_vidor</span>
         </div>
 
         <div class="story-item">
-            <div class="story-border">
-                <img class="story-avatar" src="imgs/luys.enc" alt="Foto de Perfil de Usuário">
-            </div>
-            <span class="story-username">luystxyz</span>
+        <div class="story-border"><img class="story-avatar" src="imgs/luys.enc" alt=""></div>
+        <span class="story-username">luystxyz</span>
         </div>
 
         <div class="story-item">
-            <div class="story-border">
-                <img class="story-avatar" src="imgs/matheusPadilha.enc" alt="Foto de Perfil de Usuário">
-            </div>
-            <span class="story-username">_matheus.049</span>
+        <div class="story-border"><img class="story-avatar" src="imgs/matheusPadilha.enc" alt=""></div>
+        <span class="story-username">_matheus.049</span>
         </div>
 
         <div class="story-item">
-            <div class="story-border">
-                <img class="story-avatar" src="imgs/matheusCampos.jpeg" alt="Foto de Perfil de Usuário">
-            </div>
-            <span class="story-username">m4theus__015_</span>
+        <div class="story-border"><img class="story-avatar" src="imgs/matheusCampos.jpeg" alt=""></div>
+        <span class="story-username">m4theus__015_</span>
         </div>
 
         <div class="story-item">
-            <div class="story-border">
-                <img class="story-avatar" src="imgs/henrique.enc" alt="Foto de Perfil de Usuário">
-            </div>
-            <span class="story-username">henriquefsantss</span>
-        </div>
-
-        <div class="story-item">
-            <div class="story-border">
-                <img class="story-avatar" src="imgs/eliezer.enc" alt="Foto de Perfil de Usuário">
-            </div>
-            <span class="story-username">eliezer_flp</span>
+        <div class="story-border"><img class="story-avatar" src="imgs/henrique.enc" alt=""></div>
+        <span class="story-username">henriquefsantss</span>
         </div>
     </header>
+
+    <!-- MENU LATERAL COM ÍCONES -->
     <aside>
         <nav>
-            <ul>
-                <li><abbr title="Gustagram"><a href="index.html"><img style="margin-bottom: 40px;" class="icone" src="icones/marca.ico" alt="Gustagram"></a></abbr></li>
-                <li><abbr title="Página Inicial"><a href="index.html"><img class="icone" src="icones/home.ico" alt="Home"></a></abbr></li>
-                <li><abbr title="Pesquisa"><a href="#"><img class="icone" src="icones/lupa.ico" alt="Pesquisa"></a></abbr></li>
-                <li><abbr title="Explorar"><a href="#"><img class="icone" src="icones/bussula.ico" alt="Explorar"></a></abbr></li>
-                <li><abbr title="Vídeos Curtos"><a href="#"><img class="icone" src="icones/reels.ico" alt="Vídeos Curtos"></a></abbr></li>
-                <li><abbr title="Mensagens"><a href="#"><img class="icone" src="icones/direct.ico" alt="Mensagens"></a></abbr></li>
-                <li><abbr title="Notificações"><a href="#"><img class="icone" src="icones/coracao.jpg" alt="Notificações"></a></abbr></li>
-            </ul>
+        <ul>
+            <li><a href="index.html" title="Gustagram"><img class="icone" src="icones/marca.ico" alt="Gustagram"></a></li>
+            <li><a href="index.html" title="Página Inicial"><img class="icone" src="icones/home.ico" alt="Home"></a></li>
+            <li><a href="#" title="Pesquisa"><img class="icone" src="icones/lupa.ico" alt="Pesquisa"></a></li>
+            <li><a href="#" title="Explorar"><img class="icone" src="icones/bussula.ico" alt="Explorar"></a></li>
+            <li><a href="#" title="Vídeos Curtos"><img class="icone" src="icones/reels.ico" alt="Reels"></a></li>
+            <li><a href="#" title="Mensagens"><img class="icone" src="icones/direct.ico" alt="Direct"></a></li>
+            <li><a href="#" title="Notificações"><img class="icone" src="icones/coracao.jpg" alt="Notificações"></a></li>
+        </ul>
         </nav>
     </aside>
+
+    <!-- POSTAGENS -->
     <main>
-        <form id="form-post" enctype="multipart/form-data" method="POST" action="http://localhost:3000/post">
-            <textarea name="texto" placeholder="O que você está pensando?" required></textarea>
-            <label for="imagem" class="file-label">
-                <input type="file" name="imagem" id="imagem" accept="image/*" required>
-                <span class="file-label-text">Escolher imagem</span>
-            </label>
-            <button class="post-button" type="submit">Postar</button>
+        <form id="form-post" enctype="multipart/form-data" method="POST" action="#">
+        <textarea name="texto" placeholder="O que você está pensando?" required></textarea>
+
+        <!-- Botão de upload de imagem -->
+        <label for="imagem" class="file-label">
+            <input id="imagem" type="file" name="imagem" accept="image/*" required>
+            <span class="file-label-text">Escolher imagem</span>
+        </label>
+
+        <button class="post-button" type="submit">Postar</button>
         </form>
 
+        <!-- Local onde as postagens serão exibidas -->
         <div id="posts-container"></div>
-        
     </main>
-    <script src="app.js"></script>
+
+    <script src="app.js" type="module"></script>
 </body>
 </html>
