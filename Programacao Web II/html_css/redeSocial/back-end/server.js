@@ -1,3 +1,9 @@
+/* 
+Dependências
+npm init -y
+npm install express cors multer mysql2
+*/
+
 // Importação das dependências necessárias
 const express = require('express');    // Framework web
 const cors = require('cors');          // Permite requisições de diferentes origens
@@ -129,3 +135,4 @@ app.delete('/post/:id', async (req, res) => {
 });
 
 app.listen(PORT, () => console.log(`Rodando em http://localhost:${PORT}`));
+
