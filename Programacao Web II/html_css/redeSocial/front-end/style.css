@@ -185,7 +185,9 @@ section {
 .post-header {
     display: flex;
     align-items: center;
-    margin-bottom: 10px;    
+    margin-bottom: 10px;
+    position: relative; /* referência para posicionamento absoluto do botão */
+    padding-right: 56px; /* espaço à direita para não sobrepor o conteúdo */
 }
 
 .avatar {
@@ -204,14 +206,62 @@ section {
     font-weight: bold;    
 }
 
-.options-button {
-    font-weight: bold;
-    margin-left: auto;
-    cursor: pointer;
-    font-size: 24px;
-    background: none;
-    border: none;
+.options-wrapper {
+  position: absolute;
+  right: 12px;           /* distância da borda direita do header */
+  top: 50%;              /* centraliza verticalmente */
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  z-index: 10;
 }
+
+.options-button {
+  width: 36px;
+  height: 36px;
+  border-radius: 50%;
+  border: none;
+  background: linear-gradient(180deg,#ffffff,#f6f1f6);
+  box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-weight: 700;
+  color: #444;
+  font-size: 16px;
+  padding: 0;
+  transition: transform .12s ease, box-shadow .12s ease;
+}
+.options-button:hover { transform: translateY(-2px); box-shadow: 0 6px 14px rgba(188,24,136,0.12); }
+
+.post-menu {
+  position: absolute;
+  top: 44px;
+  right: 0;
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 8px;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.08);
+  padding: 6px;
+  display: none;
+  z-index: 20;
+  min-width: 120px;
+}
+
+.post-menu.visible { display: block; }
+
+.post-menu .delete-post-button {
+  width: 100%;
+  background: linear-gradient(45deg,#ff4d4f,#ff7875);
+  color: white;
+  border: none;
+  padding: 8px 10px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 700;
+}
+.post-menu .delete-post-button:hover { opacity: 0.95; transform: translateY(-1px); }
 
 .post-image {
     width: 100%;
@@ -267,6 +317,7 @@ button img:hover {
 }
 
 .comment-input {
+    display: none; /* escondido por padrão */
     width: 100%;
     padding: 8px;
     border: 1px solid #ccc;
@@ -274,8 +325,137 @@ button img:hover {
     margin-top: 10px;
 }
 
+/* classe que revela o input quando necessário */
+.comment-input.visible {
+    display: block;
+}
+
 .comment-input:focus {
     border-color: #bc1888;
     outline: none;
     box-shadow: 0 0 6px rgba(188, 24, 136, 0.3);
+}
+
+.comment-input.active-comment,
+.comment-input:focus {
+    border-color: #4aa3ff;
+    box-shadow: 0 0 6px rgba(74, 163, 255, 0.25);
+}
+
+/* Story viewer (overlay estilo Instagram) */
+.story-viewer-overlay {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.65);
+  z-index: 2000;
+  padding: 20px;
+}
+
+.story-viewer-box {
+    width: min(720px, 95%);
+    max-height: 90vh;
+    background: #111;
+    border-radius: 12px;
+    color: #fff;
+    overflow: hidden;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    padding: 12px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+}
+
+.story-close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #fff;
+  font-size: 20px;
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.story-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.story-header-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2px solid rgba(255,255,255,0.12);
+}
+
+.story-header-username {
+  font-weight: 700;
+  font-size: 1rem;
+}
+
+/* mídia central */
+.story-media-wrap {
+    flex: 1 1 auto;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #000;
+    border-radius: 8px;
+    overflow: hidden;
+    /* Define altura fixa para o container */
+    height: 80vh;
+    max-height: 700px;
+}
+
+.story-viewer-img {
+    /* Garante que a imagem mantenha proporções e cubra o espaço */
+    width: 100%;
+    height: 100%;
+    object-fit: contain; /* mantém proporção original */
+    object-position: center;
+    display: block;
+}
+
+/* controles */
+.story-controls {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.story-prev,
+.story-next {
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(255,255,255,0.08);
+  color: #fff;
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.story-progress {
+  flex: 1;
+  height: 6px;
+  background: rgba(255,255,255,0.08);
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+.story-progress-bar {
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(90deg, #fff, #a8e6ff);
+}
+
+/* marca como visto: deixa borda acinzentada */
+.story-item .story-border.story-visto {
+  background: #ccc !important;
 }
