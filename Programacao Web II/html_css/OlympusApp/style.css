@@ -15,7 +15,6 @@
 }
 
 * {
-    box-sizing: border-box;
     margin: 0;
     padding: 0;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -48,7 +47,6 @@ div {
     height: 100%;
     min-width: 50%;
     background-color: white;
-    text-align: left;
     position: relative;
     z-index: 1;
     display: flex;
@@ -57,10 +55,13 @@ div {
     justify-content: center;
 }
 
-h1, h2 {
-    text-align: center;
-    position: relative;
-    z-index: 1;
+input {
+    padding: 12px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 330px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
 }
 
 .input-submit {
@@ -70,8 +71,10 @@ h1, h2 {
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    margin: 10px 0 50px 0;
-    transition: .25s;
+    margin: 30px 0 50px 0;
+    transition: 0.25s;
+    width: 100%;
+    max-width: 330px;
 }
 
 .input-submit:hover {
@@ -79,23 +82,13 @@ h1, h2 {
     transform: scale(1.1);
 }
 
-.titulo-login {
-    margin-bottom: 150px;
-}
-
-label {
-    text-align: left;
-    display: block;
-}
-
-input {
-    margin-bottom: 10px;
-    padding: 12px;
-    width: 330px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-}
-
 a {
     margin: 25px 0;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
 }
