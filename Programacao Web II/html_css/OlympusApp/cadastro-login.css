@@ -97,3 +97,25 @@ form {
 a {
     margin: 25px 0;
 }
+
+/* Password input with inline eye icon */
+.password-wrapper{
+    position: relative;
+    width: 100%;
+    max-width: 330px;
+}
+.password-wrapper input[type="password"],
+.password-wrapper input[type="text"]{
+    padding-right: 44px; /* space for the eye icon */
+    box-sizing: border-box;
+}
+.password-wrapper img.toggle-eye{
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 28px;
+    height: 28px;
+    cursor: pointer;
+    user-select: none;
+}

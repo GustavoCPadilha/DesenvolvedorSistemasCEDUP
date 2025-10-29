@@ -24,11 +24,36 @@ A disciplina constroi o corpo e a mente e lapida a alma
         <h1 style="margin-bottom: 120px;">Log In</h1>
             <form action="" method="post">
                 <input type="text" id="login" name="login" placeholder="Email ou Nome" required>
-                <input type="password" id="senha" name="senha" placeholder="Senha" required>
+                <div class="password-wrapper">
+                    <input type="password" id="password" name="password" placeholder="Senha" required>
+                    <img id="togglePassword" class="toggle-eye" src="icons/olho-fechado.png" alt="Mostrar senha" title="Mostrar senha">
+                </div>
                 <input class="input-submit" type="submit" value="Login">
             </form>
             <a href="#">Esqueci a senha</a>
             <p>Novo no Olympus? <a href="cadastro.html">Cadastre-se</a></p>
     </div>
+    <script>
+        // Minimal click-only toggle: mostra / esconde a senha
+        (function(){
+            const pwd = document.getElementById('password');
+            const toggle = document.getElementById('togglePassword');
+            if (!pwd || !toggle) return;
+
+            toggle.addEventListener('click', function (){
+                if (pwd.type === 'password'){
+                    pwd.type = 'text';
+                    toggle.src = 'icons/olho.png';
+                    toggle.alt = 'Ocultar senha';
+                    toggle.title = 'Ocultar senha';
+                } else {
+                    pwd.type = 'password';
+                    toggle.src = 'icons/olho-fechado.png';
+                    toggle.alt = 'Mostrar senha';
+                    toggle.title = 'Mostrar senha';
+                }
+            });
+        })();
+    </script>
 </body>
 </html>
