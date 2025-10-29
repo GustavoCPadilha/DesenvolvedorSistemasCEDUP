@@ -1,0 +1,58 @@
+@charset "UTF-8";
+
+@font-face {
+    font-family: 'Akira';
+    src: url('fonts/Akira.otf') format('opentype');
+}
+
+:root {
+    --cor-1: #8C030E;
+    --cor-2: #8C031C;
+    --cor-3: #40010D;
+    --cor-4: #260104;
+    --cor-5: #0D0D0D;
+    --fonte-principal: 'Akira', sans-serif;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+label {
+    text-align: left;
+    width: 100%;
+    max-width: 330px;
+    margin-bottom: 5px;
+    font-weight: bold;
+    font-size: 0.9em;
+}
+
+input {
+    padding: 16px;
+    margin-bottom: 20px;
+    width: 100%;
+    max-width: 330px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+.input-submit {
+    background-color: var(--cor-2);
+    color: white;
+    padding: 20px 25px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 30px 0 50px 0;
+    transition: .25s;
+    width: 100%;
+    max-width: 330px;
+    font-size: 16px;
+}
+
+.input-submit:hover {
+    background-color: var(--cor-3);
+    transform: scale(1.1);
+}
