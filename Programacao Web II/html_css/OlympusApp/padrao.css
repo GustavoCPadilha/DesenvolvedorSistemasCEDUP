@@ -61,6 +61,13 @@ header {
     z-index: 1000;
 }
 
+header nav a { 
+  margin-left: 12px; 
+  color: var(--cor-1); 
+  text-decoration:none; 
+  font-weight:600;
+}
+
 label {
     text-align: left;
     width: 100%;
