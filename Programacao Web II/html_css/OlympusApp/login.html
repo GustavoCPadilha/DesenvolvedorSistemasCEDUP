@@ -19,7 +19,7 @@ A disciplina constroi o corpo e a mente e lapida a alma
 <body>
     <div>
         <header>
-            <h1 style="position: absolute; top: 0; left: 0; margin: 15px;">Olympus App</h1>
+            <h1>Olympus App</h1>
         </header>
         <h1 style="margin-bottom: 120px;">Log In</h1>
             <form action="" method="post">
@@ -33,27 +33,6 @@ A disciplina constroi o corpo e a mente e lapida a alma
             <a href="#">Esqueci a senha</a>
             <p>Novo no Olympus? <a href="cadastro.html">Cadastre-se</a></p>
     </div>
-    <script>
-        // Minimal click-only toggle: mostra / esconde a senha
-        (function(){
-            const pwd = document.getElementById('password');
-            const toggle = document.getElementById('togglePassword');
-            if (!pwd || !toggle) return;
-
-            toggle.addEventListener('click', function (){
-                if (pwd.type === 'password'){
-                    pwd.type = 'text';
-                    toggle.src = 'icons/olho.png';
-                    toggle.alt = 'Ocultar senha';
-                    toggle.title = 'Ocultar senha';
-                } else {
-                    pwd.type = 'password';
-                    toggle.src = 'icons/olho-fechado.png';
-                    toggle.alt = 'Mostrar senha';
-                    toggle.title = 'Mostrar senha';
-                }
-            });
-        })();
-    </script>
+    <script src="scripts.js"></script>
 </body>
 </html>

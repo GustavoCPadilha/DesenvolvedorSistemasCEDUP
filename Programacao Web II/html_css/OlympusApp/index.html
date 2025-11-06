@@ -7,33 +7,65 @@
     <link rel="shortcut icon" href="imgs/favicon.png" type="image/x-icon">
     <link rel="stylesheet" href="padrao.css">
     <style>
-        /* Pequenos estilos locais para a home */
-        body { margin: 0; padding-top: 60px; min-height: 100vh; box-sizing: border-box; }
-        header { 
-            position: fixed; 
-            top: 0; 
-            left: 0; 
-            right: 0; 
-            height: 60px; 
-            background: white; 
-            display: flex; 
-            align-items: center; 
-            justify-content: space-between; 
-            padding: 0 16px; /* reduzido de 20px para 16px */
-            box-shadow: 0 2px 4px rgba(0,0,0,.08);
-            z-index: 1000;
+        main {
+            max-width: 1100px;
+            margin: 24px auto;
         }
-        header h1 { margin: 0; font-size:18px; }
-        header nav a { margin-left: 12px; color: var(--cor-1); text-decoration:none; font-weight:600; }
-        main { max-width:1100px; margin: 24px auto; padding: 0 16px; }
-        .hero { display:flex; gap:20px; align-items:center; background: linear-gradient(90deg, rgba(140,3,14,0.06), rgba(140,3,28,0.03)); padding:18px; border-radius:10px; }
-        .hero img { width:120px; height:120px; object-fit:cover; border-radius:8px; }
-        .cards { display:grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap:16px; margin-top:20px; }
-        .card { background:white; padding:14px; border-radius:8px; box-shadow:0 1px 4px rgba(0,0,0,0.06); display:flex; flex-direction:column; gap:10px; }
-        .card h3 { margin:0; font-size:16px; color:var(--cor-1); }
-        .card p { margin:0; color:#444; font-size:14px; }
-        .card a { margin-top:auto; display:inline-block; padding:8px 12px; background:var(--cor-1); color:white; text-decoration:none; border-radius:6px; font-size:14px; }
-        @media (max-width:600px){ .hero { flex-direction:column; align-items:flex-start } }
+        .hero {
+            display: flex;
+            gap: 20px;
+            align-items: center;
+            background: linear-gradient(90deg, rgba(140,3,14,0.06), rgba(140,3,28,0.03));
+        }
+        .hero img {
+            width: 120px;
+            height: 120px;
+            object-fit: cover;
+            border-radius: 8px;
+        }
+        .cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+            margin-top: 20px;
+        }
+        .card {
+            background: white;
+            padding: 14px;
+            border-radius: 8px;
+            box-shadow: 0 1px 4px rgba(0,0,0,0.06); 
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+        .card h3 {
+            font-size: 16px;
+            color: var(--cor-1);
+        }
+        .card p {
+            color: #444;
+            font-size: 14px;
+        }
+        .card a {
+            margin-top: auto;
+            display: inline-block;
+            padding: 8px 12px;
+            background: var(--cor-1);
+            color: white;
+            text-decoration: none;
+            border-radius: 6px;
+            font-size: 14px;
+            transition: .25s ease;
+        }
+        .card a:hover {
+            transform: scale(1.05);
+        }
+        @media (max-width:600px){
+            .hero {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+        }
     </style>
 </head>
 <body>
@@ -43,15 +75,13 @@
             <a href="index.html">Home</a>
             <a href="exercicios.html">Exercícios</a>
             <a href="profile.html">Perfil</a>
-            <a href="login.html">Login</a>
-            <a href="cadastro.html">Cadastro</a>
+            <a href="login.html">Sair</a>
         </nav>
     </header>
 
     <main>
         <section class="hero">
-            <img src="imgs/favicon.png
-            " alt="Academia" onerror="this.src='imgs/placeholder.png'">
+            <img src="imgs/favicon.png" alt="Academia">
             <div>
                 <h2>Bem-vindo ao Olympus App</h2>
                 <p>Monitore treinos, alimentação e seu progresso físico. Acesse exercícios, personalize seu perfil e acompanhe suas estatísticas.</p>
@@ -61,9 +91,33 @@
 
         <div class="cards" aria-hidden="false">
             <div class="card">
+                <h3>Treinos</h3>
+                <p>Comece e registre seus treinos — visualize histórico de sessões.</p>
+                <a href="exercicios.html">Iniciar Treino</a>
+            </div>
+
+            <div class="card">
+                <h3>Planilhas</h3>
+                <p>Monte suas próprias planilhas de treino com base em seus objetivos.</p>
+                <a href="planilhas.html">Abrir Planilhas</a>
+            </div>
+
+            <div class="card">
                 <h3>Exercícios</h3>
                 <p>Explore exercícios por grupos musculares com instruções e GIFs.</p>
                 <a href="exercicios.html">Abrir Exercícios</a>
+            </div>
+
+            <div class="card">
+                <h3>Alimentação</h3>
+                <p>Crie planos alimentares, acompanhe sua dieta e visualize sugestões de refeições.</p>
+                <a href="alimentacao.html">Ver Alimentação</a>
+            </div>
+
+            <div class="card">
+                <h3>Medidas Corporais</h3>
+                <p>Registre e acompanhe suas medidas, peso e evolução corporal ao longo do tempo.</p>
+                <a href="medidas.html">Ver Medidas</a>
             </div>
 
             <div class="card">
@@ -73,16 +127,23 @@
             </div>
 
             <div class="card">
-                <h3>Treinos</h3>
-                <p>Comece e registre seus treinos — visualize histórico de sessões.</p>
-                <a href="exercicios.html">Criar Treino</a>
+                <h3>Blogs</h3>
+                <p>Explore artigos sobre diversos temas do mundo da musculação.</p>
+                <a href="blog.html">Abrir Blogs</a>
             </div>
 
             <div class="card">
-                <h3>Conta</h3>
-                <p>Faça login ou cadastre-se para salvar seus dados.</p>
-                <a href="login.html">Entrar / Cadastrar</a>
+                <h3>Consultoria</h3>
+                <p>Entre em contato com profissionais para receber orientação personalizada.</p>
+                <a href="consultoria.html">Acessar Consultoria</a>
             </div>
+
+            <div class="card">
+                <h3>Comunidade / FAQ / Suporte</h3>
+                <p>Participe de discussões, tire dúvidas e acesse o suporte técnico e a FAQ.</p>
+                <a href="comunidade.html">Entrar na Comunidade</a>
+            </div>
+
         </div>
     </main>
 

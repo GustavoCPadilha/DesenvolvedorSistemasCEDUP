@@ -5,10 +5,8 @@
 
 .profile-main {
     display: flex;
-    margin-top: 80px;
     padding: 16px;
     gap: 20px;
-    box-sizing: border-box;
 }
 
 .profile-aside {
@@ -48,10 +46,6 @@
 
 .tab-panel.active {
     display: block;
-}
-
-.profile-content h2, .profile-content h3 {
-    margin-top: 0;
 }
 
 .avatar-preview img {
