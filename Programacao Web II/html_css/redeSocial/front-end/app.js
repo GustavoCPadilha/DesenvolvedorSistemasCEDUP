@@ -80,9 +80,8 @@ async function carregarPosts() {
                 comments.forEach(c => {
                     const div = document.createElement('div');
                     div.classList.add('single-comment');
-                    // pequeno escape para evitar XSS
-                    const autor = escapeHtml(c.autor || 'Anônimo');
-                    const texto = escapeHtml(c.texto || '');
+                    const autor = c.autor || 'Anônimo';
+                    const texto = c.texto || '';
                     div.innerHTML = `<strong>${autor}</strong> ${texto}`;
                     commentsDiv.appendChild(div);
                 });
@@ -253,8 +252,8 @@ container.addEventListener('keydown', async (e) => {
       const commentsDiv = postEl.querySelector('.post-comments');
       const div = document.createElement('div');
       div.classList.add('single-comment');
-      const autor = escapeHtml(data.comentario.autor || 'Anônimo');
-      const textoEsc = escapeHtml(data.comentario.texto || '');
+      const autor = data.comentario.autor || 'Anônimo';
+      const textoEsc = data.comentario.texto || '';
       div.innerHTML = `<strong>${autor}</strong> ${textoEsc}`;
       commentsDiv.appendChild(div);
       input.value = '';
