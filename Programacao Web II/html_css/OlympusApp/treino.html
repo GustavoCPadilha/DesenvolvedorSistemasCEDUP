@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Treino - Olympus App</title>
+    <link rel="shortcut icon" href="imgs/favicon.png" type="image/x-icon">
+    <link rel="stylesheet" href="css/padrao.css">
+    <link rel="stylesheet" href="css/treino.css">
+</head>
+<body>
+    <header>
+        <h1><a href="index.html" style="text-decoration: none; color: inherit;">Olympus App</a></h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="exercicios.html">Exercícios</a>
+            <a href="profile.html">Perfil</a>
+            <a href="login.html">Sair</a>
+        </nav>
+    </header>
+
+    <main>
+        <h1>Treino A</h1>
+        <h2>Supino Reto</h2>
+        <table>
+            <thead> 
+                <tr>
+                    <th>Série</th>
+                    <th>Anterior</th>
+                    <th>Kg</th>
+                    <th>Repetições</th>
+                    <th>Completo</th> 
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td data-label="Série">1</td>
+                    <td data-label="Anterior">14kg x 12</td>
+                    <td data-label="Kg"><input type="number" min="0" value="14"></td>
+                    <td data-label="Repetições"><input type="number" min="1" value="8"></td>
+                    <td data-label="Completo"><button onclick="concluirExercicio(this.querySelector('img'))">
+                        <img id="verficado" src="icons/verificado-desmarcado.png" alt="">
+                    </button></td>
+                <tr>
+                    <td data-label="Série">2</td>
+                    <td data-label="Anterior">14kg x 11</td>
+                    <td data-label="Kg"><input type="number" min="0" value="14"></td>
+                    <td data-label="Repetições"><input type="number" min="1" value="8"></td>
+                    <td data-label="Completo"><button onclick="concluirExercicio(this.querySelector('img'))">
+                        <img id="verficado" src="icons/verificado-desmarcado.png" alt="">
+                    </button></td>
+                </tr>
+                <tr>
+                    <td data-label="Série">3</td>
+                    <td data-label="Anterior">14kg x 10</td>
+                    <td data-label="Kg"><input type="number" min="0" value="14"></td>
+                    <td data-label="Repetições"><input type="number" min="1" value="8"></td>
+                    <td data-label="Completo"><button onclick="concluirExercicio(this.querySelector('img'))">
+                        <img id="verficado" src="icons/verificado-desmarcado.png" alt="">
+                    </button></td>
+            </tbody>
+        </table>
+        <a href="#" class="action-button">Adicionar Série</a>
+        
+        <h2>Supino Inclinado</h2>
+        <table>
+            <thead> 
+                <tr>
+                    <th>Série</th>
+                    <th>Anterior</th>
+                    <th>Kg</th>
+                    <th>Repetições</th>
+                    <th>Completo</th> 
+                </tr>
+            </thead>
+            <tbody> 
+                <tr>
+                    <td data-label="Série">1</td>
+                    <td data-label="Anterior">10kg x 15</td>
+                    <td data-label="Kg"><input type="number" min="0" value="12" style="max-width: 50px; padding: 5px; text-align: center;"></td>
+                    <td data-label="Repetições"><input type="number" min="1" value="10" style="max-width: 50px; padding: 5px; text-align: center;"></td>
+                    <td data-label="Completo"><button onclick="concluirExercicio(this.querySelector('img'))">
+                        <img id="verficado" src="icons/verificado-desmarcado.png" alt="">
+                    </button></td>
+                <tr>
+                    <td data-label="Série">2</td>
+                    <td data-label="Anterior">12kg x 12</td>
+                    <td data-label="Kg"><input type="number" min="0" value="12" style="max-width: 50px; padding: 5px; text-align: center;"></td>
+                    <td data-label="Repetições"><input type="number" min="1" value="10" style="max-width: 50px; padding: 5px; text-align: center;"></td>
+                    <td data-label="Completo"><button onclick="concluirExercicio(this.querySelector('img'))">
+                        <img id="verficado" src="icons/verificado-desmarcado.png" alt="">
+                    </button></td>
+            </tbody>
+        </table>
+        <a href="#" class="action-button">Adicionar Série</a>
+        
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-inner">
+            <small>© <span id="year"></span> Olympus App</small>
+            <nav class="footer-links" aria-label="Links úteis">
+                <a href="sobre.html">Sobre</a>
+                <a href="termos.html">Termos</a>
+                <a href="privacidade.html">Privacidade</a>
+                <a href="cancelamentos.html">Cancelamentos</a>
+            </nav>
+        </div>
+    </footer>
+
+    <script>
+        document.getElementById('year').textContent = new Date().getFullYear();
+
+        function concluirExercicio(imgElemento) {
+            const caminhoVerificadoDesmarcado = 'icons/verificado-desmarcado.png';
+            const caminhoVerificadoMarcado = 'icons/verificado-marcado.png';
+
+            const linha = imgElemento.closest('tr');
+
+            if (imgElemento.src.includes('verificado-desmarcado.png')) {
+                imgElemento.src = caminhoVerificadoMarcado;
+                linha.classList.add('concluida');
+            } else {
+                imgElemento.src = caminhoVerificadoDesmarcado;
+                linha.classList.remove('concluida');
+            }
+        }
+    </script>
+</body>
+</html>
